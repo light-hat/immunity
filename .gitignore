@@ -1,0 +1,16 @@
+venv/
+db.sqlite3
+__pycache__/
+media/*
+!media/registrar_assets/*
+src/media/files
+src/app/static/rest_framework/
+src/app/static/jet/
+.DS_Store
+.idea/
+src/app/media/violations/*
+src/app/media/employees_photos/*
+.env
+.env.db
+.env.s3
+app/db.sqlite3
