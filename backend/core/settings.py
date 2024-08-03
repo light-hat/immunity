@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'drf_yasg',
 ]
 
+AUTH_USER_MODEL = 'api.User'
+
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     f'http://{HOST}:{PORT}',
