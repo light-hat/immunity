@@ -1,32 +1,27 @@
-FROM python:3.12
+# Базовый слой для зависимостей
+FROM python:3.12-slim as base
 
-ENV PYTHONDONTWRITEBYTECODE 1
+# Устанавливаем зависимости для сборки и тестирования
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    netcat-traditional \
+    curl
 
-ENV PYTHONUNBUFFERED 1
-
-RUN apt -y update \
-    && apt -y install gcc python3-dev musl-dev netcat-traditional curl
-
-RUN apt-get -y update \
-    && apt-get install linux-libc-dev
-
-RUN apt-get -y update \
-    && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg libgl1
-
-RUN pip install --upgrade pip
-
+# Устанавливаем рабочую директорию
 WORKDIR /home/app/web
 
-COPY requirements.txt .
-
-RUN pip3 install -r requirements.txt
-
-COPY entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
-
+# Копируем содержимое проекта в контейнер
 COPY . .
 
+# Финальный этап
+FROM base as build
+
+# Устанавливаем зависимости приложения
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Собираем статические файлы
 RUN python3 manage.py collectstatic --noinput
 
+# Указываем команду для запуска воркера
 CMD ["celery", "-A", "core", "worker", "--loglevel=info"]

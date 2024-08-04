@@ -4,6 +4,8 @@
 
 API docs: `http://127.0.0.1/swagger/`.
 
+## Тестирование компонентов
+
 ### Проверки бэкэнда в изолированной среде
 
 ```bash
@@ -28,7 +30,27 @@ SAST (bandit):
 docker build --target sast -t myapp-sast .
 ```
 
-### Запуск проекта:
+## Сборка компонентов
+
+Сборка бэкэнда (папка backend):
+
+```bash
+docker build --target build -t opendisk-api:latest .
+```
+
+Сборка воркера (папка backend):
+
+```bash
+docker build -f Dockerfile.worker -t opendisk-worker:latest .
+```
+
+Сборка Nginx (папка nginx):
+
+```bash
+docker build -t opendisk-nginx:latest .
+```
+
+## Запуск проекта:
 
 ```bash
 docker-compose up -d --build
