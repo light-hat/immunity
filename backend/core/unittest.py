@@ -3,11 +3,12 @@
 """
 
 import os
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "w9h4f9fw4fw0r9w4thw04rtwu4htw4tw4ruw4rt9w83urw930riwr"
+SECRET_KEY = get_random_secret_key()
 
 DEBUG = True
 

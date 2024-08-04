@@ -1,0 +1,2 @@
+[bandit]
+exclude = core/unittest.py,api/tests.py,api/management/commands/initdb.py

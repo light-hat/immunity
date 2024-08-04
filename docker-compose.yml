@@ -69,7 +69,6 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - SECRET_KEY=Sx5SE_rtqnau0VxhW!Zx&r%$*d+uy6lum5J&6GpwrOXwefEWf
       - API_URL=127.0.0.1
       - API_PORT=80
       - POSTGRES_PORT=5432
