@@ -2,18 +2,17 @@
 Модульные тесты приложения.
 """
 
+from api.models import User
 from django.test import TestCase
 
-from .models import CustomUser
 
-
-class CustomUserModelTest(TestCase):
+class UserModelTest(TestCase):
     """
     Тестовый сценарий для проверки модели пользователя.
     """
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
+        self.user = User.objects.create_user(
             username='testuser',
             email='test@example.com',
             password='testpass123'

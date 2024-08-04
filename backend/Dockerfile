@@ -14,20 +14,29 @@ WORKDIR /home/app/web
 # Копируем содержимое проекта в контейнер
 COPY . .
 
+# Устанавливаем зависимости приложения
+RUN pip install --no-cache-dir -r requirements.txt
+
 # Этап линтинга
 FROM base as lint
 
 # Устанавливаем pylint
-RUN pip install flake8
+RUN pip install flake8-django
 
 # Запускаем линтер
-RUN flake8 .
+RUN flake8 --config .flake8 .
 
 # Этап модульного тестирования
 FROM base as test
 
+# Создаем миграции для тестовой БД
+RUN python3 manage.py makemigrations --settings=core.unittest
+
+# Создаем тестовую БД
+RUN python3 manage.py migrate --settings=core.unittest
+
 # Запускаем тесты
-RUN python3 manage.py test
+RUN python3 manage.py test --settings=core.unittest
 
 # Этап статического анализа (SAST)
 FROM base as sast
@@ -43,9 +52,6 @@ FROM base as build
 
 # Назначаем права на исполнение
 RUN chmod +x entrypoint.sh
-
-# Устанавливаем зависимости приложения
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Собираем статические файлы
 RUN python manage.py collectstatic --noinput

@@ -78,7 +78,10 @@ class File(models.Model):
 
     def path_to_directory(instance, filename):
         """
-        Формирование файловой структуры.
+        Формирование пути сохранения файла.
+        Файлы сохраняются в директории своего пользователя.
+        :param filename: Имя файла.
+        :return: Полный путь сохранения.
         """
         return f"upload_files/{instance.owner.username}/{filename}"
 

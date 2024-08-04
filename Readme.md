@@ -15,19 +15,19 @@ cd backend/
 Линтинг:
 
 ```bash
-docker build --target lint -t myapp-lint .
+docker build --target lint -t opendisk-lint .
 ```
 
 Модульное тестирование:
 
 ```bash
-docker build --target test -t myapp-test .
+docker build --target test -t opendisk-test .
 ```
 
 SAST (bandit):
 
 ```bash
-docker build --target sast -t myapp-sast .
+docker build --target sast -t opendisk-sast .
 ```
 
 ## Сборка компонентов
@@ -50,7 +50,7 @@ docker build -f Dockerfile.worker -t opendisk-worker:latest .
 docker build -t opendisk-nginx:latest .
 ```
 
-## Запуск проекта:
+## Запуск проекта
 
 ```bash
 docker-compose up -d --build
