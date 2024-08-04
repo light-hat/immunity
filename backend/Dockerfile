@@ -9,20 +9,15 @@ RUN apt-get update && apt-get install -y \
 # Устанавливаем рабочую директорию
 WORKDIR /home/app/web
 
-# Устанавливаем зависимости приложения
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 
 # Этап линтинга
 FROM base as lint
 
-# Копируем исходный код для линтинга
-COPY . .
-
 # Устанавливаем pylint
-RUN pip install pylint
+RUN pip install flake8
 
-RUN pylint core; pylint api
+RUN flake8 .
 
 # Этап модульного тестирования
 FROM base as test
@@ -45,15 +40,6 @@ RUN pip install bandit
 # Запускаем анализ
 RUN bandit -r .
 
-# Этап сборки
-FROM base as build
-
-# Копируем requirements.txt в контейнер
-COPY requirements.txt .
-
-# Устанавливаем зависимости
-RUN pip3 install -r requirements.txt
-
 # Финальный этап
 FROM python:3.12-slim
 
@@ -63,18 +49,14 @@ RUN apt-get update && apt-get install -y libpq-dev netcat-traditional curl
 # Устанавливаем рабочую директорию
 WORKDIR /home/app/web
 
-# Копируем зависимости
-COPY --from=base /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=build /home/app/web /home/app/web
-
-# Копируем скрипт инициализации в контейнер
-COPY entrypoint.sh .
+# Копируем исходный код для анализа
+COPY . .
 
 # Назначаем права на исполнение
 RUN chmod +x entrypoint.sh
 
-# Копируем файлы приложения
-COPY . .
+# Устанавливаем зависимости приложения
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Собираем статические файлы
 RUN python manage.py collectstatic --noinput
