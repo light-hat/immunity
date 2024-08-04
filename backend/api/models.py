@@ -2,6 +2,7 @@
 Описание модели базы данных.
 """
 
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -30,6 +31,11 @@ class Folder(models.Model):
     """
     Модель директории файлообменника.
     """
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     name = models.CharField(max_length=256)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     parent = models.ForeignKey(
@@ -45,9 +51,11 @@ class Folder(models.Model):
         choices=OBJECT_VISIBILITY,
         default="private"
     )
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-date_created']
         verbose_name_plural = "Директории"
         verbose_name = "Директория"
 
@@ -85,8 +93,21 @@ class File(models.Model):
         """
         return f"upload_files/{instance.owner.username}/{filename}"
 
-    filename = models.CharField("Имя файла", default="unknown", max_length=500)
-    extension = models.CharField("Расширение", default="unknown", max_length=15)
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+    filename = models.CharField(
+        "Имя файла",
+        default="unknown",
+        max_length=500
+    )
+    extension = models.CharField(
+        "Расширение",
+        default="unknown",
+        max_length=15
+    )
     folder = models.ForeignKey(
         Folder,
         null=True,
@@ -121,10 +142,16 @@ class File(models.Model):
         choices=OBJECT_VISIBILITY,
         default="private"
     )
-    size = models.PositiveIntegerField("Размер файла", null=True, blank=True)
+    size = models.PositiveIntegerField(
+        "Размер файла",
+        null=True,
+        blank=True
+    )
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-date_created']
         verbose_name_plural = "Файлы"
         verbose_name = "Файл"
 

@@ -15,19 +15,19 @@ cd backend/
 Линтинг:
 
 ```bash
-docker build --target lint -t opendisk-lint .
+docker build --rm --target lint -t opendisk-lint .
 ```
 
 Модульное тестирование:
 
 ```bash
-docker build --target test -t opendisk-test .
+docker build --rm --target test -t opendisk-test .
 ```
 
 SAST (bandit):
 
 ```bash
-docker build --target sast -t opendisk-sast .
+docker build --rm --target sast -t opendisk-sast .
 ```
 
 ## Сборка компонентов
