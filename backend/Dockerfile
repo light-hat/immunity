@@ -1,32 +1,83 @@
-FROM python:3.12
+# Базовый слой для зависимостей
+FROM python:3.12-slim as base
 
-ENV PYTHONDONTWRITEBYTECODE 1
+# Устанавливаем зависимости для сборки и тестирования
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev
 
-ENV PYTHONUNBUFFERED 1
-
-RUN apt -y update \
-    && apt -y install gcc python3-dev musl-dev netcat-traditional curl
-
-RUN apt-get -y update \
-    && apt-get install linux-libc-dev
-
-RUN apt-get -y update \
-    && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg libgl1
-
-RUN pip install --upgrade pip
-
+# Устанавливаем рабочую директорию
 WORKDIR /home/app/web
 
+# Устанавливаем зависимости приложения
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip3 install -r requirements.txt
+# Этап линтинга
+FROM base as lint
 
-COPY entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
-
+# Копируем исходный код для линтинга
 COPY . .
 
-RUN python3 manage.py collectstatic --noinput
+# Устанавливаем pylint
+RUN pip install pylint
 
+RUN pylint core; pylint api
+
+# Этап модульного тестирования
+FROM base as test
+
+# Копируем исходный код для тестирования
+COPY . .
+
+# Запускаем тесты
+RUN python3 manage.py test
+
+# Этап статического анализа (SAST)
+FROM base as sast
+
+# Копируем исходный код для анализа
+COPY . .
+
+# Устанавливаем bandit
+RUN pip install bandit
+
+# Запускаем анализ
+RUN bandit -r .
+
+# Этап сборки
+FROM base as build
+
+# Копируем requirements.txt в контейнер
+COPY requirements.txt .
+
+# Устанавливаем зависимости
+RUN pip3 install -r requirements.txt
+
+# Финальный этап
+FROM python:3.12-slim
+
+# Устанавливаем зависимости
+RUN apt-get update && apt-get install -y libpq-dev netcat-traditional curl
+
+# Устанавливаем рабочую директорию
+WORKDIR /home/app/web
+
+# Копируем зависимости
+COPY --from=base /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=build /home/app/web /home/app/web
+
+# Копируем скрипт инициализации в контейнер
+COPY entrypoint.sh .
+
+# Назначаем права на исполнение
+RUN chmod +x entrypoint.sh
+
+# Копируем файлы приложения
+COPY . .
+
+# Собираем статические файлы
+RUN python manage.py collectstatic --noinput
+
+# Указываем команду для запуска приложения
 ENTRYPOINT ["sh", "./entrypoint.sh"]

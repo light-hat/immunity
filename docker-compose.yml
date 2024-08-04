@@ -7,34 +7,61 @@ services:
     expose:
       - 5432
     volumes:
-      - postgres_volume:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=database
     restart: always
+    networks:
+      - opendisknet
     healthcheck:
-      test: pg_isready
+      test: pg_isready -U postgres
       interval: 20s
       timeout: 5s
       retries: 3
 
   redis:
     image: redis:7.0.15
-    container_name: redis
-    expose:
-      - 6379
-    volumes: 
-      - cache:/data
-    restart: always
+    container_name: redis-master
     command: redis-server --save 20 1 --loglevel warning
+    expose:
+      - "6379"
+    volumes:
+      - redis-master-data:/data
+    restart: always
+    networks:
+      - opendisknet
+    healthcheck:
+      test: redis-cli ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis-slave:
+    image: redis:7.0.15
+    depends_on:
+      - redis
+    command: >
+      sh -c "redis-server --slaveof redis-master 6379 --save 20 1 --loglevel warning"
+    expose:
+      - "6379"
+    volumes:
+      - redis-slave-data:/data
+    restart: always
+    networks:
+      - opendisknet
+    healthcheck:
+      test: redis-cli -h redis-slave ping
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   api:
     image: opendisk-api:latest
     build:
       context: ./backend/
       dockerfile: Dockerfile
-    container_name: api
     shm_size: 1g
     expose:
       - 8000
@@ -53,6 +80,8 @@ services:
     depends_on:
       - db
     restart: always
+    networks:
+      - opendisknet
     healthcheck:
       test: curl --fail http://localhost:8000 || exit 1
       interval: 20s
@@ -82,6 +111,13 @@ services:
       - api
       - redis
     restart: always
+    networks:
+      - opendisknet
+    healthcheck:
+      test: celery -A core status | grep 'celery@'
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   nginx:
     image: opendisk-nginx:latest
@@ -96,6 +132,8 @@ services:
       - api
       - worker
     restart: always
+    networks:
+      - opendisknet
     healthcheck:
       test: curl --fail http://localhost:80 || exit 1
       interval: 20s
@@ -103,7 +141,16 @@ services:
       retries: 3
 
 volumes:
-  postgres_volume:
+  postgres_data:
   static_volume:
   media_volume:
-  cache:
+  redis-master-data:
+  redis-slave-data:
+
+networks:
+  opendisknet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.24.0.0/16"

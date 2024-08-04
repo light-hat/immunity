@@ -8,12 +8,11 @@ done
 
 echo "DB did run."
 
-mkdir -p /home/app/web/media/reports
-
 python3 manage.py makemigrations --noinput
 
 python3 manage.py migrate --noinput
 
 python3 manage.py initdb
 
-python3 manage.py runserver 0.0.0.0:8000
+#python3 manage.py runserver 0.0.0.0:8000
+gunicorn --bind 0.0.0.0:8000 core.wsgi:application

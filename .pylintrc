@@ -1,4 +1,4 @@
 [MASTER]
 ignore=manage.py
 disable=
-    C0115,W0611,E0401
+    C0115,W0611,E0401,R0903,E1101,R6301
