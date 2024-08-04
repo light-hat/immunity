@@ -9,6 +9,9 @@ from django.contrib.auth.models import Group
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    """
+    Отображение пользователя в админке.
+    """
     list_display = (
         'username',
         'email',
@@ -40,6 +43,9 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Folder)
 class FolderAdmin(admin.ModelAdmin):
+    """
+    Отображение папки в админке.
+    """
     list_display = (
         'name',
         'owner',
@@ -63,6 +69,9 @@ class FolderAdmin(admin.ModelAdmin):
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
+    """
+    Отображение файла в админке.
+    """
     list_display = (
         'filename',
         'extension',
