@@ -58,13 +58,13 @@ docker-compose up -d --scale worker=3
 
 ```
 [+] Running 8/8
- - Container postgres                Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container redis-master            Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-redis-slave-1  Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-api-1          Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-worker-3       Started                                                                                                                                                                                                                                                                                                                                                                                 6.5s 
- - Container opendisk-worker-1       Started                                                                                                                                                                                                                                                                                                                                                                                 6.4s 
- - Container opendisk-worker-2       Started                                                                                                                                                                                                                                                                                                                                                                                 6.4s 
+ - Container postgres                Running                       0.0s 
+ - Container redis-master            Running                       0.0s 
+ - Container opendisk-redis-slave-1  Running                       0.0s 
+ - Container opendisk-api-1          Running                       0.0s 
+ - Container opendisk-worker-3       Started                       6.5s 
+ - Container opendisk-worker-1       Started                       6.4s 
+ - Container opendisk-worker-2       Started                       6.4s 
  - Container nginx                   Started
 ```
 
@@ -76,13 +76,13 @@ docker-compose up -d --scale api=3
 
 ```
 [+] Running 8/8
- - Container postgres                Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container redis-master            Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-api-3          Started                                                                                                                                                                                                                                                                                                                                                                                15.7s 
- - Container opendisk-redis-slave-1  Started                                                                                                                                                                                                                                                                                                                                                                                15.5s 
- - Container opendisk-api-1          Started                                                                                                                                                                                                                                                                                                                                                                                15.2s 
- - Container opendisk-api-2          Started                                                                                                                                                                                                                                                                                                                                                                                16.0s 
- - Container opendisk-worker-1       Started                                                                                                                                                                                                                                                                                                                                                                                 6.2s
+ - Container postgres                Running                       0.0s 
+ - Container redis-master            Running                       0.0s 
+ - Container opendisk-api-3          Started                      15.7s 
+ - Container opendisk-redis-slave-1  Started                      15.5s 
+ - Container opendisk-api-1          Started                      15.2s 
+ - Container opendisk-api-2          Started                      16.0s 
+ - Container opendisk-worker-1       Started                       6.2s
  - Container nginx                   Started 
 ```
 
@@ -94,13 +94,13 @@ docker-compose up -d --scale redis-slave=3
 
 ```
 [+] Running 8/8
- - Container redis-master            Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-redis-slave-3  Started                                                                                                                                                                                                                                                                                                                                                                                12.6s 
- - Container postgres                Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-redis-slave-1  Started                                                                                                                                                                                                                                                                                                                                                                                12.6s 
- - Container opendisk-redis-slave-2  Started                                                                                                                                                                                                                                                                                                                                                                                12.9s 
- - Container opendisk-api-1          Running                                                                                                                                                                                                                                                                                                                                                                                 0.0s 
- - Container opendisk-worker-1       Started                                                                                                                                                                                                                                                                                                                                                                                13.0s 
+ - Container redis-master            Running                       0.0s 
+ - Container opendisk-redis-slave-3  Started                      12.6s 
+ - Container postgres                Running                       0.0s 
+ - Container opendisk-redis-slave-1  Started                      12.6s 
+ - Container opendisk-redis-slave-2  Started                      12.9s 
+ - Container opendisk-api-1          Running                       0.0s 
+ - Container opendisk-worker-1       Started                      13.0s 
  - Container nginx                   Started
 ```
 
