@@ -15,6 +15,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, parsers, serializers
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 
@@ -24,6 +25,7 @@ class FolderViewSet(viewsets.ModelViewSet):
     """
     queryset = Folder.objects.all()
     serializer_class = FolderSerializer
+    permission_classes = [IsAuthenticated]
     parser_classes = (parsers.FormParser, parsers.MultiPartParser)
     http_method_names = ['get', 'post', 'patch', 'delete']
 
@@ -65,6 +67,7 @@ class FileViewSet(viewsets.ModelViewSet):
     """
     queryset = File.objects.all()
     serializer_class = FileSerializer
+    permission_classes = [IsAuthenticated]
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.FileUploadParser)
     http_method_names = ['get', 'post', 'put', 'patch', 'delete']
 
