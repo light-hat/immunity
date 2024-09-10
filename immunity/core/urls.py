@@ -24,5 +24,5 @@ api_port = environ.get('API_PORT')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', include('frontend.urls')),
+    path('', include('frontend.urls')),
 ]

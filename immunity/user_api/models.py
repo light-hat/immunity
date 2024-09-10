@@ -2,11 +2,6 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-OBJECT_VISIBILITY = (
-    ('public', 'Публичный доступ'),
-    ('private', 'Приватный доступ'),
-)
-
 
 class User(AbstractUser):
     """

@@ -1,10 +1,13 @@
 {% extends "base.html" %} {% load static %} {% block title %}Авторизация{% endblock %} {% block content %}
 
 {% if form.errors %}
-<p>Неверный логин или пароль!</p>
+<div class="uk-alert-danger" uk-alert>
+    <a href class="uk-alert-close" uk-close></a>
+    <p>Неверный логин или пароль!</p>
+</div>
 {% endif %}
 
-<div class="row">
+<!--<div class="row">
     <form class="col s12" method="POST" action="">
         {% csrf_token %}
         <div class="row">
@@ -19,6 +22,30 @@
         </div>
         <button class="btn waves-effect waves-light" type="submit" name="action">Войти</button>
     </form>
-</div>
+</div>-->
+
+<form class="uk-position-center uk-center uk-dark" style="text-align: center;" method="POST" action="">
+
+    {% csrf_token %}
+
+    <img src="{% static 'images/favicon.png' %}" alt="">
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input" type="text" name="username">
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input class="uk-input" type="password" name="password">
+        </div>
+    </div>
+
+    <button class="uk-button uk-button-default" type="submit" name="action">Войти</button>
+
+</form>
 
 {% endblock %}

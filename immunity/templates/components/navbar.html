@@ -1,28 +1,36 @@
 {% load static %}
 
+{% if user.is_authenticated %}
 <nav class="uk-navbar-container">
     <div class="uk-container">
         <div uk-navbar>
 
             <div class="uk-navbar-left">
 
+                <a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home"><img src="{% static 'images/favicon.png' %}" width="40" height="40" alt=""></a>
+
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="#">Active</a></li>
-                    <li>
-                        <a href="#">Parent</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#">Item</a></li>
+                    <li class="uk-active"><a href="#">Проекты</a></li>
+                    <li class="uk-active"><a href="#">Мониторинг</a></li>
+                    <li class="uk-active"><a href="#">Агенты</a></li>
+
                 </ul>
+
+                <!--<div class="uk-navbar-item">
+                    <div>Some <a href="#">Link</a></div>
+                </div>
+
+                <div class="uk-navbar-item">
+                    <form action="javascript:void(0)">
+                        <input class="uk-input uk-form-width-small" type="text" placeholder="Input" aria-label="Input">
+                        <button class="uk-button uk-button-default">Button</button>
+                    </form>
+                </div>-->
 
             </div>
 
         </div>
     </div>
 </nav>
+
+{% endif %}
