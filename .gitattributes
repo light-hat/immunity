@@ -1,0 +1,8 @@
+*.html linguist-vendored
+*.js linguist-vendored
+*.css linguist-vendored
+*.scss linguist-vendored
+Dockerfile linguist-vendored
+Dockerfile.* linguist-vendored
+*.sh linguist-vendored
+*.ps1 linguist-vendored

@@ -14,7 +14,7 @@ services:
       - POSTGRES_DB=database
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: pg_isready -U postgres
       interval: 20s
@@ -31,7 +31,7 @@ services:
       - redis-master-data:/data
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: redis-cli ping
       interval: 30s
@@ -50,7 +50,7 @@ services:
       - redis-slave-data:/data
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: redis-cli -h redis-slave ping
       interval: 30s
@@ -58,7 +58,7 @@ services:
       retries: 5
 
   api:
-    image: opendisk-api:latest
+    image: immunity-api:latest
     build:
       context: ./immunity/
       dockerfile: Dockerfile
@@ -80,7 +80,7 @@ services:
       - db
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: curl --fail http://localhost:8000 || exit 1
       interval: 20s
@@ -88,7 +88,7 @@ services:
       retries: 3
 
   worker:
-    image: opendisk-worker:latest
+    image: immunity-worker:latest
     build:
       context: ./immunity/
       dockerfile: Dockerfile.worker
@@ -110,7 +110,7 @@ services:
       - redis
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: celery -A core status | grep 'celery@'
       interval: 30s
@@ -118,7 +118,7 @@ services:
       retries: 5
 
   nginx:
-    image: opendisk-nginx:latest
+    image: immunity-nginx:latest
     build: ./nginx/
     container_name: nginx
     volumes:
@@ -131,7 +131,7 @@ services:
       - worker
     restart: always
     networks:
-      - opendisknet
+      - immunitynet
     healthcheck:
       test: curl --fail http://localhost:80 || exit 1
       interval: 20s
@@ -146,7 +146,7 @@ volumes:
   redis-slave-data:
 
 networks:
-  opendisknet:
+  immunitynet:
     driver: bridge
     ipam:
       driver: default

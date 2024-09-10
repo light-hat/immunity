@@ -20,8 +20,5 @@ FROM base as build
 # Устанавливаем зависимости приложения
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Собираем статические файлы
-RUN python3 manage.py collectstatic --noinput
-
 # Указываем команду для запуска воркера
 CMD ["celery", "-A", "core", "worker", "--loglevel=info"]
