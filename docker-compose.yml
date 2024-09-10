@@ -60,7 +60,7 @@ services:
   api:
     image: opendisk-api:latest
     build:
-      context: ./backend/
+      context: ./immunity/
       dockerfile: Dockerfile
     shm_size: 1g
     expose:
@@ -90,7 +90,7 @@ services:
   worker:
     image: opendisk-worker:latest
     build:
-      context: ./backend/
+      context: ./immunity/
       dockerfile: Dockerfile.worker
     shm_size: 1g
     volumes:

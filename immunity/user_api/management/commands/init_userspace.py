@@ -2,7 +2,7 @@
 Кастомная manage.py командп для инициализации системы при первом запуске.
 """
 
-from api.models import User
+from user_api.models import User
 from django.core.management.base import BaseCommand
 
 

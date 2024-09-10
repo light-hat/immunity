@@ -12,7 +12,7 @@ python3 manage.py makemigrations --noinput
 
 python3 manage.py migrate --noinput
 
-python3 manage.py initdb
+python3 manage.py init_userspace
 
 #python3 manage.py runserver 0.0.0.0:8000
 gunicorn --bind 0.0.0.0:8000 core.wsgi:application

@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/uikit.min.css' %}"  media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+
+{% include 'components/navbar.html' %}
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+<script type="text/javascript" src="{% static 'js/uikit.min.js' %}"></script>
+</body>
+</html>

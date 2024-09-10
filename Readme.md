@@ -1,6 +1,6 @@
-# Open Disk
+# Immunity IAST
 
-Простенький файлообменник.
+ML Based IAST.
 
 API docs: `http://127.0.0.1/swagger/`.
 
@@ -9,45 +9,45 @@ API docs: `http://127.0.0.1/swagger/`.
 ### Проверки бэкэнда в изолированной среде
 
 ```bash
-cd backend/
+cd immunity/
 ```
 
 Линтинг:
 
 ```bash
-docker build --rm --target lint -t opendisk-lint .
+docker build --rm --target lint -t immunity-iast-lint .
 ```
 
 Модульное тестирование:
 
 ```bash
-docker build --rm --target test -t opendisk-test .
+docker build --rm --target test -t immunity-iast-test .
 ```
 
 SAST (bandit):
 
 ```bash
-docker build --rm --target sast -t opendisk-sast .
+docker build --rm --target sast -t immunity-iast-sast .
 ```
 
 ## Сборка компонентов
 
-Сборка бэкэнда (папка backend):
+Сборка бэкэнда (папка immunity):
 
 ```bash
-docker build --target build -t opendisk-api:latest .
+docker build --target build -t immunity-iast-api:latest .
 ```
 
-Сборка воркера (папка backend):
+Сборка воркера (папка immunity):
 
 ```bash
-docker build -f Dockerfile.worker -t opendisk-worker:latest .
+docker build -f Dockerfile.worker -t immunity-iast-worker:latest .
 ```
 
 Сборка Nginx (папка nginx):
 
 ```bash
-docker build -t opendisk-nginx:latest .
+docker build -t immunity-iast-nginx:latest .
 ```
 
 ## Запуск проекта
@@ -65,13 +65,13 @@ docker ps
 Пример здорового лога:
 
 ```
-CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS                        PORTS                NAMES
-666b71ce7a0f   opendisk-nginx:latest    "/docker-entrypoint.…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:80->80/tcp   nginx
-2f8c15e0bcd1   opendisk-worker:latest   "celery -A core work…"   About a minute ago   Up About a minute (healthy)                        opendisk-worker-1
-5d80bad9ff16   opendisk-api:latest      "sh ./entrypoint.sh"     About a minute ago   Up About a minute (healthy)   8000/tcp             opendisk-api-1
-af7692b462f6   redis:7.0.15             "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             opendisk-redis-slave-1
-6ca98eedad13   postgres:12-alpine       "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   5432/tcp             postgres
-15875b4c9a4a   redis:7.0.15             "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             redis-master
+CONTAINER ID   IMAGE                        COMMAND                  CREATED              STATUS                        PORTS                NAMES
+666b71ce7a0f   immunity-iast-nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:80->80/tcp   nginx
+2f8c15e0bcd1   immunity-iast-worker:latest  "celery -A core work…"   About a minute ago   Up About a minute (healthy)                        immunity-iast-worker-1
+5d80bad9ff16   immunity-iast-api:latest     "sh ./entrypoint.sh"     About a minute ago   Up About a minute (healthy)   8000/tcp             immunity-iast-api-1
+af7692b462f6   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             immunity-iast-redis-slave-1
+6ca98eedad13   postgres:12-alpine           "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   5432/tcp             postgres
+15875b4c9a4a   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             redis-master
 ```
 
 ### Масштабирование воркера:
@@ -82,14 +82,14 @@ docker-compose up -d --scale worker=3
 
 ```
 [+] Running 8/8
- - Container postgres                Running                       0.0s 
- - Container redis-master            Running                       0.0s 
- - Container opendisk-redis-slave-1  Running                       0.0s 
- - Container opendisk-api-1          Running                       0.0s 
- - Container opendisk-worker-3       Started                       6.5s 
- - Container opendisk-worker-1       Started                       6.4s 
- - Container opendisk-worker-2       Started                       6.4s 
- - Container nginx                   Started
+ - Container postgres                       Running                       0.0s 
+ - Container redis-master                   Running                       0.0s 
+ - Container immunity-iast-redis-slave-1    Running                       0.0s 
+ - Container immunity-iast-api-1            Running                       0.0s 
+ - Container immunity-iast-worker-3         Started                       6.5s 
+ - Container immunity-iast-worker-1         Started                       6.4s 
+ - Container immunity-iast-worker-2         Started                       6.4s 
+ - Container nginx                          Started
 ```
 
 ### Масштабирование бэкэнда:
@@ -100,14 +100,14 @@ docker-compose up -d --scale api=3
 
 ```
 [+] Running 8/8
- - Container postgres                Running                       0.0s 
- - Container redis-master            Running                       0.0s 
- - Container opendisk-api-3          Started                      15.7s 
- - Container opendisk-redis-slave-1  Started                      15.5s 
- - Container opendisk-api-1          Started                      15.2s 
- - Container opendisk-api-2          Started                      16.0s 
- - Container opendisk-worker-1       Started                       6.2s
- - Container nginx                   Started 
+ - Container postgres                       Running                       0.0s 
+ - Container redis-master                   Running                       0.0s 
+ - Container immunity-iast-api-3            Started                      15.7s 
+ - Container immunity-iast-redis-slave-1    Started                      15.5s 
+ - Container immunity-iast-api-1            Started                      15.2s 
+ - Container immunity-iast-api-2            Started                      16.0s 
+ - Container immunity-iast-worker-1         Started                       6.2s
+ - Container nginx                          Started 
 ```
 
 ### Масштабирование Redis:
@@ -118,14 +118,14 @@ docker-compose up -d --scale redis-slave=3
 
 ```
 [+] Running 8/8
- - Container redis-master            Running                       0.0s 
- - Container opendisk-redis-slave-3  Started                      12.6s 
- - Container postgres                Running                       0.0s 
- - Container opendisk-redis-slave-1  Started                      12.6s 
- - Container opendisk-redis-slave-2  Started                      12.9s 
- - Container opendisk-api-1          Running                       0.0s 
- - Container opendisk-worker-1       Started                      13.0s 
- - Container nginx                   Started
+ - Container redis-master                   Running                       0.0s 
+ - Container immunity-iast-redis-slave-3    Started                      12.6s 
+ - Container postgres                       Running                       0.0s 
+ - Container immunity-iast-redis-slave-1    Started                      12.6s 
+ - Container immunity-iast-redis-slave-2    Started                      12.9s 
+ - Container immunity-iast-api-1            Running                       0.0s 
+ - Container immunity-iast-worker-1         Started                      13.0s 
+ - Container nginx                          Started
 ```
 
 Тестирование кластера Redis:
