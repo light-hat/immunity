@@ -17,6 +17,12 @@ HOST = environ.get('API_URL')
 
 PORT = environ.get('API_PORT')
 
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/login/'
+
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
@@ -32,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'frontend',
     'user_api',
     'agent_api',
@@ -49,17 +57,28 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DATE_FORMAT': "%d.%m.%Y",
     'TIME_FORMAT': "%H:%M",
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+    #'DEFAULT_AUTHENTICATION_CLASSES': [
+    #    'rest_framework.authentication.TokenAuthentication',
+    #],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    #'DEFAULT_PARSER_CLASSES': [
+    #    'rest_framework.parsers.JSONParser',
+    #    'rest_framework.parsers.FormParser',
+    #    'rest_framework.parsers.MultiPartParser'
+    #],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Immunity IAST API',
+    'DESCRIPTION': 'Immunity IAST REST API.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
 }
 
 MIDDLEWARE = [

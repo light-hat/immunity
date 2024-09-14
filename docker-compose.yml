@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres:12-alpine
+    image: postgres:15-alpine
     container_name: postgres
     expose:
       - 5432

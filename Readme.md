@@ -2,7 +2,16 @@
 
 ML Based IAST.
 
-API docs: `http://127.0.0.1/swagger/`.
+Админка: `http://127.0.0.1/admin/`;
+Документация API: `http://127.0.0.1/api/schema/redoc/`;
+Swagger: `http://127.0.0.1/api/schema/swagger-ui/`;
+Схема сваггера в формате `yaml`: `http://127.0.0.1/api/schema/`.
+
+## Зависимости
+
+```bash
+pip3 install Django djangorestframework psycopg2-binary Celery redis gunicorn drf-spectacular
+```
 
 ## Тестирование компонентов
 
