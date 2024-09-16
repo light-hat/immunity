@@ -2,6 +2,8 @@
 
 ML Based IAST.
 
+![Схема работы](etc/arch.png)
+
 Админка: http://127.0.0.1/admin/;
 
 Документация API: http://127.0.0.1/api/schema/redoc/;
@@ -9,8 +11,6 @@ ML Based IAST.
 Swagger: http://127.0.0.1/api/schema/swagger-ui/;
 
 Схема сваггера в формате yaml: http://127.0.0.1/api/schema/.
-
-![Схема работы](etc/arch.png)
 
 ## Зависимости
 
