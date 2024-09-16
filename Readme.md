@@ -2,10 +2,10 @@
 
 ML Based IAST.
 
-Админка: `http://127.0.0.1/admin/`;
-Документация API: `http://127.0.0.1/api/schema/redoc/`;
-Swagger: `http://127.0.0.1/api/schema/swagger-ui/`;
-Схема сваггера в формате `yaml`: `http://127.0.0.1/api/schema/`.
+Админка: http://127.0.0.1/admin/;
+Документация API: http://127.0.0.1/api/schema/redoc/;
+Swagger: http://127.0.0.1/api/schema/swagger-ui/;
+Схема сваггера в формате yaml: http://127.0.0.1/api/schema/.
 
 ![Схема работы](etc/arch.png)
 
@@ -76,13 +76,13 @@ docker ps
 Пример здорового лога:
 
 ```
-CONTAINER ID   IMAGE                        COMMAND                  CREATED              STATUS                        PORTS                NAMES
-666b71ce7a0f   immunity-iast-nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute (healthy)   0.0.0.0:80->80/tcp   nginx
-2f8c15e0bcd1   immunity-iast-worker:latest  "celery -A core work…"   About a minute ago   Up About a minute (healthy)                        immunity-iast-worker-1
-5d80bad9ff16   immunity-iast-api:latest     "sh ./entrypoint.sh"     About a minute ago   Up About a minute (healthy)   8000/tcp             immunity-iast-api-1
-af7692b462f6   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             immunity-iast-redis-slave-1
-6ca98eedad13   postgres:12-alpine           "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   5432/tcp             postgres
-15875b4c9a4a   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   6379/tcp             redis-master
+CONTAINER ID   IMAGE                        COMMAND                  CREATED              STATUS         PORTS                NAMES
+666b71ce7a0f   immunity-iast-nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up (healthy)   0.0.0.0:80->80/tcp   nginx
+2f8c15e0bcd1   immunity-iast-worker:latest  "celery -A core work…"   About a minute ago   Up (healthy)                        immunity-iast-worker-1
+5d80bad9ff16   immunity-iast-api:latest     "sh ./entrypoint.sh"     About a minute ago   Up (healthy)   8000/tcp             immunity-iast-api-1
+af7692b462f6   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up (healthy)   6379/tcp             immunity-iast-redis-slave-1
+6ca98eedad13   postgres:12-alpine           "docker-entrypoint.s…"   About a minute ago   Up (healthy)   5432/tcp             postgres
+15875b4c9a4a   redis:7.0.15                 "docker-entrypoint.s…"   About a minute ago   Up (healthy)   6379/tcp             redis-master
 ```
 
 ### Масштабирование воркера:
