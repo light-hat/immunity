@@ -7,6 +7,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AgentApiConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
+    default_auto_field = "django.db.models.BigAutoField"
     verbose_name = _("Управление агентами")
-    name = 'agent_api'
+    name = "agent_api"
