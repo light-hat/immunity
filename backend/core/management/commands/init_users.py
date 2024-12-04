@@ -2,9 +2,8 @@
 Кастомная manage.py командп для инициализации системы при первом запуске.
 """
 
-from django.core.management.base import BaseCommand
-
 from core.models import User
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):

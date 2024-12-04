@@ -4,9 +4,8 @@
 
 import uuid
 
-from django.db import models
-
 from core.models.users import User
+from django.db import models
 
 
 class Application(models.Model):

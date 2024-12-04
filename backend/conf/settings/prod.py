@@ -2,11 +2,12 @@
 Настройки бэкэнда для производственного окружения.
 """
 
-from .base import *
 import os
 from os import environ
+
 from django.core.management.utils import get_random_secret_key
 
+from .base import *
 
 SECRET_KEY = get_random_secret_key()
 
@@ -39,12 +40,15 @@ DATABASES = {
     }
 }
 
-STATIC_URL = "static/"
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-STATIC_ROOT = STATIC_DIR
+# Путь, куда collectstatic будет складывать файлы
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-MEDIA_URL = "media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+# URL для доступа к статическим файлам
+STATIC_URL = "/static/"
+
+# Путь для медиа-файлов
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"

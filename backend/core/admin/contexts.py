@@ -2,9 +2,8 @@
 Отображение модели контекста выполнения запроса.
 """
 
-from django.contrib import admin
-
 from core.models import Context
+from django.contrib import admin
 
 
 @admin.register(Context)

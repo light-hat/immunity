@@ -2,9 +2,8 @@
 Отображение модели приложения.
 """
 
-from django.contrib import admin
-
 from core.models import Application
+from django.contrib import admin
 
 
 @admin.register(Application)

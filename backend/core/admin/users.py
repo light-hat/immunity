@@ -2,9 +2,8 @@
 Отображение модели пользовтаеля системы.
 """
 
-from django.contrib import admin
-
 from core.models import User
+from django.contrib import admin
 
 
 @admin.register(User)

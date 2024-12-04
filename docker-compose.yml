@@ -26,7 +26,7 @@ services:
     container_name: redis-master
     command: redis-server --save 20 1 --loglevel warning
     expose:
-      - "6379"
+      - 6379
     volumes:
       - redis-master-data:/data
     restart: always
@@ -45,7 +45,7 @@ services:
     command: >
       sh -c "redis-server --slaveof redis-master 6379 --save 20 1 --loglevel warning"
     expose:
-      - "6379"
+      - 6379
     volumes:
       - redis-slave-data:/data
     restart: always
@@ -60,8 +60,9 @@ services:
   api:
     image: immunity-api:latest
     build:
-      context: ./immunity/
+      context: ./backend/
       dockerfile: Dockerfile
+      target: server
     shm_size: 1g
     expose:
       - 8000
@@ -90,8 +91,9 @@ services:
   worker:
     image: immunity-worker:latest
     build:
-      context: ./immunity/
-      dockerfile: Dockerfile.worker
+      context: ./backend/
+      dockerfile: Dockerfile
+      target: worker
     shm_size: 1g
     volumes:
       - static_volume:/home/app/web/static

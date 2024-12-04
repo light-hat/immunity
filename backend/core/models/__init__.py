@@ -3,14 +3,16 @@ from .contexts import Context
 from .dataset_labels import DatasetLabel
 from .datasets import Dataset
 from .events import Event
-from .messages import Message
+from .requests import Request
+from .responses import Response
 from .users import User
 
 __all__ = [
     "User",
     "Application",
     "Context",
-    "Message",
+    "Request",
+    "Response",
     "Event",
     "Dataset",
     "DatasetLabel",

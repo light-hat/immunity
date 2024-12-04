@@ -4,5 +4,5 @@
 *.scss linguist-vendored
 Dockerfile linguist-vendored
 Dockerfile.* linguist-vendored
-*.sh linguist-vendored
+*.sh eol=lf
 *.ps1 linguist-vendored
