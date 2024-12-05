@@ -12,6 +12,5 @@ urlpatterns = [
     path(
         "context/",
         csrf_exempt(ContextAPIViewset.as_view({"post": "post"})),
-        name="context-create",
     ),
 ]

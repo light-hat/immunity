@@ -2,8 +2,7 @@
 Модель пользователя системы.
 """
 
-from django.contrib.auth.models import (AbstractUser, BaseUserManager, Group,
-                                        Permission)
+from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 from django.db import models
 
 

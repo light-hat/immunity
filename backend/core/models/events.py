@@ -27,6 +27,7 @@ class Event(models.Model):
             ("error", "Error"),
         ],
     )
+    external_call = models.BooleanField(default=False)
     func_name = models.CharField(max_length=255, blank=True, null=True)
     module = models.CharField(max_length=255, blank=True, null=True)
     filename = models.CharField(max_length=255, blank=True, null=True)
