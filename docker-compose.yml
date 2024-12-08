@@ -60,9 +60,12 @@ services:
   api:
     image: immunity-api:latest
     build:
-      context: ./backend/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/Dockerfile
       target: server
+      args:
+        URL: 127.0.0.1
+        PORT: 80
     shm_size: 1g
     expose:
       - 8000
@@ -70,8 +73,8 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - API_URL=127.0.0.1
-      - API_PORT=80
+      - URL=127.0.0.1
+      - PORT=80
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
@@ -91,16 +94,16 @@ services:
   worker:
     image: immunity-worker:latest
     build:
-      context: ./backend/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/Dockerfile
       target: worker
     shm_size: 1g
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - API_URL=127.0.0.1
-      - API_PORT=80
+      - URL=127.0.0.1
+      - PORT=80
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres

@@ -1,3 +1,28 @@
+# Сборка фронтэнда
+FROM node:18-alpine AS frontend
+
+# Устанавливаем рабочую директорию
+WORKDIR /app/frontend
+
+# Копируем файл зависимостей
+COPY frontend/package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем содержимое фронтэнда в контейнер
+COPY frontend/ .
+
+ARG URL
+ARG PORT
+
+RUN echo "URL=${URL}" && echo "PORT=${PORT}"
+
+ENV VITE_API_HOST=${URL}
+ENV VITE_API_PORT=${PORT}
+
+RUN npm run build
+
 # Базовый слой для зависимостей
 FROM python:3.12-slim AS base
 
@@ -11,18 +36,25 @@ RUN apt-get update && apt-get install -y \
 # Устанавливаем рабочую директорию
 WORKDIR /home/app/web
 
-COPY requirements.txt .
+# Копируем файл зависимостей
+COPY backend/requirements.txt .
 
 # Устанавливаем зависимости приложения
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем все содержимое проекта в контейнер
-COPY . .
+# Копируем содержимое бэкэнда в контейнер
+COPY backend/ .
 
 ENV DJANGO_SETTINGS_MODULE=conf.settings.prod
 
 # Старт управляющего сервера
 FROM base AS server
+
+# Создаём директорию для фронта рядом с кодом бэкенда
+RUN mkdir -p /app/frontend_dist
+
+# Копируем статичный билд фронтенда во внутрь Django
+COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
 
 # Назначаем права на исполнение
 RUN chmod +x entrypoint.sh

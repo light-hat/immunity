@@ -2,8 +2,8 @@
 Базовые настройки проекта бэкэнда.
 """
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -17,8 +17,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "djoser",
     "rest_framework_simplejwt",
+    "corsheaders",
+    "djoser",
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "core",
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -36,9 +38,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DATE_FORMAT": "%d.%m.%Y",
@@ -50,19 +54,21 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'LOGIN_FIELD': 'username',
-    'USER_CREATE_PASSWORD_RETYPE': True,
-    'SERIALIZERS': {
-        'user_create': 'users.serializers.UserCreateSerializer',
-        'current_user': 'rest_framework.serializers.CurrentUserSerializer',
+    "LOGIN_FIELD": "username",
+    "USER_CREATE_PASSWORD_RETYPE": True,
+    "SERIALIZERS": {
+        #'user_create': 'users.serializers.UserCreateSerializer',
+        #'current_user': 'rest_framework.serializers.CurrentUserSerializer',
+        "user_create": "djoser.serializers.UserCreateSerializer",
+        "user": "djoser.serializers.UserSerializer",
     },
-    'TOKEN_MODEL': None,
+    "TOKEN_MODEL": None,
 }
 
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
 
 

@@ -13,9 +13,9 @@ SECRET_KEY = get_random_secret_key()
 
 DEBUG = False
 
-HOST = environ.get("API_URL")
+HOST = environ.get("URL")
 
-PORT = environ.get("API_PORT")
+PORT = environ.get("PORT")
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -25,7 +25,10 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
+    f"http://{HOST}:{PORT}",
+]
+
+CORS_ALLOWED_ORIGINS = [
     f"http://{HOST}:{PORT}",
 ]
 
@@ -45,6 +48,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # URL для доступа к статическим файлам
 STATIC_URL = "/static/"
+
+# Папка с подготовленными файлами фронта, из которой collectstatic заберёт статику
+STATICFILES_DIRS = [BASE_DIR / "frontend_dist"]
 
 # Путь для медиа-файлов
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

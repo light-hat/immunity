@@ -32,6 +32,7 @@ def _handle_request(application, context, json_request):
         meta=json_request["META"],
     )
 
+
 def _handle_control_flow(application, context, json_control_flow):
     """
     Обработка потока управления.
@@ -78,7 +79,7 @@ def _handle_control_flow(application, context, json_control_flow):
                 module=node["module"],
                 filename=node["filename"],
                 line=node["line"],
-                #final_state=node["final_state"],
+                # final_state=node["final_state"],
                 returned_value=node["returned_value"],
             )
         elif node["event"] == "error":
@@ -94,6 +95,7 @@ def _handle_control_flow(application, context, json_control_flow):
                 exception_type=node["details"]["exception_type"],
                 exception_message=node["details"]["message"],
             )
+
 
 def _handle_response(application, context, json_response):
     """
@@ -111,9 +113,7 @@ def _handle_response(application, context, json_response):
         body=json_response["body"],
         content_type=json_response["content_type"],
         content_length=(
-            json_response["content_length"]
-            if json_response["content_length"]
-            else ""
+            json_response["content_length"] if json_response["content_length"] else ""
         ),
         charset=json_response["charset"] if json_response["charset"] else "",
         version=json_response["version"] if json_response["version"] else "",
@@ -121,6 +121,7 @@ def _handle_response(application, context, json_response):
         cookies=json_response["cookies"],
         streaming=json_response["streaming"],
     )
+
 
 @shared_task
 def handle_context(project_id, json_request, json_control_flow, json_response):

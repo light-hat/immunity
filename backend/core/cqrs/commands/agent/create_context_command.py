@@ -11,9 +11,7 @@ class CreateContextCommand:
     Команда для обработки контекста выполнения запроса, присылаемого агентом.
     """
 
-    def __init__(
-        self, project_id, request, control_flow, response
-    ):
+    def __init__(self, project_id, request, control_flow, response):
         """
         Конструктор команды.
         :param project_id: id анализируемого приложения.

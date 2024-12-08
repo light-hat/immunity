@@ -2,11 +2,12 @@
 Модуль содержит сериализаторы для кастомной модели пользователя.
 """
 
-from typing import Any, Dict  # Типы для аннотаций
+from typing import Any, Dict
 
-from rest_framework import serializers
-from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from core.models import User
+from djoser.serializers import CurrentUserSerializer as BaseCurrentUserSerializer
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from rest_framework import serializers
 
 
 class UserCreateSerializer(BaseUserRegistrationSerializer):
@@ -21,8 +22,9 @@ class UserCreateSerializer(BaseUserRegistrationSerializer):
         Мета-класс для определения параметров сериализатора.
         Определяет модель пользователя и поля, которые будут доступны.
         """
+
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ("id", "username", "email", "first_name", "last_name")
 
     def create(self, validated_data: Dict[str, Any]) -> User:
         """
@@ -34,3 +36,20 @@ class UserCreateSerializer(BaseUserRegistrationSerializer):
         """
         user = super().create(validated_data)
         return user
+
+
+class CurrentUserSerializer(BaseCurrentUserSerializer):
+    """
+    Сериализатор для получения данных о текущем пользователе.
+    Наследуется от стандартного CurrentUserSerializer из Djoser.
+    Используется для кастомизации процесса получения данных о пользователе.
+    """
+
+    class Meta(BaseCurrentUserSerializer.Meta):
+        """
+        Мета-класс для определения параметров сериализатора.
+        Определяет модель пользователя и поля, которые будут доступны.
+        """
+
+        model = User
+        fields = ("id", "username", "email", "first_name", "last_name")
