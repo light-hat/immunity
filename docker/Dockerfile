@@ -68,6 +68,9 @@ LABEL org.label-schema.name="Immunity IAST" \
 # Создание группы и пользователя
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 
+# Меняем владельца директории на пользователя immunity
+RUN chown -R immunity:immunity /app
+
 # Переключение контекста на созданного пользователя
 USER immunity
 
@@ -100,6 +103,9 @@ LABEL org.label-schema.name="Immunity IAST Worker" \
 
 # Создание группы и пользователя
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
+
+# Меняем владельца директории на пользователя immunity
+RUN chown -R immunity:immunity /app
 
 # Переключение контекста на созданного пользователя
 USER immunity
