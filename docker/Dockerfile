@@ -65,20 +65,20 @@ LABEL org.label-schema.name="Immunity IAST" \
       com.example.license="MIT" \
       com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
 
-# Создание группы и пользователя
-RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
-
-# Меняем владельца директории на пользователя immunity
-RUN chown -R immunity:immunity /app
-
-# Переключение контекста на созданного пользователя
-USER immunity
-
 # Создаём директорию для фронта рядом с кодом бэкенда
 RUN mkdir -p /app/frontend_dist
 
 # Копируем статичный билд фронтенда во внутрь Django
 COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
+
+# Создание группы и пользователя
+RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
+
+# Меняем владельца директории на пользователя immunity
+RUN chown -R immunity:immunity /home/app/web
+
+# Переключение контекста на созданного пользователя
+USER immunity
 
 # Назначаем права на исполнение
 RUN chmod +x entrypoint.sh
@@ -105,7 +105,7 @@ LABEL org.label-schema.name="Immunity IAST Worker" \
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 
 # Меняем владельца директории на пользователя immunity
-RUN chown -R immunity:immunity /app
+RUN chown -R immunity:immunity /home/app/web
 
 # Переключение контекста на созданного пользователя
 USER immunity
