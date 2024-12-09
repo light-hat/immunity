@@ -1,3 +1,7 @@
+"""
+Тестовый обработчик для графа.
+"""
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -6,7 +10,10 @@ from rest_framework.views import APIView
 class GraphDataView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request): # pylint: disable=unused-argument
+        """
+        Тестовый обработчик для графа.
+        """
         data = {
             "nodes": [
                 {

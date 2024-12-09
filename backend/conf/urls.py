@@ -22,7 +22,9 @@ class SPAView(View):
     """
 
     def get(self, request, *args, **kwargs):
-        # Определяем путь к index.html в статиках
+        """
+        GET запрос для бандла.
+        """
         index_file = os.path.join(settings.STATIC_ROOT, "index.html")
         if os.path.exists(index_file):
             with open(index_file, "rb") as f:

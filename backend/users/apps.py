@@ -1,3 +1,7 @@
+"""
+Приложение, описывающее REST API для пользователя.
+"""
+
 from django.apps import AppConfig
 
 

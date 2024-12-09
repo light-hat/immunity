@@ -1,3 +1,7 @@
+"""
+Модуль, описывающий модели базы данных.
+"""
+
 from .applications import Application
 from .contexts import Context
 from .dataset_labels import DatasetLabel

@@ -1,4 +1,4 @@
 [MASTER]
-ignore=manage.py
+ignore=manage.py,venv
 disable=
-    C0115,W0611,E0401,R0903,E1101,R6301
+    C0115,W0611,E0401,R0903,E1101,C0411,W0718,W0401,E5110

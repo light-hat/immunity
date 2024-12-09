@@ -1,3 +1,7 @@
+"""
+Движок интерактивного анализа.
+"""
+
 from django.apps import AppConfig
 
 

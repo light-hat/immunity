@@ -2,9 +2,9 @@
 Настройки бэкэнда для локального запуска.
 """
 
-from .base import *
-
-SECRET_KEY = "django-insecure-hi59)g6r&kz_j$3-lroc7n6x$zm$u)b(6tc8_6nb*ml*mzc8kd"
+from conf.settings.base import *  # pylint: disable=unused-wildcard-import
+from django.core.management.utils import get_random_secret_key
+SECRET_KEY = get_random_secret_key()
 
 DEBUG = True
 

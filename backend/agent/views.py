@@ -25,7 +25,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 
-class ContextSerializer(serializers.Serializer):
+class ContextSerializer(serializers.Serializer): # pylint: disable=abstract-method
     """Сериализатор для приема контекста выполнения запроса.
 
     Атрибуты:
@@ -35,36 +35,58 @@ class ContextSerializer(serializers.Serializer):
         response (TextField): Ответ.
     """
 
-    def validate_project(self, value):  # TODO: DRY REFACTOR
+    def validate_project(self, value):
+        """
+        Валидатор для параметра project (анализируемый проект).
+        :param value: Входное значение параметра.
+        """
         if not value:
             raise ValidationError("Параметр project не может быть пустым.")
         try:
             Application.objects.get(name=value)
-        except Application.DoesNotExist:
-            raise ValidationError("Приложение с названием {} не найдено.".format(value))
+        except Application.DoesNotExist as exc:
+            raise ValidationError(
+                f"Приложение с названием {value} не найдено."
+            ) from exc
         return value
 
-    def validate_request(self, value):  # TODO: DRY REFACTOR
+    def validate_request(self, value):
+        """
+        Валидатор для параметра request (перехваченный запрос).
+        :param value: Входное значение параметра.
+        """
         try:
             base64.b64decode(value).decode("utf-8")
-        except:
-            raise ValidationError("Параметр request должен быть закодирован в Base64.")
+        except Exception as exc:
+            raise ValidationError(
+                "Параметр request должен быть закодирован в Base64."
+            ) from exc
         return value
 
-    def validate_control_flow(self, value):  # TODO: DRY REFACTOR
+    def validate_control_flow(self, value):
+        """
+        Валидатор для параметра control_flow (поток управления).
+        :param value: Входное значение параметра.
+        """
         try:
             base64.b64decode(value).decode("utf-8")
-        except:
+        except Exception as exc:
             raise ValidationError(
                 "Параметр control_flow должен быть закодирован в Base64."
-            )
+            ) from exc
         return value
 
-    def validate_response(self, value):  # TODO: DRY REFACTOR
+    def validate_response(self, value):
+        """
+        Валидатор для параметра response (ответ).
+        :param value: Входное значение параметра.
+        """
         try:
             base64.b64decode(value).decode("utf-8")
-        except:
-            raise ValidationError("Параметр response должен быть закодирован в Base64.")
+        except Exception as exc:
+            raise ValidationError(
+                "Параметр response должен быть закодирован в Base64."
+            ) from exc
         return value
 
     project = serializers.CharField(max_length=255)
@@ -147,7 +169,8 @@ class ContextAPIViewset(viewsets.ViewSet):
             ),
         },
         summary="Добавить контекст выполнения запроса.",
-        description="Принимает три строки в base64, расшифровывает их и передает в асинхронную Celery задачу.",
+        description="Принимает три строки в base64"
+        + ", расшифровывает их и передает в асинхронную Celery задачу.",
         tags=["agent"],
     )
     def post(self, request, *args, **kwargs) -> Response:

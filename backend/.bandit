@@ -1,0 +1,2 @@
+[bandit]
+exclude = core/management/commands/init_users.py,core/tests/test_result.py

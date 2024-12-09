@@ -1,3 +1,7 @@
+"""
+Приложение, описывающее REST API для агента.
+"""
+
 from django.apps import AppConfig
 
 

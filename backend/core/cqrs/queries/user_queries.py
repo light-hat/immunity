@@ -2,6 +2,7 @@
 Модуль, описывающий запросы для сущности пользователя.
 """
 
+from core.models import User
 
 class UserQuery:
     """
@@ -9,14 +10,14 @@ class UserQuery:
     """
 
     @staticmethod
-    def get_by_id(id: int) -> dict:
+    def get_by_id(user_id: int) -> dict:
         """
         Получает объект пользователя по id.
-        :param id: ID пользователя в базе данных.
+        :param user_id: ID пользователя в базе данных.
         :return: Словарь с полями пользователя, либо пустое значение.
         """
 
-        user = User.objects.filter(id=id).first()
+        user = User.objects.filter(id=user_id).first()
         if not user:
             return None
         return {

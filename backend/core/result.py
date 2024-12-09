@@ -5,18 +5,18 @@
 (например, исключений, ORM-запросов, списков) в стандартизированный формат.
 
 Основные возможности:
-- Единый формат ответа с атрибутами `success`, `data`, `errors`, `meta`.
+- Единый формат ответа с атрибутами `is_success`, `data`, `errors`, `meta`.
 - Автоматическое логирование ошибок.
 - Поддержка ORM QuerySet, списков, словарей и исключений.
 
 Пример использования:
     >>> result = Result.success(data={"id": 1}, meta={"info": "test"})
     >>> print(result.to_dict())
-    {'success': True, 'data': {'id': 1}, 'errors': [], 'meta': {'info': 'test'}}
+    {'is_success': True, 'data': {'id': 1}, 'errors': [], 'meta': {'info': 'test'}}
 
     >>> result = Result.failure(errors="Something went wrong")
     >>> print(result.to_dict())
-    {'success': False, 'data': {}, 'errors': ['Something went wrong'], 'meta': {}}
+    {'is_success': False, 'data': {}, 'errors': ['Something went wrong'], 'meta': {}}
 """
 
 import traceback
@@ -30,10 +30,10 @@ class Result:
     Унифицированный класс для представления результата выполнения операции.
 
     Основная задача: преобразовать исходные данные (исключения, ORM-запросы, списки и т.д.)
-    в стандартизированный формат с атрибутами `success`, `data`, `errors`, и `meta`.
+    в стандартизированный формат с атрибутами `is_success`, `data`, `errors`, и `meta`.
 
     Attributes:
-        success (bool): Флаг успешности операции.
+        is_success (bool): Флаг успешности операции.
         data (Union[Dict, List]): Данные результата (если операция успешна).
         errors (List[str]): Список ошибок (если операция завершилась неудачей).
         meta (Dict): Дополнительные метаданные (например, отладочная информация).
@@ -48,7 +48,7 @@ class Result:
             source (Any): Исходный объект для преобразования в Result.
                           Может быть словарём, исключением, QuerySet, списком и т.д.
         """
-        self.success: bool = False
+        self.is_success: bool = False
         self.data: Union[Dict, List] = {}
         self.errors: List[str] = []
         self.meta: Dict[str, Any] = {}
@@ -78,12 +78,12 @@ class Result:
         """
         Преобразование словаря в формат Result.
 
-        Ожидается, что словарь содержит ключи `success`, `data`, `errors` и `meta`.
+        Ожидается, что словарь содержит ключи `is_success`, `data`, `errors` и `meta`.
 
         Args:
             source (Dict[str, Any]): Словарь с данными результата.
         """
-        self.success = source.get("success", False)
+        self.is_success = source.get("is_success", False)
         self.data = source.get("data", {})
         self.errors = source.get("errors", [])
         self.meta = source.get("meta", {})
@@ -95,14 +95,13 @@ class Result:
         Args:
             source (Exception): Объект исключения.
         """
-        self.success = False
+        self.is_success = False
         self.errors.append(str(source))
         self.meta = {
             "exception_type": source.__class__.__name__,
         }
 
-        if settings.DEBUG:
-            tb = traceback.format_exc().splitlines()
+        tb = traceback.format_exc().splitlines() if settings.DEBUG else []
         self.meta["traceback"] = tb
 
     def _from_queryset(self, source: Any) -> None:
@@ -113,10 +112,10 @@ class Result:
             source (QuerySet): Django QuerySet или Manager.
         """
         try:
-            self.success = True
+            self.is_success = True
             self.data = list(source.all().values())
         except Exception as e:
-            self.success = False
+            self.is_success = False
             self.errors.append(str(e))
 
     def _from_list(self, source: List[Any]) -> None:
@@ -126,7 +125,7 @@ class Result:
         Args:
             source (List[Any]): Список данных.
         """
-        self.success = True
+        self.is_success = True
         self.data = source
 
     def to_dict(self) -> Dict[str, Any]:
@@ -134,10 +133,10 @@ class Result:
         Преобразование объекта Result в словарь.
 
         Returns:
-            Dict[str, Any]: Словарь с атрибутами `success`, `data`, `errors` и `meta`.
+            Dict[str, Any]: Словарь с атрибутами `is_success`, `data`, `errors` и `meta`.
         """
         return {
-            "success": self.success,
+            "is_success": self.is_success,
             "data": self.data,
             "errors": self.errors,
             "meta": self.meta,
@@ -155,10 +154,10 @@ class Result:
             meta (Dict[str, Any]): Дополнительные метаданные.
 
         Returns:
-            Result: Объект Result с success=True.
+            Result: Объект Result с is_success=True.
         """
         instance = cls()
-        instance.success = True
+        instance.is_success = True
         instance.data = data or {}
         instance.meta = meta or {}
         return instance
@@ -175,10 +174,10 @@ class Result:
             meta (Dict[str, Any]): Дополнительные метаданные.
 
         Returns:
-            Result: Объект Result с success=False.
+            Result: Объект Result с is_success=False.
         """
         instance = cls()
-        instance.success = False
+        instance.is_success = False
         instance.errors = errors if isinstance(errors, list) else [errors]
         instance.meta = meta or {}
         return instance

@@ -48,7 +48,7 @@ def _handle_control_flow(application, context, json_control_flow):
                 application=application,
                 context=context,
                 timestamp=datetime.strptime(node["timestamp"], "%Y-%m-%d %H:%M:%S"),
-                external_call=(True if node["event"] == "external_call" else False),
+                external_call=(node["event"] == "external_call"),
                 type="function_call",
                 func_name=node["name"],
                 module=node["module"],

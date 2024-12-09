@@ -15,4 +15,4 @@ class CoreConfig(AppConfig):
     name = "core"
 
     def ready(self):
-        import core.admin
+        import core.admin # pylint: disable=import-outside-toplevel

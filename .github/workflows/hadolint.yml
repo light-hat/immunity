@@ -1,0 +1,17 @@
+name: Hadolint
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@master
+        with:
+          dockerfile: "docker/Dockerfile"
+          ignored: DL3008
