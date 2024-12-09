@@ -1,3 +1,43 @@
+<script>
+import {ref, onMounted} from 'vue';
+import {useAuthStore} from '../stores/auth';
+// import {useRouter} from 'vue-router';
+import axios from '../axios';
+import {VueFlow} from '@vue-flow/core';
+// import {Controls} from '@vue-flow/controls';
+// import {MiniMap} from '@vue-flow/minimap';
+
+// import SpecialNode from '../components/SpecialNode.vue';
+// import SpecialEdge from '../components/SpecialEdge.vue';
+
+export default {
+  components: {VueFlow},
+  setup() {
+    const auth = useAuthStore();
+    // const router = useRouter();
+
+    const nodes = ref([]);
+    const edges = ref([]);
+
+    onMounted(async () => {
+      try {
+        const response = await axios.get('graph/data', {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+        nodes.value = response.data.nodes;
+        edges.value = response.data.edges;
+      } catch (error) {
+        console.error('Error fetching graph data', error);
+      }
+    });
+
+    return {nodes, edges};
+  },
+};
+</script>
+
 <template>
   <div style="height: 100vh">
       <VueFlow
@@ -25,48 +65,6 @@
       </VueFlow>
     </div>
 </template>
-
-<script>
-import { ref, onMounted } from 'vue'
-import { useAuthStore } from '../stores/auth'
-import { useRouter } from 'vue-router'
-import axios from '../axios'
-import { VueFlow } from '@vue-flow/core'
-import { Controls } from '@vue-flow/controls'
-import { MiniMap } from '@vue-flow/minimap'
-
-import SpecialNode from '../components/SpecialNode.vue'
-import SpecialEdge from '../components/SpecialEdge.vue'
-
-export default {
-  components: { VueFlow },
-  setup() {
-    const auth = useAuthStore()
-    const router = useRouter()
-
-    const nodes = ref([])
-    const edges = ref([])
-
-    onMounted(async () => {
-      try {
-        const response = await axios.get('graph/data', {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`
-          }
-        })
-        nodes.value = response.data.nodes
-        edges.value = response.data.edges
-      } catch (error) {
-        console.error('Error fetching graph data', error)
-        // Можно при ошибке перенаправить на login, если 401
-        // или показать уведомление.
-      }
-    })
-
-    return { nodes, edges }
-  }
-}
-</script>
 
 <style>
 /* these are necessary styles for vue flow */

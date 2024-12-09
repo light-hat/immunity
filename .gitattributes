@@ -1,8 +1,10 @@
 *.html linguist-vendored
-*.js linguist-vendored
 *.css linguist-vendored
 *.scss linguist-vendored
 Dockerfile linguist-vendored
 Dockerfile.* linguist-vendored
-*.sh eol=lf
-*.ps1 linguist-vendored
+*.ps1 eol=crlf linguist-vendored
+*.sh eol=lf linguist-vendored
+*.js eol=lf
+*.vue eol=lf
+*.cjs eol=lf

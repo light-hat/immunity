@@ -1,14 +1,20 @@
-import './assets/main.css'
+import {createApp} from 'vue';
+import {createPinia} from 'pinia';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import App from './App.vue';
+import router from './router';
 
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
 
-const app = createApp(App)
+import 'uikit/dist/css/uikit.min.css';
 
-app.use(createPinia())
-app.use(router)
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
 
-app.mount('#app')
+UIkit.use(Icons);
+app.config.globalProperties.$UIkit = UIkit;
+
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');

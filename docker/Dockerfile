@@ -13,14 +13,15 @@ RUN npm install
 # Копируем содержимое фронтэнда в контейнер
 COPY frontend/ .
 
+# Параметры сборки
 ARG URL
 ARG PORT
 
-RUN echo "URL=${URL}" && echo "PORT=${PORT}"
-
+# Устанавливаем переменные окружения для сборщика
 ENV VITE_API_HOST=${URL}
 ENV VITE_API_PORT=${PORT}
 
+# Собираем бандл
 RUN npm run build
 
 # Базовый слой для зависимостей

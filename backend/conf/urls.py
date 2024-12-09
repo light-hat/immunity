@@ -2,12 +2,13 @@
 Модуль управления URL-адресами бэкэнда.
 """
 
+import os
+
+from django.conf import settings
 from django.contrib import admin
+from django.http import Http404, HttpResponse
 from django.urls import include, path, re_path
 from django.views import View
-from django.http import HttpResponse, Http404
-from django.conf import settings
-import os
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -22,10 +23,10 @@ class SPAView(View):
 
     def get(self, request, *args, **kwargs):
         # Определяем путь к index.html в статиках
-        index_file = os.path.join(settings.STATIC_ROOT, 'index.html')
+        index_file = os.path.join(settings.STATIC_ROOT, "index.html")
         if os.path.exists(index_file):
-            with open(index_file, 'rb') as f:
-                return HttpResponse(f.read(), content_type='text/html')
+            with open(index_file, "rb") as f:
+                return HttpResponse(f.read(), content_type="text/html")
         raise Http404("index.html not found in STATIC_ROOT")
 
 
