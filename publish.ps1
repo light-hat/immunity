@@ -13,7 +13,7 @@ Write-Host 'The new version is: ' $version
 $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
 [System.IO.File]::WriteAllLines("VERSION", $version, $Utf8NoBomEncoding)
 
-#git add .
-#git commit -m "publish version $version"
-#git tag -a $version -m $version
-#git push -u origin $branch --follow-tags
+git add .
+git commit -m "publish version $version"
+git tag -a $version -m $version
+git push -u origin $branch --follow-tags

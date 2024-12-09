@@ -53,6 +53,24 @@ ENV DJANGO_SETTINGS_MODULE=conf.settings.prod
 # Старт управляющего сервера
 FROM base AS server
 
+# Аргумент сборки - версия
+ARG VERSION=latest
+
+# Указываем метаданные образа
+LABEL org.label-schema.name="Immunity IAST" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.description="Management server for Immunity IAST." \
+      org.label-schema.vcs-url="https://github.com/Immunity-IAST/immunity-iast" \
+      org.label-schema.schema-version="1.0" \
+      com.example.license="MIT" \
+      com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
+
+# Создание группы и пользователя
+RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
+
+# Переключение контекста на созданного пользователя
+USER immunity
+
 # Создаём директорию для фронта рядом с кодом бэкенда
 RUN mkdir -p /app/frontend_dist
 
@@ -67,6 +85,24 @@ ENTRYPOINT ["sh", "./entrypoint.sh"]
 
 # Старт асинхронного воркера
 FROM base AS worker
+
+# Аргумент сборки - версия
+ARG VERSION=latest
+
+# Указываем метаданные образа
+LABEL org.label-schema.name="Immunity IAST Worker" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.description="Async worker for Immunity IAST." \
+      org.label-schema.vcs-url="https://github.com/Immunity-IAST/immunity-iast" \
+      org.label-schema.schema-version="1.0" \
+      com.example.license="MIT" \
+      com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
+
+# Создание группы и пользователя
+RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
+
+# Переключение контекста на созданного пользователя
+USER immunity
 
 # Указываем команду для запуска приложения
 CMD ["celery", "-A", "conf", "worker", "--loglevel=info"]
