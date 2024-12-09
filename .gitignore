@@ -14,3 +14,4 @@ src/app/media/employees_photos/*
 .env.db
 .env.s3
 app/db.sqlite3
+.vagrant

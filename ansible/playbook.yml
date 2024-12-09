@@ -1,0 +1,71 @@
+---
+- name: Provision Immunity Management Server VM
+  hosts: all
+  become: true
+  vars:
+    ansible_connection: local
+  tasks:
+    - name: Run apt update
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Install Docker Compose
+      shell: |
+        curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
+      args:
+        creates: /usr/local/bin/docker-compose
+
+    - name: Verify Docker Compose installation
+      command: docker compose version
+      register: result
+      failed_when: "'Docker Compose version' not in result.stdout"
+
+    - name: Display Docker Compose version
+      debug:
+        msg: "{{ result.stdout }}"
+
+    - name: Build project
+      shell:
+        cmd: docker compose build
+        chdir: /vagrant/
+
+    - name: Run project
+      shell:
+        cmd: docker compose up -d
+        chdir: /vagrant/
