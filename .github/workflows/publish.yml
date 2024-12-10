@@ -113,7 +113,8 @@ jobs:
         with:
           tag_name: ${{ steps.read_version_from_file.outputs.version }}
           release_name: Release ${{ steps.read_version_from_file.outputs.version }}
-          body: ${{ steps.read_release_notes.outputs.notes }}
+          body: |
+            ${{ steps.read_release_notes.outputs.notes }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
