@@ -119,3 +119,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: docker-compose/docker-compose-template.yml
           asset_name: docker-compose.yml
+          asset_content_type: text/plain
