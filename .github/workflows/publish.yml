@@ -81,7 +81,6 @@ jobs:
         with:
           context: .
           file: nginx/Dockerfile
-          target: worker
           push: true
           tags: |
             l1ghth4t/immunity-iast-nginx:${{ steps.read_version_from_file.outputs.version }}
@@ -91,6 +90,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Read version
+        id: read_version_from_file
+        run: |
+          VERSION=$(cat VERSION)
+          echo "::set-output name=version::$VERSION"
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Prepare docker-compose.yml
@@ -102,8 +106,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.read_version_from_file.outputs.version }}
+          release_name: Release ${{ steps.read_version_from_file.outputs.version }}
           draft: false
           prerelease: true
       - name: Upload Release Asset
