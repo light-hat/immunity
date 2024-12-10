@@ -96,10 +96,10 @@ jobs:
         id: read_version_from_file
         run: |
           VERSION=$(cat VERSION)
-          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=notes::${{ toJson(RELEASE_NOTES) }}"
       - name: Prepare docker-compose.yml
         run: |
-          sed -i "s|latest|${{ steps.extract_tag_version.outputs.version }}|g" docker-compose/docker-compose-template.yml
+          sed -i "s|latest|${{ steps.read_version_from_file.outputs.version }}|g" docker-compose/docker-compose-template.yml
       - name: Read release notes
         id: read_release_notes
         run: |
