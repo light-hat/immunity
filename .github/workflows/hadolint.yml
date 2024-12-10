@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Lint Dockerfile
+      - name: Lint Main Dockerfile
         uses: hadolint/hadolint-action@master
         with:
           dockerfile: "docker/Dockerfile"

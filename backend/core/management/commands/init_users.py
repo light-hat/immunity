@@ -14,7 +14,7 @@ class Command(BaseCommand):
         try:
             User.objects.get(username="admin")
             print("Администратор уже создан.")
-        except Exception: # pylint: disable=bare-except
+        except Exception:  # pylint: disable=bare-except
             User.objects.create_superuser(
                 username="admin", email="admin@example.com", password="admin"
             )

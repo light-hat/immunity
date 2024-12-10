@@ -1,8 +1,8 @@
 import {defineStore} from 'pinia';
 import axios from '../axios';
 
-export const API_HOST = import.meta.env.VITE_API_HOST;
-export const API_PORT = import.meta.env.VITE_API_PORT;
+// export const API_HOST = window.API_HOST;
+// export const API_PORT = window.API_PORT;
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -29,7 +29,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       this.loading = true;
       try {
-        const response = await axios.post(`http://${API_HOST}:${API_PORT}/api/users/auth/jwt/create`, credentials);
+        const response = await axios.post(`http://${window.API_HOST}:${window.API_PORT}/api/users/auth/jwt/create`, credentials);
         const {access, refresh} = response.data;
         this.setToken(access);
         localStorage.setItem('refreshToken', refresh);
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       this.loading = true;
       try {
-        await axios.post(`http://${API_HOST}:${API_PORT}/api/users/auth/users/`, formData);
+        await axios.post(`http://${window.API_HOST}:${window.API_PORT}/api/users/auth/users/`, formData);
       } catch (error) {
         this.error = error.response?.data || 'Registration failed';
       } finally {
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       this.loading = true;
       try {
-        await axios.post(`http://${API_HOST}:${API_PORT}/api/users/auth/users/reset_password/`, {email});
+        await axios.post(`http://${window.API_HOST}:${window.API_PORT}/api/users/auth/users/reset_password/`, {email});
       } catch (error) {
         this.error = error.response?.data || 'Reset password failed';
       } finally {
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       this.loading = true;
       try {
-        await axios.post(`http://${API_HOST}:${API_PORT}/api/users/auth/users/reset_password_confirm/`, {
+        await axios.post(`http://${window.API_HOST}:${window.API_PORT}/api/users/auth/users/reset_password_confirm/`, {
           uid,
           token,
           NewPassword,
@@ -84,7 +84,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null;
       this.loading = true;
       try {
-        const response = await axios.get(`http://${API_HOST}:${API_PORT}/api/users/auth/users/me/`, {
+        const response = await axios.get(`http://${window.API_HOST}:${window.API_PORT}/api/users/auth/users/me/`, {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
           },

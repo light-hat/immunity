@@ -25,7 +25,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 
-class ContextSerializer(serializers.Serializer): # pylint: disable=abstract-method
+class ContextSerializer(serializers.Serializer):  # pylint: disable=abstract-method
     """Сериализатор для приема контекста выполнения запроса.
 
     Атрибуты:

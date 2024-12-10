@@ -1,6 +1,0 @@
-[flake8]
-extend-ignore = F821
-max-complexity = 10
-max-line-length = 120
-per-file-ignores =
-    api/management/commands/initdb.py:E722

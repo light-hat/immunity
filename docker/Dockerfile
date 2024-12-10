@@ -13,14 +13,6 @@ RUN npm install
 # Копируем содержимое фронтэнда в контейнер
 COPY frontend/ .
 
-# Параметры сборки
-ARG URL
-ARG PORT
-
-# Устанавливаем переменные окружения для сборщика
-ENV VITE_API_HOST=${URL}
-ENV VITE_API_PORT=${PORT}
-
 # Собираем бандл
 RUN npm run build
 
@@ -33,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     netcat-traditional \
     curl \
+    gettext \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -66,10 +59,16 @@ LABEL org.label-schema.name="Immunity IAST" \
       com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
 
 # Создаём директорию для фронта рядом с кодом бэкенда
-RUN mkdir -p /app/frontend_dist
+RUN mkdir -p /home/app/web/frontend_dist
 
 # Копируем статичный билд фронтенда во внутрь Django
 COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
+
+# Копируем шаблон конфига фронтэнда
+COPY frontend/config.template.json /home/app/web/frontend_dist
+
+# Сборка статики Django
+RUN python3 manage.py collectstatic --noinput --settings=conf.settings.prod
 
 # Создание группы и пользователя
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity

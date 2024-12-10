@@ -63,9 +63,9 @@
     - name: Build project
       shell:
         cmd: docker compose build
-        chdir: /vagrant/
+        chdir: /vagrant/docker-compose/
 
     - name: Run project
       shell:
         cmd: docker compose up -d
-        chdir: /vagrant/
+        chdir: /vagrant/docker-compose/

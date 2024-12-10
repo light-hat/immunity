@@ -4,6 +4,7 @@
 
 from core.models import User
 
+
 class UserQuery:
     """
     Запросы для получения пользователей.

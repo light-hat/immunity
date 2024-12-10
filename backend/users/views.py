@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 class GraphDataView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request): # pylint: disable=unused-argument
+    def get(self, request):  # pylint: disable=unused-argument
         """
         Тестовый обработчик для графа.
         """
