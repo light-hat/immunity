@@ -79,7 +79,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./nginx
           file: nginx/Dockerfile
           push: true
           tags: |
@@ -90,13 +90,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Read version
         id: read_version_from_file
         run: |
           VERSION=$(cat VERSION)
           echo "::set-output name=version::$VERSION"
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Prepare docker-compose.yml
         run: |
           sed -i "s|latest|${{ steps.extract_tag_version.outputs.tag_version }}|g" docker-compose/docker-compose-template.yml
