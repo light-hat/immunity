@@ -100,6 +100,11 @@ jobs:
       - name: Prepare docker-compose.yml
         run: |
           sed -i "s|latest|${{ steps.read_version_from_file.outputs.version }}|g" docker-compose/docker-compose-template.yml
+      - name: Read release notes
+        id: read_release_notes
+        run: |
+          RELEASE_NOTES=
+          echo "::set-output name=notes::$RELEASE_NOTES"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -109,7 +114,7 @@ jobs:
           tag_name: ${{ steps.read_version_from_file.outputs.version }}
           release_name: Release ${{ steps.read_version_from_file.outputs.version }}
           body: |
-            $(cat release_notes.md)
+            ${{ steps.read_release_notes.outputs.notes }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
