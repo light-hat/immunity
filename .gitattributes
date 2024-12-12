@@ -6,3 +6,5 @@
 *.js eol=lf
 *.vue eol=lf
 *.cjs eol=lf
+Makefile linguist-vendored
+Dockerfile linguist-vendored
