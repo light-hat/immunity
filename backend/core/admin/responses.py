@@ -2,8 +2,9 @@
 Отображение в админке унифицированной модели для http-ответа.
 """
 
-from core.models import Response
 from django.contrib import admin
+
+from core.models import Response
 
 
 @admin.register(Response)
@@ -14,7 +15,7 @@ class ResponseAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "application",
+        "project",
         "context",
         "content_type",
         "content_length",
@@ -24,4 +25,4 @@ class ResponseAdmin(admin.ModelAdmin):
     )
     list_display_links = ("id",)
     list_filter = ("status_code",)
-    search_fields = ("application",)
+    search_fields = ("project",)

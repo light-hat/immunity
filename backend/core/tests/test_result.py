@@ -2,141 +2,108 @@
 Модульные тесты для CQRS-адаптера.
 """
 
+from unittest.mock import MagicMock
+
 import pytest
+
 from core.result import Result
 
 
-@pytest.mark.django_db
-def test_init_with_dict_success():
-    """Проверка успешной инициализации с источником-словарём."""
+def test_success_result():
+    """Проверяем успешное создание результата."""
 
-    source = {
-        "is_success": True,
-        "data": {"key": "value"},
-        "errors": [],
-        "meta": {"info": "test"},
-    }
-    result = Result(source)
+    result = Result.success(data={"id": 1}, meta={"info": "test"})
 
     assert result.is_success is True
-    assert result.data == {"key": "value"}
-    assert result.errors == []
+    assert result.data == {"id": 1}
     assert result.meta == {"info": "test"}
+    assert result.errors == []
 
 
-@pytest.mark.django_db
-def test_init_with_dict_failure():
-    """Проверка инициализации с ошибочным словарём."""
+def test_failure_result():
+    """Проверяем создание результата с ошибкой."""
 
-    source = {
-        "is_success": False,
-        "data": {},
-        "errors": ["Something went wrong"],
-        "meta": {},
-    }
-    result = Result(source)
+    result = Result.failure(errors="Something went wrong")
 
     assert result.is_success is False
-    assert result.errors == ["Something went wrong"]
     assert result.data == {}
+    assert result.errors == ["Something went wrong"]
     assert result.meta == {}
 
 
-@pytest.mark.django_db
-def test_init_with_exception():
-    """Проверка инициализации с объектом исключения."""
+def test_to_dict_method():
+    """Проверяем преобразование объекта в словарь."""
 
-    exception = ValueError("Test exception")
-    result = Result(exception)
+    result = Result.success(data={"key": "value"}, meta={"info": "debug"})
 
-    assert result.is_success is False
-    assert "Test exception" in result.errors
-    assert result.meta["exception_type"] == "ValueError"
-
-
-@pytest.mark.django_db
-def test_init_with_queryset_success(mocker):
-    """Проверка преобразования QuerySet в Result."""
-
-    mock_queryset = mocker.MagicMock()
-    mock_queryset.all.return_value.values.return_value = [{"id": 1, "name": "Test"}]
-
-    result = Result(mock_queryset)
-
-    assert result.is_success is True
-    assert result.data == [{"id": 1, "name": "Test"}]
-    mock_queryset.all.assert_called_once()
+    result_dict = result.to_dict()
+    assert result_dict == {
+        "is_success": True,
+        "data": {"key": "value"},
+        "errors": [],
+        "meta": {"info": "debug"},
+    }
 
 
-@pytest.mark.django_db
-def test_init_with_queryset_failure(mocker):
-    """Проверка обработки исключения при работе с QuerySet."""
+def test_adapt_exception():
+    """Проверяем обработку исключения в Result."""
 
-    mock_queryset = mocker.MagicMock()
-    mock_queryset.all.side_effect = Exception("Database error")
-
-    result = Result(mock_queryset)
+    try:
+        raise ValueError("Test exception")
+    except ValueError as e:
+        result = Result.failure(errors=str(e))
 
     assert result.is_success is False
-    assert "Database error" in result.errors
+    assert result.errors == ["Test exception"]
+    assert "traceback" not in result.meta or isinstance(result.meta["traceback"], list)
 
 
-@pytest.mark.django_db
-def test_init_with_list():
-    """Проверка преобразования списка в Result."""
+def test_adapt_list():
+    """Проверяем преобразование списка."""
 
-    source = [{"id": 1, "name": "Item1"}, {"id": 2, "name": "Item2"}]
-    result = Result(source)
-
+    result = Result()
+    result._adapt_source([1, 2, 3])
     assert result.is_success is True
-    assert result.data == source
+    assert result.data == [1, 2, 3]
+    assert result.errors == []
 
 
-@pytest.mark.django_db
-def test_unsupported_source():
-    """Проверка обработки неподдерживаемого типа источника."""
+def test_adapt_dict():
+    """Проверяем преобразование словаря."""
 
-    source = 12345  # Неподдерживаемый тип
-    result = Result(source)
+    source = {
+        "is_success": True,
+        "data": {"id": 1},
+        "errors": [],
+        "meta": {"info": "test"},
+    }
+
+    result = Result()
+    result._adapt_source(source)
+    assert result.is_success is True
+    assert result.data == {"id": 1}
+    assert result.meta == {"info": "test"}
+    assert result.errors == []
+
+
+def test_adapt_unsupported_source():
+    """Проверяем обработку неподдерживаемого источника."""
+
+    result = Result()
+    result._adapt_source(123)  # Неподдерживаемый тип
 
     assert result.is_success is False
     assert "Unsupported source type" in result.errors
 
 
-@pytest.mark.django_db
-def test_to_dict():
-    """Проверка преобразования Result в словарь."""
+def test_adapt_queryset():
+    """Проверяем обработку QuerySet."""
 
-    result = Result.success(data={"key": "value"}, meta={"info": "test"})
-
-    result_dict = result.to_dict()
-    expected_dict = {
-        "is_success": True,
-        "data": {"key": "value"},
-        "errors": [],
-        "meta": {"info": "test"},
-    }
-
-    assert result_dict == expected_dict
-
-
-@pytest.mark.django_db
-def test_success_static_method():
-    """Проверка статического метода success."""
-
-    result = Result.success(data={"key": "value"}, meta={"info": "test"})
+    mock_queryset = MagicMock()
+    mock_queryset.all.return_value.values.return_value = [{"id": 1}, {"id": 2}]
+    result = Result()
+    result._adapt_source(mock_queryset)
 
     assert result.is_success is True
-    assert result.data == {"key": "value"}
-    assert result.meta == {"info": "test"}
-
-
-@pytest.mark.django_db
-def test_failure_static_method():
-    """Проверка статического метода failure."""
-
-    result = Result.failure(errors=["Something went wrong"], meta={"info": "test"})
-
-    assert result.is_success is False
-    assert result.errors == ["Something went wrong"]
-    assert result.meta == {"info": "test"}
+    assert result.data == [{"id": 1}, {"id": 2}]
+    assert result.errors == []

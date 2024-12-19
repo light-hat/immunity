@@ -2,21 +2,18 @@
 Модель для событий потока управления.
 """
 
-import uuid
-
-from core.models.applications import Application
-from core.models.contexts import Context
 from django.db import models
+
+from core.models.contexts import Context
+from core.models.projects import Project
 
 
 class Event(models.Model):
     """
     Унифицированная модель для событий потока управления.
     """
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
     type = models.CharField(
         max_length=20,
@@ -44,4 +41,4 @@ class Event(models.Model):
         verbose_name = "Событие"
 
     def __str__(self):
-        return f"{self.application.name} - {self.type}"
+        return f"{self.project.name} - {self.type}"

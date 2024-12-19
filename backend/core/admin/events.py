@@ -2,8 +2,9 @@
 Отображение в админке событий потока управления.
 """
 
-from core.models import Event
 from django.contrib import admin
+
+from core.models import Event
 
 
 @admin.register(Event)
@@ -15,7 +16,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "context",
-        "application",
+        "project",
         "timestamp",
         "type",
         "func_name",
@@ -24,4 +25,4 @@ class EventAdmin(admin.ModelAdmin):
     )
     list_display_links = ("id",)
     list_filter = ("type",)
-    search_fields = ("application",)
+    search_fields = ("project",)

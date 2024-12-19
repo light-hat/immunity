@@ -2,8 +2,13 @@
 Кастомная manage.py командп для инициализации системы при первом запуске.
 """
 
-from core.models import User
+import logging
+
 from django.core.management.base import BaseCommand
+
+from core.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -13,7 +18,7 @@ class Command(BaseCommand):
 
         try:
             User.objects.get(username="admin")
-            print("Администратор уже создан.")
+            logger.info("Администратор уже создан.")
         except Exception:  # pylint: disable=bare-except
             User.objects.create_superuser(
                 username="admin", email="admin@example.com", password="admin"

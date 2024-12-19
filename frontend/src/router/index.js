@@ -5,7 +5,7 @@ import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import ProfileView from '../views/ProfileView.vue';
 import ApplicationView from '../views/ApplicationView.vue';
-import AgentView from '../views/AgentView.vue';
+import DatasetView from '../views/DatasetView.vue';
 
 const routes = [
   {
@@ -31,9 +31,9 @@ const routes = [
     meta: {requiresAuth: true},
   },
   {
-    path: '/agent',
-    name: 'agent',
-    component: AgentView,
+    path: '/dataset',
+    name: 'dataset',
+    component: DatasetView,
     meta: {requiresAuth: true},
   },
   {

@@ -2,6 +2,7 @@
 Базовые настройки проекта бэкэнда.
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -44,7 +45,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DATETIME_FORMAT": "%d.%m.%Y %H:%M",
     "DATE_FORMAT": "%d.%m.%Y",
     "TIME_FORMAT": "%H:%M",
     # "DEFAULT_PERMISSION_CLASSES": [
@@ -52,6 +53,12 @@ REST_FRAMEWORK = {
     # ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+
+DATE_FORMAT = "%d.%m.%Y"
+
+TIME_FORMAT = "%H:%M"
 
 DJOSER = {
     "LOGIN_FIELD": "username",
@@ -100,6 +107,58 @@ TEMPLATES = [
     },
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s - [%(levelname)s] - [%(threadName)s] - %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s",  # pylint: disable=line-too-long
+            "style": "%",
+        },
+        "simple": {
+            "format": "[%(levelname)s] %(message)s",
+            "style": "%",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "celery": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "core": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "agent": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "users": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "engine": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
+
 WSGI_APPLICATION = "conf.wsgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -116,6 +175,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 LANGUAGE_CODE = "ru-ru"
 

@@ -2,8 +2,9 @@
 Отображение модели контекста выполнения запроса.
 """
 
-from core.models import Context
 from django.contrib import admin
+
+from core.models import Context
 
 
 @admin.register(Context)
@@ -14,8 +15,8 @@ class ContextAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "application",
+        "project",
         "created_at",
     )
     list_display_links = ("id",)
-    search_fields = ("application",)
+    search_fields = ("project",)

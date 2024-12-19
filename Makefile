@@ -1,16 +1,16 @@
-all: build
+all: up
 
 vm:
 	vagrant up --provision
 
-run:
+up:
 	docker-compose -f docker-compose/docker-compose.yml up -d --build
 
 rebuild:
 	docker-compose -f docker-compose/docker-compose.yml down -v
 	docker-compose -f docker-compose/docker-compose.yml up -d --build
 
-stop:
+down:
 	docker-compose -f docker-compose/docker-compose.yml down
 
 format:

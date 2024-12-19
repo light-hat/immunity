@@ -2,11 +2,10 @@
 Модель HTTP-запроса.
 """
 
-import uuid
-
-from core.models.applications import Application
-from core.models.contexts import Context
 from django.db import models
+
+from core.models.contexts import Context
+from core.models.projects import Project
 
 
 class Request(models.Model):
@@ -14,9 +13,7 @@ class Request(models.Model):
     Модель запроса.
     Содержит данные об обработанном запросе и является частью контекста.
     """
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     method = models.CharField(max_length=255)
     path = models.CharField(max_length=255)

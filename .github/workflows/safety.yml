@@ -20,4 +20,4 @@ jobs:
           pip install safety
       - name: Analysing the code with pylint
         run: |
-          cd backend && safety check
+          cd backend && safety scan

@@ -2,8 +2,9 @@
 Отображение в админке записей датасета.
 """
 
-from core.models import DatasetLabel
 from django.contrib import admin
+
+from core.models import DatasetLabel
 
 
 @admin.register(DatasetLabel)
@@ -14,8 +15,9 @@ class DatasetLabelAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "dataset",
+        "text",
         "label",
         "created_at",
     )
+    list_filter = ("label",)
     list_display_links = ("id",)

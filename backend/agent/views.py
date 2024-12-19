@@ -8,10 +8,8 @@
 
 import base64
 import json
+import logging
 
-from core.cqrs.commands.agent.create_context_command import CreateContextCommand
-from core.models import Application
-from core.result import Result
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
@@ -23,6 +21,12 @@ from rest_framework import serializers, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+
+from core.models import Project
+from core.result import Result
+from engine.context import handle_context
+
+logger = logging.getLogger(__name__)
 
 
 class ContextSerializer(serializers.Serializer):  # pylint: disable=abstract-method
@@ -43,8 +47,8 @@ class ContextSerializer(serializers.Serializer):  # pylint: disable=abstract-met
         if not value:
             raise ValidationError("Параметр project не может быть пустым.")
         try:
-            Application.objects.get(name=value)
-        except Application.DoesNotExist as exc:
+            Project.objects.get(name=value)
+        except Project.DoesNotExist as exc:
             raise ValidationError(
                 f"Приложение с названием {value} не найдено."
             ) from exc
@@ -176,12 +180,6 @@ class ContextAPIViewset(viewsets.ViewSet):
     def post(self, request, *args, **kwargs) -> Response:
         """
         Добавить контекст выполнения запроса.
-
-        Параметры:
-            request (Request): Объект HTTP-запроса с JSON-данными контекста.
-
-        Возвращает:
-            Response: JSON-объект с подтверждением или сообщением об ошибке.
         """
         serializer = ContextSerializer(data=request.data)
 
@@ -189,15 +187,16 @@ class ContextAPIViewset(viewsets.ViewSet):
             try:
                 data = serializer.validated_data
 
-                command = CreateContextCommand(
+                task = handle_context.delay(
                     data["project"],
                     json.loads(base64.b64decode(data["request"]).decode("utf-8")),
                     json.loads(base64.b64decode(data["control_flow"]).decode("utf-8")),
                     json.loads(base64.b64decode(data["response"]).decode("utf-8")),
                 )
-                result = command.execute()
 
-                return Response(result.to_dict(), status=200)
+                return Response(
+                    Result.success(data={"task_id": task.id}).to_dict(), status=200
+                )
             except Exception as e:
                 return Response(Result(e).to_dict(), status=500)
         else:

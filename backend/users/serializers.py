@@ -4,10 +4,11 @@
 
 from typing import Any, Dict
 
-from core.models import User
 from djoser.serializers import CurrentUserSerializer as BaseCurrentUserSerializer
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from rest_framework import serializers
+
+from core.models import User
 
 
 class UserCreateSerializer(BaseUserRegistrationSerializer):

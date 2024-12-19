@@ -1,0 +1,13 @@
+{
+  "create": {
+    "valid": {
+      "data": {
+        "name": "test project",
+        "language": "python"
+      },
+      "foreign_keys": {
+        "user": 1
+      }
+    }
+  }
+}

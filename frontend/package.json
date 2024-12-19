@@ -15,6 +15,7 @@
     "@vue-flow/controls": "^1.1.2",
     "@vue-flow/core": "^1.41.6",
     "@vue-flow/minimap": "^1.5.0",
+    "ag-charts-vue3": "^11.0.0",
     "axios": "^1.7.9",
     "pinia": "^2.3.0",
     "uikit": "^3.21.16",

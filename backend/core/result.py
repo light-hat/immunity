@@ -19,8 +19,11 @@
     {'is_success': False, 'data': {}, 'errors': ['Something went wrong'], 'meta': {}}
 """
 
+import logging
 import traceback
 from typing import Any, Dict, List, Optional, Union
+
+logger = logging.getLogger(__name__)
 
 from django.conf import settings
 

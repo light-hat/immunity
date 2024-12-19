@@ -2,8 +2,9 @@
 Отображение в админке унифицированной модели для http-запроса.
 """
 
-from core.models import Request
 from django.contrib import admin
+
+from core.models import Request
 
 
 @admin.register(Request)
@@ -14,7 +15,7 @@ class RequestAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "application",
+        "project",
         "context",
         "method",
         "path",
@@ -22,4 +23,4 @@ class RequestAdmin(admin.ModelAdmin):
     )
     list_display_links = ("id",)
     list_filter = ("method",)
-    search_fields = ("application",)
+    search_fields = ("project",)
