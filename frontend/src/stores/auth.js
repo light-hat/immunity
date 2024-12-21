@@ -1,9 +1,6 @@
 import {defineStore} from 'pinia';
 import axios from '../axios';
 
-// export const API_HOST = window.API_HOST;
-// export const API_PORT = window.API_PORT;
-
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     accessToken: localStorage.getItem('accessToken') || null,

@@ -15,7 +15,7 @@ export default {
         const handleCreateProject = async () => {
             try {
                 response = await axios.post(
-                    'project/',
+                    `http://${window.API_HOST}:${window.API_PORT}/api/users/project/`,
                     {
                         name: name.value,
                         description: description.value,
@@ -34,7 +34,7 @@ export default {
 
         onMounted(async () => {
             try {
-                const response = await axios.get('project/', {
+                const response = await axios.get(`http://${window.API_HOST}:${window.API_PORT}/api/users/project/`, {
                     headers: {
                         Authorization: `Bearer ${auth.accessToken}`,
                     },

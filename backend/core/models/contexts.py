@@ -11,6 +11,7 @@ class Context(models.Model):
     """
     Модель контекста.
     """
+
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     method = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=500, blank=True, null=True)

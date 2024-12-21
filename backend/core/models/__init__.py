@@ -9,6 +9,7 @@ from .projects import Project
 from .requests import Request
 from .responses import Response
 from .users import User
+from .vulnerabilities import Vulnerability
 
 __all__ = [
     "User",
@@ -18,4 +19,5 @@ __all__ = [
     "Response",
     "Event",
     "DatasetLabel",
+    "Vulnerability",
 ]

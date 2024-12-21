@@ -9,3 +9,4 @@ from core.admin.projects import ProjectAdmin
 from core.admin.requests import RequestAdmin
 from core.admin.responses import ResponseAdmin
 from core.admin.users import UserAdmin
+from core.admin.vulnerabilities import VulnerabilityAdmin

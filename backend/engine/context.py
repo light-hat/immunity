@@ -9,6 +9,8 @@ from celery import shared_task
 from django.db import transaction
 
 from core.models import Context, Event, Project, Request, Response
+from engine.handler import ContextHandler
+import engine.engine as en
 
 logger = logging.getLogger(__name__)
 
@@ -156,17 +158,28 @@ def handle_context(project_id, json_request, json_control_flow, json_response):
     анализ и вызова формирования отчёта.
     """
 
-    logger.info("Обработка контекста проекта %s", project_id)
+    try:
 
-    with transaction.atomic():
-        app = Project.objects.get(name=project_id)
+        logger.info("Обработка контекста проекта %s", project_id)
 
-        context = Context.objects.create(
-            project=app,
-        )
+        with transaction.atomic():
+            try:
+                app = Project.objects.get(name=project_id)
 
-        _handle_request(app, context, json_request)
-        _handle_control_flow(app, context, json_control_flow)
-        _handle_response(app, context, json_response)
+                context = Context.objects.create(
+                    project=app,
+                )
 
-    logger.info("Завершена обработка контекста проекта %s", project_id)
+                _handle_request(app, context, json_request)
+                _handle_control_flow(app, context, json_control_flow)
+                _handle_response(app, context, json_response)
+
+            except Exception as e:
+                logger.error(e)
+
+        en.run_analysis_task.delay(app.id, context.id, ContextHandler.handle(context))
+
+        logger.info("Завершена обработка контекста %s проекта %s", context.id, project_id)
+
+    except Exception as e:
+        logger.error(e)

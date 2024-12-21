@@ -12,9 +12,7 @@ from core.command import Command
 from core.models import Project
 from core.query import Query
 from core.result import Result
-import logging
 
-logger = logging.getLogger(__name__)
 
 class ProjectSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
@@ -51,14 +49,13 @@ class ProjectAPIView(viewsets.ViewSet):
                 return Response(result.to_dict(), status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
         parameters=[
             OpenApiParameter(
                 name="user",
-                type=OpenApiTypes.INT,
+                type=OpenApiTypes.STR,
                 location=OpenApiParameter.QUERY,
                 description="Поиск по пользователю",
             ),
@@ -103,11 +100,7 @@ class ProjectAPIView(viewsets.ViewSet):
 
             query = Query(model=Project)
             result = query.filter(
-                filters={
-                    "user__id": filters["user"],
-                    "name": filters["name"],
-                    "language": filters["language"],
-                },
+                filters={},
                 pagination={
                     "page": int(filters["page"]) if filters["page"] is not None else 1,
                     "page_size": (
@@ -124,7 +117,6 @@ class ProjectAPIView(viewsets.ViewSet):
                 return Response(result.to_dict(), status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
@@ -152,7 +144,6 @@ class ProjectAPIView(viewsets.ViewSet):
                 return Response(result.to_dict(), status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
@@ -185,7 +176,6 @@ class ProjectAPIView(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
@@ -225,7 +215,6 @@ class ProjectAPIView(viewsets.ViewSet):
             return Response(serializer.errors, status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
@@ -254,5 +243,4 @@ class ProjectAPIView(viewsets.ViewSet):
                 return Response(result.to_dict(), status=400)
 
         except Exception as e:
-            logger.error(e)
             return Response(Result(e).to_dict(), status=500)

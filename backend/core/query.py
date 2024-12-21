@@ -3,8 +3,11 @@ CQRS запрос.
 """
 
 import math
+from functools import reduce
+from operator import or_
 from typing import Any, Dict, List, Optional, Union
-from django.db.models import F
+
+from django.db.models import F, Q
 from django.forms.models import model_to_dict
 
 from core.result import Result
@@ -59,7 +62,12 @@ class Query:
         :return: Result с QuerySet или ошибкой.
         """
         try:
-            qs = self.model.objects.filter(**(filters or {}))
+            conditions = [Q(**{k: v}) for k, v in filters.items()]
+
+            if conditions:
+                qs = self.model.objects.filter(reduce(or_, conditions))
+            else:
+                qs = self.model.objects.all()
 
             # Сортировка
             if order_by:
@@ -98,7 +106,6 @@ class Query:
             qs = self.model.objects.all()
             if order_by:
                 qs = qs.order_by(*order_by)
-            #return Result.success(data=self.convert_queryset_to_list(list(qs)))
             return Result.success(data=list(qs.values()))
         except Exception as e:
             return Result.failure(errors=str(e))

@@ -9,6 +9,7 @@ class DatasetLabel(models.Model):
     """
     Метка для обучающего набора.
     """
+
     text = models.TextField(blank=False, null=False)
     label = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

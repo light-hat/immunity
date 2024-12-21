@@ -19,3 +19,13 @@ Start the project:
 ```shell
 docker-compose up -d --build
 ```
+
+```python
+from core.models import Context
+context = Context.objects.get(id=6)
+from engine.handler import ContextHandler
+result = ContextHandler.handle(context)
+import engine.engine as en
+en = en.IASTEngine()
+en.run_analysis(1, result["context_id"], result)
+```

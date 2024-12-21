@@ -12,6 +12,7 @@ class Response(models.Model):
     """
     Модель ответа.
     """
+
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     status_code = models.CharField(max_length=255)

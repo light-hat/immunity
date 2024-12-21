@@ -14,6 +14,9 @@ import Icons from 'uikit/dist/js/uikit-icons';
 UIkit.use(Icons);
 app.config.globalProperties.$UIkit = UIkit;
 
+app.use(createPinia());
+app.use(router);
+
 if (import.meta.env.MODE === 'development') {
   window.API_HOST = import.meta.env.VITE_API_HOST;
   window.API_PORT = import.meta.env.VITE_API_PORT;
@@ -28,8 +31,5 @@ if (import.meta.env.MODE === 'development') {
         console.log('Failed to load config.json');
       });
 }
-
-app.use(createPinia());
-app.use(router);
 
 app.mount('#app');

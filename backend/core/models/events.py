@@ -12,6 +12,7 @@ class Event(models.Model):
     """
     Унифицированная модель для событий потока управления.
     """
+
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()

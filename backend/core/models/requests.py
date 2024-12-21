@@ -13,6 +13,7 @@ class Request(models.Model):
     Модель запроса.
     Содержит данные об обработанном запросе и является частью контекста.
     """
+
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     method = models.CharField(max_length=255)

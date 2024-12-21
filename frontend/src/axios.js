@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-
 const instance = axios.create({
-  baseURL: `http://${API_HOST}:${API_PORT}/api/users/`,
+  baseURL: `http://${window.API_HOST}:${window.API_PORT}/api/users/`,
   timeout: 5000,
 });
 
