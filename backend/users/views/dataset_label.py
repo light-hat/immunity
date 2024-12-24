@@ -7,70 +7,31 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from rest_framework import serializers, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from django.db.models import Q
 from core.command import Command
-from core.models import Project
+from engine.handler import ContextHandler
+from core.models import DatasetLabel, Project, Event, Context
 from core.query import Query
 from core.result import Result
+import logging
 
+logger = logging.getLogger(__name__)
 
-class ProjectSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
-    description = serializers.CharField(max_length=None)
-    language = serializers.CharField(max_length=255)
+class MarkupSerializer(serializers.Serializer):
+    project = serializers.IntegerField()
+    label = serializers.CharField(max_length=10)
+    file = serializers.CharField(max_length=None)
+    line = serializers.IntegerField()
 
-
-class ProjectAPIView(viewsets.ViewSet):
+class DatasetAPIView(viewsets.ViewSet):
     """
-    API для работы с проектами.
+    API для работы с уязвимостями.
     """
 
     # permission_classes = [IsAuthenticated]
 
     @extend_schema(
-        responses={
-            200: OpenApiResponse(description="Список проектов"),
-            400: OpenApiResponse(description="Некорректный запрос"),
-            500: OpenApiResponse(description="Внутренняя ошибка сервера"),
-        },
-        methods=["GET"],
-        tags=["project"],
-    )
-    def get(self, request):
-        """Получение всех объектов."""
-
-        try:
-            query = Query(model=Project)
-            result = query.all()
-
-            if result.is_success:
-                return Response(result.to_dict(), status=200)
-            else:
-                return Response(result.to_dict(), status=400)
-
-        except Exception as e:
-            return Response(Result(e).to_dict(), status=500)
-
-    @extend_schema(
         parameters=[
-            OpenApiParameter(
-                name="user",
-                type=OpenApiTypes.STR,
-                location=OpenApiParameter.QUERY,
-                description="Поиск по пользователю",
-            ),
-            OpenApiParameter(
-                name="name",
-                type=OpenApiTypes.STR,
-                location=OpenApiParameter.QUERY,
-                description="Поиск по названию",
-            ),
-            OpenApiParameter(
-                name="language",
-                type=OpenApiTypes.STR,
-                location=OpenApiParameter.QUERY,
-                description="Поиск по языку программирования",
-            ),
             OpenApiParameter(
                 name="page",
                 type=OpenApiTypes.INT,
@@ -84,21 +45,18 @@ class ProjectAPIView(viewsets.ViewSet):
                 description="Количество объектов на странице пагинации",
             ),
         ],
-        tags=["project"],
+        tags=["dataset"],
     )
     def filter(self, request):
         """Фильтрация объектов."""
         try:
 
             filters = {
-                "user": request.GET.get("user"),
-                "name": request.GET.get("name"),
-                "language": request.GET.get("language"),
                 "page": request.GET.get("page"),
                 "page_size": request.GET.get("page_size"),
             }
 
-            query = Query(model=Project)
+            query = Query(model=DatasetLabel)
             result = query.filter(
                 filters={},
                 pagination={
@@ -117,130 +75,59 @@ class ProjectAPIView(viewsets.ViewSet):
                 return Response(result.to_dict(), status=400)
 
         except Exception as e:
+            logger.error(e)
             return Response(Result(e).to_dict(), status=500)
 
     @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                name="id", type=OpenApiTypes.INT, location=OpenApiParameter.PATH
-            ),
-        ],
+        request=MarkupSerializer,
         responses={
-            200: OpenApiResponse(description="Данные о проекте"),
-            404: OpenApiResponse(description="Проект не найден"),
-        },
-        methods=["GET"],
-        tags=["project"],
-    )
-    def retrieve(self, request, pk):
-        """Получение объекта по ID"""
-        try:
-            query = Query(model=Project)
-            result = query.get_by_id(pk)
-
-            if result.is_success:
-                return Response(result.to_dict(), status=200)
-            else:
-                return Response(result.to_dict(), status=400)
-
-        except Exception as e:
-            return Response(Result(e).to_dict(), status=500)
-
-    @extend_schema(
-        request=ProjectSerializer,
-        responses={
-            201: OpenApiResponse(description="Проект успешно создан"),
+            201: OpenApiResponse(description="Уязвимые контексты размечены"),
             400: OpenApiResponse(description="Ошибка валидации данных"),
         },
         methods=["POST"],
-        tags=["project"],
+        tags=["dataset"],
     )
     def post(self, request):
-        """Создание нового объекта."""
+        """
+        Разметка датасета.
+        На вход подаются данные из отчетов стат анализа,
+        :param request: На входе - результаты статического анализа,
+        где находятся уязвимые участки кода.
+        :return: На выходе - что было размечено.
+        """
 
         try:
-            serializer = ProjectSerializer(data=request.data)
+            serializer = MarkupSerializer(data=request.data)
             if serializer.is_valid():
                 data = serializer.validated_data
-                command = Command(
-                    model=Project,
-                    data=data,
-                    foreign_keys={"user": self.request.user.id},
-                )
-                result = command.create()
+                
+                project = Project.objects.get(pk=data["project"])
+                label = data["label"]
+                file = data["file"]
+                line = data["line"]
 
-                if result.is_success:
-                    return Response(result.to_dict(), status=201)
-                else:
-                    return Response(result.to_dict(), status=400)
+                vulnerable_events = Event.objects.filter(
+                    Q(line=line) &
+                    Q(filename=file) &
+                    Q(project=project) &
+                    Q(type="code_execution")
+                ).distinct()
+
+                filtered_contexts = vulnerable_events.values_list('context', flat=True).distinct()
+
+                contexts_prepared = [ContextHandler.handle(Context.objects.get(id=context)) for context in filtered_contexts]
+
+                for c in contexts_prepared:
+                    DatasetLabel.objects.create(
+                        text=c,
+                        label=label
+                    )
+
+                return Response(
+                    Result.success(data={"contexts": contexts_prepared}).to_dict(), status=200
+                )
             return Response(serializer.errors, status=400)
 
         except Exception as e:
-            return Response(Result(e).to_dict(), status=500)
-
-    @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                name="id", type=OpenApiTypes.INT, location=OpenApiParameter.PATH
-            ),
-        ],
-        request=ProjectSerializer,
-        responses={
-            200: OpenApiResponse(description="Проект успешно изменён"),
-            400: OpenApiResponse(description="Ошибка валидации данных"),
-            404: OpenApiResponse(description="Проект не найден"),
-        },
-        methods=["PUT"],
-        tags=["project"],
-    )
-    def put(self, request, pk):
-        """Обновление объекта."""
-
-        try:
-            serializer = ProjectSerializer(data=request.data)
-            if serializer.is_valid():
-                data = serializer.validated_data
-                command = Command(
-                    model=Project,
-                    entity_id=pk,
-                    data=data,
-                    foreign_keys={"user": self.request.user.id},
-                )
-                result = command.update()
-
-                if result.is_success:
-                    return Response(result.to_dict(), status=200)
-                else:
-                    return Response(result.to_dict(), status=400)
-            return Response(serializer.errors, status=400)
-
-        except Exception as e:
-            return Response(Result(e).to_dict(), status=500)
-
-    @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                name="id", type=OpenApiTypes.INT, location=OpenApiParameter.PATH
-            ),
-        ],
-        responses={
-            204: OpenApiResponse(description="Проект успешно удалён"),
-            404: OpenApiResponse(description="Проект не найден"),
-        },
-        methods=["DELETE"],
-        tags=["project"],
-    )
-    def delete(self, request, pk):
-        """Удаление объекта."""
-
-        try:
-            command = Command(model=Project, entity_id=pk)
-            result = command.delete()
-
-            if result.is_success:
-                return Response(result.to_dict(), status=204)
-            else:
-                return Response(result.to_dict(), status=400)
-
-        except Exception as e:
+            logger.error(e)
             return Response(Result(e).to_dict(), status=500)

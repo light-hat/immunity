@@ -11,7 +11,7 @@ from conf.settings.base import *  # pylint: disable=unused-wildcard-import
 
 SECRET_KEY = get_random_secret_key()
 
-DEBUG = False
+DEBUG = True
 
 HOST = environ.get("API_HOST")
 
@@ -20,6 +20,7 @@ PORT = environ.get("API_PORT")
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "immunity",
     "db",
     HOST,
 ]
@@ -30,6 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     f"http://{HOST}:{PORT}",
+    f"http://immunity:8000",
 ]
 
 DATABASES = {
