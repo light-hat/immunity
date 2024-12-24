@@ -13,8 +13,7 @@ class Context(models.Model):
     """
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    method = models.CharField(max_length=255, blank=True, null=True)
-    path = models.CharField(max_length=500, blank=True, null=True)
+    vulnerable = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

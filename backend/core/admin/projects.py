@@ -15,23 +15,17 @@ class ProjectAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "user",
         "name",
         "language",
-        "online",
         "created_at",
         "last_online",
     )
     list_display_links = ("name",)
-    list_filter = (
-        "language",
-        "online",
-    )
+    list_filter = ("language",)
     search_fields = (
         "id",
         "name",
         "language",
-        "online",
         "created_at",
         "last_online",
     )

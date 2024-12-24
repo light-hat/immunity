@@ -7,18 +7,17 @@
 """
 
 import importlib
+import logging
 import os
 from typing import Any, Dict, List
 
 from celery import shared_task
 
-from core.models import Vulnerability
+from core.models import Context, Project, Vulnerability
 from engine.plugins.base import BasePlugin
-import logging
-
-from core.models import Project, Context
 
 logger = logging.getLogger(__name__)
+
 
 @shared_task
 def run_analysis_task(project_id: int, context_id: int, data: Dict[str, Any]):
@@ -28,7 +27,9 @@ def run_analysis_task(project_id: int, context_id: int, data: Dict[str, Any]):
     logger.info("Обработка движком контекста %s проекта %s", context_id, project_id)
     engine = IASTEngine()
     engine.run_analysis(project_id, context_id, data)
-    logger.info("Завершена обработка движком контекста %s проекта %s", context_id, project_id)
+    logger.info(
+        "Завершена обработка движком контекста %s проекта %s", context_id, project_id
+    )
 
 
 class IASTEngine:
@@ -80,6 +81,13 @@ class IASTEngine:
                     description=vuln["description"],
                     evidence=vuln["evidence"],
                 )
+
+            # Помечаем контекст как уязвимый
+            if len(vulnerabilities) > 0:
+                context = Context.objects.get(id=context)
+                context.vulnerable = True
+                context.save()
+
             return vulnerabilities
 
         except Exception as e:

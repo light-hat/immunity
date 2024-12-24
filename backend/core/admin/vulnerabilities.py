@@ -26,4 +26,7 @@ class VulnerabilityAdmin(admin.ModelAdmin):
         "type",
         "cwe",
     )
-    search_fields = ("context","project",)
+    search_fields = (
+        "context",
+        "project",
+    )

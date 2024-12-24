@@ -8,9 +8,9 @@ from datetime import datetime
 from celery import shared_task
 from django.db import transaction
 
+import engine.engine as en
 from core.models import Context, Event, Project, Request, Response
 from engine.handler import ContextHandler
-import engine.engine as en
 
 logger = logging.getLogger(__name__)
 
@@ -179,7 +179,9 @@ def handle_context(project_id, json_request, json_control_flow, json_response):
 
         en.run_analysis_task.delay(app.id, context.id, ContextHandler.handle(context))
 
-        logger.info("Завершена обработка контекста %s проекта %s", context.id, project_id)
+        logger.info(
+            "Завершена обработка контекста %s проекта %s", context.id, project_id
+        )
 
     except Exception as e:
         logger.error(e)

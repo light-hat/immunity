@@ -2,6 +2,8 @@
 API эндпоинты для проектов.
 """
 
+import logging
+
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import serializers, viewsets
@@ -12,9 +14,9 @@ from core.command import Command
 from core.models import Project
 from core.query import Query
 from core.result import Result
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 class ProjectSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
@@ -171,11 +173,7 @@ class ProjectAPIView(viewsets.ViewSet):
             serializer = ProjectSerializer(data=request.data)
             if serializer.is_valid():
                 data = serializer.validated_data
-                command = Command(
-                    model=Project,
-                    data=data,
-                    foreign_keys={"user": self.request.user.id},
-                )
+                command = Command(model=Project, data=data)
                 result = command.create()
 
                 if result.is_success:

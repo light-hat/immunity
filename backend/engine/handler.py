@@ -35,6 +35,7 @@ class ContextHandler:
 
         return {
             "context_id": context_object.id,
+            "vulnerable": context_object.vulnerable,
             "request": {
                 "url": request_object.path,
                 "method": request_object.method,
@@ -47,6 +48,6 @@ class ContextHandler:
             "response": {
                 "status_code": response_object.status_code,
                 "headers": ast.literal_eval(response_object.headers),
-                "body": response_object.body,
+                #"body": response_object.body,
             },
         }
