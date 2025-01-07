@@ -1,12 +1,7 @@
 digraph "packages" {
 rankdir=BT
 charset="utf-8"
-"users" [color="black", label=<users>, shape="box", style="solid"];
-"users.apps" [color="black", label=<users.apps>, shape="box", style="solid"];
-"users.serializers" [color="black", label=<users.serializers>, shape="box", style="solid"];
-"users.tests" [color="black", label=<users.tests>, shape="box", style="solid"];
 "users.urls" [color="black", label=<users.urls>, shape="box", style="solid"];
-"users.views" [color="black", label=<users.views>, shape="box", style="solid"];
 "users.views.context" [color="black", label=<users.views.context>, shape="box", style="solid"];
 "users.views.dataset_label" [color="black", label=<users.views.dataset_label>, shape="box", style="solid"];
 "users.views.project" [color="black", label=<users.views.project>, shape="box", style="solid"];

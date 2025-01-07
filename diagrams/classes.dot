@@ -1,15 +1,4 @@
 digraph "classes" {
 rankdir=BT
 charset="utf-8"
-"users.views.context.ContextAPIView" [color="black", fontcolor="black", label=<{ContextAPIView|<br ALIGN="LEFT"/>|filter(request)<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
-"users.serializers.CurrentUserSerializer" [color="black", fontcolor="black", label=<{CurrentUserSerializer|<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.views.dataset_label.DatasetAPIView" [color="black", fontcolor="black", label=<{DatasetAPIView|<br ALIGN="LEFT"/>|filter(request)<br ALIGN="LEFT"/>post(request)<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
-"users.views.dataset_label.MarkupSerializer" [color="black", fontcolor="black", label=<{MarkupSerializer|file<br ALIGN="LEFT"/>label<br ALIGN="LEFT"/>line<br ALIGN="LEFT"/>project<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.serializers.UserCreateSerializer.Meta" [color="black", fontcolor="black", label=<{Meta|fields : tuple<br ALIGN="LEFT"/>model : User<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.serializers.CurrentUserSerializer.Meta" [color="black", fontcolor="black", label=<{Meta|fields : tuple<br ALIGN="LEFT"/>model : User<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.views.project.ProjectAPIView" [color="black", fontcolor="black", label=<{ProjectAPIView|<br ALIGN="LEFT"/>|delete(request, pk)<br ALIGN="LEFT"/>filter(request)<br ALIGN="LEFT"/>get(request)<br ALIGN="LEFT"/>post(request)<br ALIGN="LEFT"/>put(request, pk)<br ALIGN="LEFT"/>retrieve(request, pk)<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
-"users.views.project.ProjectSerializer" [color="black", fontcolor="black", label=<{ProjectSerializer|description<br ALIGN="LEFT"/>language<br ALIGN="LEFT"/>name<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.serializers.UserCreateSerializer" [color="black", fontcolor="black", label=<{UserCreateSerializer|<br ALIGN="LEFT"/>|create(validated_data: Dict[str, Any]): User<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
-"users.apps.UsersConfig" [color="black", fontcolor="black", label=<{UsersConfig|default_auto_field : str<br ALIGN="LEFT"/>name : str<br ALIGN="LEFT"/>|}>, shape="record", style="solid"];
-"users.views.vulnerability.VulnerabilityAPIView" [color="black", fontcolor="black", label=<{VulnerabilityAPIView|<br ALIGN="LEFT"/>|filter(request)<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
 }
