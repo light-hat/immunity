@@ -77,9 +77,9 @@ jobs:
         run: |
           python3 generate_flowcharts.py
 
-      - name: Flowcharts to png
-        run: |
-          for file in diagrams/*.txt; do DISPLAY=:99 diagrams flowchart "$file" "${file%.txt}.svg"; done
+      #- name: Flowcharts to png
+      #  run: |
+      #    for file in diagrams/*.txt; do DISPLAY=:99 diagrams flowchart "$file" "${file%.txt}.svg"; done
 
       - name: Generate Dockerfile diagram
         run: | 
