@@ -1,13 +1,40 @@
 digraph "packages" {
 rankdir=BT
 charset="utf-8"
-"users.urls" [color="black", label=<users.urls>, shape="box", style="solid"];
-"users.views.context" [color="black", label=<users.views.context>, shape="box", style="solid"];
-"users.views.dataset_label" [color="black", label=<users.views.dataset_label>, shape="box", style="solid"];
-"users.views.project" [color="black", label=<users.views.project>, shape="box", style="solid"];
-"users.views.vulnerability" [color="black", label=<users.views.vulnerability>, shape="box", style="solid"];
-"users.urls" -> "users.views.context" [arrowhead="open", arrowtail="none"];
-"users.urls" -> "users.views.dataset_label" [arrowhead="open", arrowtail="none"];
-"users.urls" -> "users.views.project" [arrowhead="open", arrowtail="none"];
-"users.urls" -> "users.views.vulnerability" [arrowhead="open", arrowtail="none"];
+"backend.agent.urls" [color="black", label=<backend.agent.urls>, shape="box", style="solid"];
+"backend.agent.views" [color="black", label=<backend.agent.views>, shape="box", style="solid"];
+"backend.conf" [color="black", label=<backend.conf>, shape="box", style="solid"];
+"backend.conf.celery" [color="black", label=<backend.conf.celery>, shape="box", style="solid"];
+"backend.core.models" [color="black", label=<backend.core.models>, shape="box", style="solid"];
+"backend.core.models.contexts" [color="black", label=<backend.core.models.contexts>, shape="box", style="solid"];
+"backend.core.models.dataset_labels" [color="black", label=<backend.core.models.dataset_labels>, shape="box", style="solid"];
+"backend.core.models.events" [color="black", label=<backend.core.models.events>, shape="box", style="solid"];
+"backend.core.models.projects" [color="black", label=<backend.core.models.projects>, shape="box", style="solid"];
+"backend.core.models.requests" [color="black", label=<backend.core.models.requests>, shape="box", style="solid"];
+"backend.core.models.responses" [color="black", label=<backend.core.models.responses>, shape="box", style="solid"];
+"backend.core.models.users" [color="black", label=<backend.core.models.users>, shape="box", style="solid"];
+"backend.core.models.vulnerabilities" [color="black", label=<backend.core.models.vulnerabilities>, shape="box", style="solid"];
+"backend.engine.context" [color="black", label=<backend.engine.context>, shape="box", style="solid"];
+"backend.engine.engine" [color="black", label=<backend.engine.engine>, shape="box", style="solid"];
+"backend.users.urls" [color="black", label=<backend.users.urls>, shape="box", style="solid"];
+"backend.users.views.context" [color="black", label=<backend.users.views.context>, shape="box", style="solid"];
+"backend.users.views.dataset_label" [color="black", label=<backend.users.views.dataset_label>, shape="box", style="solid"];
+"backend.users.views.project" [color="black", label=<backend.users.views.project>, shape="box", style="solid"];
+"backend.users.views.vulnerability" [color="black", label=<backend.users.views.vulnerability>, shape="box", style="solid"];
+"backend.agent.urls" -> "backend.agent.views" [arrowhead="open", arrowtail="none"];
+"backend.conf" -> "backend.conf.celery" [arrowhead="open", arrowtail="none"];
+"backend.conf.celery" -> "backend.conf.celery" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.contexts" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.dataset_labels" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.events" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.projects" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.requests" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.responses" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.users" [arrowhead="open", arrowtail="none"];
+"backend.core.models" -> "backend.core.models.vulnerabilities" [arrowhead="open", arrowtail="none"];
+"backend.engine.context" -> "backend.engine.engine" [arrowhead="open", arrowtail="none"];
+"backend.users.urls" -> "backend.users.views.context" [arrowhead="open", arrowtail="none"];
+"backend.users.urls" -> "backend.users.views.dataset_label" [arrowhead="open", arrowtail="none"];
+"backend.users.urls" -> "backend.users.views.project" [arrowhead="open", arrowtail="none"];
+"backend.users.urls" -> "backend.users.views.vulnerability" [arrowhead="open", arrowtail="none"];
 }
