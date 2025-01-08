@@ -47,7 +47,7 @@ jobs:
 
       - name: Class diagram
         run: |
-          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/
+          pyreverse --output-directory diagrams/ -f ALL backend/
           find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
           dot -Tpng diagrams/classes.dot -o diagrams/classes.png
           dot -Tpng diagrams/packages.dot -o diagrams/packages.png
