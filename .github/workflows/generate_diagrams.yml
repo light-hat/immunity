@@ -39,7 +39,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y graphviz
-          pip install pylint pyflowchart graphviz
+          pip install pylint pyflowchart graphviz docker-compose-diagram
 
       - name: Cleanup old schemes
         run: |
@@ -85,6 +85,11 @@ jobs:
         run: | 
           sudo docker run --rm --user "$(id -u):$(id -g)" --workdir /workspace --volume "$(pwd)":/workspace ghcr.io/patrickhoefler/dockerfilegraph:alpine -o png -f docker/Dockerfile --layers --legend
           mv Dockerfile.png diagrams/.
+
+      - name: Docker compose diagram
+        run: |
+          cd docker-compose && compose-diagram --file docker-compose.yml --direction=TB --nodesep=1.2
+          mv docker-compose.png ../diagrams/.
 
       - name: Stage new files
         run: git add .
