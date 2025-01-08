@@ -20,24 +20,13 @@ services:
       interval: 20s
       timeout: 5s
       retries: 3
-
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5566:80"
-    restart: always
-    networks:
-      - immunitynet
-    depends_on:
-      - db
+    labels:
+      "docker_compose_diagram.cluster": "БД"
 
   redis:
     image: redis:7.0.15
     container_name: redis-master
-    command: redis-server --save 20 1 --loglevel warning
+    #command: redis-server --save 20 1 --loglevel warning
     expose:
       - 6379
     volumes:
@@ -50,25 +39,31 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    labels:
+      "docker_compose_diagram.cluster": "БД"
+      #"docker_compose_diagram.description": "Главный узел базы данных Redis"
 
-  redis-slave:
-    image: redis:7.0.15
-    depends_on:
-      - redis
-    command: >
-      sh -c "redis-server --slaveof redis-master 6379 --save 20 1 --loglevel warning"
-    expose:
-      - 6379
-    volumes:
-      - redis-slave-data:/data
-    restart: always
-    networks:
-      - immunitynet
-    healthcheck:
-      test: redis-cli -h redis-slave ping
-      interval: 30s
-      timeout: 10s
-      retries: 5
+#  redis-slave:
+#    image: redis:7.0.15
+#    depends_on:
+#      - redis
+#    command: >
+#      sh -c "redis-server --slaveof redis-master 6379 --save 20 1 --loglevel warning"
+#    expose:
+#      - 6379
+#    volumes:
+#      - redis-slave-data:/data
+#    restart: always
+#    networks:
+#      - immunitynet
+#    healthcheck:
+#      test: redis-cli -h redis-slave ping
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+    #labels:
+      #"docker_compose_diagram.cluster": "БД"
+      #"docker_compose_diagram.description": "Подчиненный узел Redis"
 
   immunity:
     image: l1ghth4t/immunity-iast:latest
@@ -92,6 +87,7 @@ services:
       - POSTGRES_DB=database
     depends_on:
       - db
+      - redis
     restart: always
     networks:
       - immunitynet
@@ -101,6 +97,9 @@ services:
       interval: 20s
       timeout: 5s
       retries: 3
+    labels:
+      "docker_compose_diagram.icon": "django"
+      "docker_compose_diagram.cluster": "Управляющий сервер"
 
   worker:
     image: l1ghth4t/immunity-iast-worker:latest
@@ -122,7 +121,7 @@ services:
       - POSTGRES_DB=database
     depends_on:
       - db
-      - immunity
+      #- immunity
       - redis
     restart: always
     networks:
@@ -132,6 +131,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    labels:
+      "docker_compose_diagram.icon": "celery"
+      "docker_compose_diagram.cluster": "Управляющий сервер"
 
   nginx:
     image: l1ghth4t/immunity-iast-nginx:latest
@@ -144,7 +146,6 @@ services:
       - 81:80
     depends_on:
       - immunity
-      - worker
     restart: always
     networks:
       - immunitynet
@@ -154,13 +155,15 @@ services:
       interval: 20s
       timeout: 5s
       retries: 3
+    labels:
+      "docker_compose_diagram.cluster": "Маршрутизация"
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
   redis-master-data:
-  redis-slave-data:
+  #redis-slave-data:
 
 networks:
   immunitynet:
