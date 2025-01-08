@@ -1,4 +1,7 @@
 digraph "classes" {
 rankdir=BT
 charset="utf-8"
+"backend.core.models.users.User" [color="black", fontcolor="black", label=<{User|groups<br ALIGN="LEFT"/>objects<br ALIGN="LEFT"/>role<br ALIGN="LEFT"/>user_permissions<br ALIGN="LEFT"/>|__str__()<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
+"backend.core.models.users.UserManager" [color="black", fontcolor="black", label=<{UserManager|<br ALIGN="LEFT"/>|create_superuser(email, password)<br ALIGN="LEFT"/>create_user(email, password)<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
+"backend.core.models.users.UserManager" -> "backend.core.models.users.User" [arrowhead="diamond", arrowtail="none", fontcolor="black", label="objects", style="solid"];
 }
