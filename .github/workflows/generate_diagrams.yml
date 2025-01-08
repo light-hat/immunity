@@ -45,33 +45,40 @@ jobs:
         run: |
           rm -rf diagrams/*
 
-      - name: Core class diagram
+      - name: Class diagram
         run: |
-          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/core/
+          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/
           find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-          dot -Tpng diagrams/classes.dot -o diagrams/core_classes.png
-          dot -Tpng diagrams/packages.dot -o diagrams/core_packages.png
+          dot -Tpng diagrams/classes.dot -o diagrams/classes.png
+          dot -Tpng diagrams/packages.dot -o diagrams/packages.png
 
-      - name: Engine class diagram
-        run: |
-          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/engine/
-          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-          dot -Tpng diagrams/classes.dot -o diagrams/engine_classes.png
-          dot -Tpng diagrams/packages.dot -o diagrams/engine_packages.png
-
-      - name: Agent API class diagram
-        run: |
-          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/agent/
-          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-          dot -Tpng diagrams/classes.dot -o diagrams/agent_classes.png
-          dot -Tpng diagrams/packages.dot -o diagrams/agent_packages.png
-
-      - name: Users API class diagram
-        run: |
-          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/users/
-          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-          dot -Tpng diagrams/classes.dot -o diagrams/users_classes.png
-          dot -Tpng diagrams/packages.dot -o diagrams/users_packages.png
+#      - name: Core class diagram
+#        run: |
+#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/core/
+#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+#          dot -Tpng diagrams/classes.dot -o diagrams/core_classes.png
+#          dot -Tpng diagrams/packages.dot -o diagrams/core_packages.png
+#
+#      - name: Engine class diagram
+#        run: |
+#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/engine/
+#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+#          dot -Tpng diagrams/classes.dot -o diagrams/engine_classes.png
+#          dot -Tpng diagrams/packages.dot -o diagrams/engine_packages.png
+#
+#      - name: Agent API class diagram
+#        run: |
+#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/agent/
+#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+#          dot -Tpng diagrams/classes.dot -o diagrams/agent_classes.png
+#          dot -Tpng diagrams/packages.dot -o diagrams/agent_packages.png
+#
+#      - name: Users API class diagram
+#        run: |
+#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/users/
+#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+#          dot -Tpng diagrams/classes.dot -o diagrams/users_classes.png
+#          dot -Tpng diagrams/packages.dot -o diagrams/users_packages.png
 
       - name: Generate flowcharts as txt
         run: |
