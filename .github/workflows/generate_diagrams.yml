@@ -45,53 +45,48 @@ jobs:
         run: |
           rm -rf diagrams/*
 
-      - name: Class diagram
+      - name: Core class diagram
         run: |
-          pyreverse --output-directory diagrams/ -f ALL backend/
+          pyreverse --output-directory diagrams/ -f ALL backend/core/
           find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-          dot -Tpng diagrams/classes.dot -o diagrams/classes.png
-          dot -Tpng diagrams/packages.dot -o diagrams/packages.png
+          dot -Tpng diagrams/classes.dot -o diagrams/core_classes.png
+          dot -Tpng diagrams/packages.dot -o diagrams/core_packages.png
 
-#      - name: Core class diagram
-#        run: |
-#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/core/
-#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-#          dot -Tpng diagrams/classes.dot -o diagrams/core_classes.png
-#          dot -Tpng diagrams/packages.dot -o diagrams/core_packages.png
-#
-#      - name: Engine class diagram
-#        run: |
-#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/engine/
-#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-#          dot -Tpng diagrams/classes.dot -o diagrams/engine_classes.png
-#          dot -Tpng diagrams/packages.dot -o diagrams/engine_packages.png
-#
-#      - name: Agent API class diagram
-#        run: |
-#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/agent/
-#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-#          dot -Tpng diagrams/classes.dot -o diagrams/agent_classes.png
-#          dot -Tpng diagrams/packages.dot -o diagrams/agent_packages.png
-#
-#      - name: Users API class diagram
-#        run: |
-#          pyreverse --no-standalone --output-directory diagrams/ -f ALL backend/users/
-#          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
-#          dot -Tpng diagrams/classes.dot -o diagrams/users_classes.png
-#          dot -Tpng diagrams/packages.dot -o diagrams/users_packages.png
+      - name: Engine class diagram
+        run: |
+          pyreverse --output-directory diagrams/ -f ALL backend/engine/
+          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+          dot -Tpng diagrams/classes.dot -o diagrams/engine_classes.png
+          dot -Tpng diagrams/packages.dot -o diagrams/engine_packages.png
+
+      - name: Agent API class diagram
+        run: |
+          pyreverse --output-directory diagrams/ -f ALL backend/agent/
+          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+          dot -Tpng diagrams/classes.dot -o diagrams/agent_classes.png
+          dot -Tpng diagrams/packages.dot -o diagrams/agent_packages.png
+
+      - name: Users API class diagram
+        run: |
+          pyreverse --output-directory diagrams/ -f ALL backend/users/
+          find diagrams/ -name '*.dot' -exec sed -i 's/green/black/g' {} +
+          dot -Tpng diagrams/classes.dot -o diagrams/users_classes.png
+          dot -Tpng diagrams/packages.dot -o diagrams/users_packages.png
 
       - name: Generate flowcharts as txt
         run: |
           python3 generate_flowcharts.py
 
-      #- name: Flowcharts to png
-      #  run: |
-      #    for file in diagrams/*.txt; do DISPLAY=:99 diagrams flowchart "$file" "${file%.txt}.svg"; done
+      - name: Flowcharts to png
+        run: |
+          for file in diagrams/*.txt; do DISPLAY=:99 diagrams flowchart "$file" "${file%.txt}.svg"; done
 
       - name: Generate Dockerfile diagram
         run: | 
-          sudo docker run --rm --user "$(id -u):$(id -g)" --workdir /workspace --volume "$(pwd)":/workspace ghcr.io/patrickhoefler/dockerfilegraph:alpine -o png -f docker/Dockerfile --layers --legend
-          mv Dockerfile.png diagrams/.
+          sudo docker run --rm --user "$(id -u):$(id -g)" --workdir /workspace --volume "$(pwd)":/workspace ghcr.io/patrickhoefler/dockerfilegraph:alpine -o png -f docker/Dockerfile --legend
+          mv Dockerfile.png diagrams/Dockerfile_short.png
+          sudo docker run --rm --user "$(id -u):$(id -g)" --workdir /workspace --volume "$(pwd)":/workspace ghcr.io/patrickhoefler/dockerfilegraph:alpine -o png -f docker/Dockerfile --layers --legend --concentrate --nodesep 0.3 --unflatten 4
+          mv Dockerfile.png diagrams/Dockerfile_layers.png
 
       - name: Docker compose diagram
         run: |
