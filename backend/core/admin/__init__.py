@@ -10,3 +10,6 @@ from core.admin.requests import RequestAdmin
 from core.admin.responses import ResponseAdmin
 from core.admin.users import UserAdmin
 from core.admin.vulnerabilities import VulnerabilityAdmin
+from core.admin.configurations import ConfigurationAdmin
+from core.admin.libraries import LibraryAdmin
+from core.admin.dependency_vuln import DependencyVulnerabilityAdmin

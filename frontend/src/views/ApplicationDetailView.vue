@@ -29,9 +29,9 @@ export default {
   methods: {
     async fetchItem() {
       try {
-        const response = await axios.get(`http://127.0.0.1:81/api/users/project/${this.$route.params.id}/`);
-        const context_list_response = await axios.get(`http://127.0.0.1:81/api/users/context/?project=${this.$route.params.id}`);
-        const vuln_list_response = await axios.get(`http://127.0.0.1:81/api/users/vulnerability/?project=${this.$route.params.id}`);
+        const response = await axios.get(`/api/users/project/${this.$route.params.id}/`);
+        const context_list_response = await axios.get(`/api/users/context/?project=${this.$route.params.id}`);
+        const vuln_list_response = await axios.get(`/api/users/vulnerability/?project=${this.$route.params.id}`);
         this.item = {...response.data.data};
         this.context_list = {...context_list_response.data.data.contexts};
         this.vuln_list = {...vuln_list_response.data.data};
@@ -56,12 +56,14 @@ export default {
             };
 
             const response = await axios.post(
-              `http://127.0.0.1:81/api/users/dataset/markup/`,
+              `/api/users/dataset/markup/`,
               datasetLabel
             );
 
             if (response.status === 200) {
-              UIkit.notification({message: 'Данные размечены', status: 'success'})
+              UIkit.notification({message: 'Данные размечены', status: 'success'});
+            } else {
+              UIkit.notification({message: 'Произошла ошибка', status: 'danger'});
             }
         } catch (error) {
             console.error('Ошибка при отправке данных:', error);
@@ -72,7 +74,7 @@ export default {
       this.isLoading = true;
       this.selectedContext = null;
       try {
-        const context_request_data = await axios.get(`http://127.0.0.1:81/api/users/context/${itemId}/`);
+        const context_request_data = await axios.get(`/api/users/context/${itemId}/`);
         this.selectedContext = response.data;
       } catch (error) {
         console.error("Ошибка при загрузке данных элемента:", error);

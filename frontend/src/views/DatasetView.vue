@@ -8,12 +8,12 @@ export default {
 
         const name = ref('');
         const description = ref('');
-        const language = ref('')
+        const language = ref('');
 
         const handleMarkup = async () => {
             try {
                 response = await axios.post(
-                    `http://127.0.0.1:81/api/users/dataset/markup/`,
+                    `/api/users/dataset/markup/`,
                     {
                         name: name.value,
                         description: description.value,
@@ -27,7 +27,7 @@ export default {
 
         onMounted(async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:81/api/users/dataset/`);
+                const response = await axios.get(`/api/users/dataset/`);
                 datasets.value = response.data.data;
             } catch (error) {
                 console.error('Error fetching datasets', error)

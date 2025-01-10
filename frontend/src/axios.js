@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: `http://127.0.0.1:81/api/users/`,
-  timeout: 5000,
-});
+const instance = axios.create();
 
 instance.interceptors.response.use(
     (response) => response,

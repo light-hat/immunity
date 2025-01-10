@@ -3,14 +3,18 @@
 """
 
 import logging
+import pip_audit
 from datetime import datetime
-
+import subprocess
+import json
+import tempfile
 from celery import shared_task
 from django.db import transaction
-
 import engine.engine as en
-from core.models import Context, Event, Project, Request, Response
+from core.models import Context, Event, Project, Request, Response, Configuration, Library, DependencyVulnerability
 from engine.handler import ContextHandler
+
+from engine.config_audit import ConfigAuditor, DjangoConfigAudit, FlaskConfigAudit
 
 logger = logging.getLogger(__name__)
 
@@ -181,6 +185,155 @@ def handle_context(project_id, json_request, json_control_flow, json_response):
 
         logger.info(
             "Завершена обработка контекста %s проекта %s", context.id, project_id
+        )
+
+    except Exception as e:
+        logger.error(e)
+
+
+@shared_task
+def handle_config(project_id, json_dict, framework_name):
+    """
+    Асинхронный таск для обработки, сохранения и анализа конфигурации.
+    """
+
+    try:
+
+        logger.info("Обработка конфигурации проекта %s", project_id)
+
+        with transaction.atomic():
+            try:
+                app = Project.objects.get(name=project_id)
+
+                try:
+                    old_config = Configuration.objects.filter(project=app)
+                    old_config.delete()
+                except ObjectDoesNotExist:
+                    pass
+
+                for setting_key, setting_value in json_dict.items():
+
+                    Configuration.objects.create(
+                        project=app,
+                        key=setting_key,
+                        value=setting_value
+                    )
+
+                issues = []
+
+                if framework_name == "django":
+                    django_auditor = ConfigAuditor(DjangoConfigAudit(json_dict))
+                    issues = django_auditor.audit()
+                elif framework_name == "flask":
+                    flask_auditor = ConfigAuditor(FlaskConfigAudit(json_dict))
+                    issues = flask_auditor.audit()
+
+                for issue in issues:
+                    try:
+                        configuration = Configuration.objects.get(key=issue["key"])
+                        configuration.vulnerable = True
+                        configuration.message = issue["message"]
+                        configuration.save()
+                    except Exception as e:
+                        logger.error(e)
+                        continue
+
+            except Exception as e:
+                logger.error(e)
+
+        logger.info(
+            "Завершена обработка конфигурации проекта %s", project_id
+        )
+
+    except Exception as e:
+        logger.error(e)
+
+def _run_pip_audit(packages):
+    """
+    Выполняет pip-audit с временным файлом requirements.txt.
+
+    :param packages: Словарь с именем и версией пакета, например: {"requests": "2.28.1"}
+    :return: Список найденных уязвимостей
+    """
+    try:
+        # Создаем временный файл
+        with tempfile.NamedTemporaryFile(mode="w+", suffix=".txt", delete=False) as temp_file:
+            # Формируем содержимое requirements.txt
+            for name, version in packages.items():
+                temp_file.write(f"{name}=={version}\n")
+            temp_file.flush()  # Убедимся, что данные записаны
+
+            # Запускаем pip-audit по временному файлу
+            command = [
+                "pip-audit",
+                "-r", temp_file.name,
+                "-f", "json",
+                "--progress-spinner", "off"
+            ]
+            result = subprocess.run(command, capture_output=True, text=True, check=False)
+
+            # Читаем и парсим вывод JSON
+            audit_results = json.loads(result.stdout)
+            return audit_results
+    except subprocess.CalledProcessError as e:
+        logger.info(f"Ошибка выполнения команды pip-audit: {e.stderr}")
+        return []
+    except Exception as ex:
+        logger.info(f"Произошла ошибка: {ex}")
+        return []
+    finally:
+        # Удаляем временный файл
+        if 'temp_file' in locals():
+            temp_file.close()
+
+@shared_task
+def handle_dependencies(project_id, json_dict):
+    """
+    Асинхронный таск для обработки, сохранения и анализа зависимостей.
+    """
+
+    try:
+
+        logger.info("Обработка зависимостей проекта %s", project_id)
+
+        with transaction.atomic():
+            try:
+                app = Project.objects.get(name=project_id)
+
+                try:
+                    Library.objects.filter(project=app).delete()
+                except ObjectDoesNotExist:
+                    pass
+
+                findings = _run_pip_audit(json_dict)
+                # Перебираем каждую зависимость
+                for dependency in findings['dependencies']:
+
+                    lib = Library.objects.create(
+                        project=app,
+                        key=dependency['name'],
+                        value=dependency['version'],
+                    )
+
+                    # Проверяем, есть ли уязвимости
+                    if dependency['vulns']:
+                        lib.vulnerable = True
+                        lib.save()
+                        for vuln in dependency['vulns']:
+                            DependencyVulnerability.objects.create(
+                                dependency=lib,
+                                label=vuln['id'],
+                                recommended_version=', '.join(vuln['fix_versions']),
+                            )
+                    else:
+                        lib.vulnerable = False
+                        lib.save()
+
+            except Exception as e:
+                logger.error(e)
+
+        logger.info(
+            "Завершена обработка зависимостей проекта %s", project_id
         )
 
     except Exception as e:

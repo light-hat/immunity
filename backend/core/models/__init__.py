@@ -10,6 +10,9 @@ from .requests import Request
 from .responses import Response
 from .users import User
 from .vulnerabilities import Vulnerability
+from .configurations import Configuration
+from .libraries import Library
+from.dependency_vuln import DependencyVulnerability
 
 __all__ = [
     "User",
@@ -20,4 +23,7 @@ __all__ = [
     "Event",
     "DatasetLabel",
     "Vulnerability",
+    "Configuration",
+    "Library",
+    "DependencyVulnerability"
 ]

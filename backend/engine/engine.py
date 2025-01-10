@@ -18,20 +18,6 @@ from engine.plugins.base import BasePlugin
 
 logger = logging.getLogger(__name__)
 
-
-@shared_task
-def run_analysis_task(project_id: int, context_id: int, data: Dict[str, Any]):
-    """
-    Celery-задача для запуска движка интерактивного анализа.
-    """
-    logger.info("Обработка движком контекста %s проекта %s", context_id, project_id)
-    engine = IASTEngine()
-    engine.run_analysis(project_id, context_id, data)
-    logger.info(
-        "Завершена обработка движком контекста %s проекта %s", context_id, project_id
-    )
-
-
 class IASTEngine:
     """
     Движок для выполнения анализа с использованием плагинов.
@@ -68,22 +54,23 @@ class IASTEngine:
         """
         try:
             vulnerabilities = []
+            logger.warning(self.plugins)
             for plugin in self.plugins:
                 vulnerabilities.extend(plugin.run(context, data))
 
-            # Сохраняем уязвимости в БД
-            for vuln in vulnerabilities:
-                Vulnerability.objects.create(
-                    project=Project.objects.get(id=project),
-                    context=Context.objects.get(id=context),
-                    type=vuln["type"],
-                    cwe=vuln["cwe"],
-                    description=vuln["description"],
-                    evidence=vuln["evidence"],
-                )
-
             # Помечаем контекст как уязвимый
             if len(vulnerabilities) > 0:
+                # Сохраняем уязвимости в БД
+                for vuln in vulnerabilities:
+                    Vulnerability.objects.create(
+                        project=Project.objects.get(id=project),
+                        context=Context.objects.get(id=context),
+                        type=vuln["type"],
+                        cwe=vuln["cwe"],
+                        description=vuln["description"],
+                        evidence=vuln["evidence"],
+                    )
+
                 context = Context.objects.get(id=context)
                 context.vulnerable = True
                 context.save()
@@ -92,3 +79,18 @@ class IASTEngine:
 
         except Exception as e:
             logger.error(e)
+
+@shared_task
+def run_analysis_task(project_id: int, context_id: int, data: Dict[str, Any]):
+    """
+    Celery-задача для запуска движка интерактивного анализа.
+    """
+    try:
+        logger.info("Обработка движком контекста %s проекта %s", context_id, project_id)
+        engine = IASTEngine()
+        engine.run_analysis(project_id, context_id, data)
+        logger.info(
+            "Завершена обработка движком контекста %s проекта %s", context_id, project_id
+        )
+    except Exception as e:
+        print(e)

@@ -64,9 +64,6 @@ RUN mkdir -p /home/app/web/frontend_dist
 # Копируем статичный билд фронтенда во внутрь Django
 COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
 
-# Копируем шаблон конфига фронтэнда
-COPY frontend/config.template.json /home/app/web/frontend_dist
-
 # Сборка статики Django
 RUN python3 manage.py collectstatic --noinput --settings=conf.settings.prod
 
