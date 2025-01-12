@@ -134,8 +134,16 @@ export default {
 
                     <div class="uk-margin">
                         <select v-model="label" type="text" class="uk-select" placeholder="Метка">
-                            <option value="Clean">Уязвимости нет</option>
-                            <option value="CWE">Уязвимость</option>
+                            <option value="Clean">Уязвимостей не содержит</option>
+                            <option value="CWE-352">Подделка межсайтовых запросов (CSRF)</option>
+                            <option value="CWE-639">Небезопасная прямая ссылка на объект (IDOR)</option>
+                            <option value="CWE-77">Выполнение команд (Command injection)</option>
+                            <option value="CWE-79">Межсайтовый скриптинг (XSS)</option>
+                            <option value="CWE-89">SQL-инъекция</option>
+                            <option value="CWE-16">Уязвимости, связанные с конфигурацией</option>
+                            <option value="CWE-502">Десериализация недоверенных данных</option>
+                            <option value="CWE-400">Неуправляемое потребление ресурсов</option>
+                            <option value="CWE-918">Подделка серверных запросов (SSRF)</option>
                         </select>
                     </div>
 
