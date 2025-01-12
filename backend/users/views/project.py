@@ -11,9 +11,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from core.command import Command
-from core.models import Project
+from core.models import Project, Configuration, Library, DependencyVulnerability
 from core.query import Query
 from core.result import Result
+from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
@@ -254,3 +256,57 @@ class ProjectAPIView(viewsets.ViewSet):
         except Exception as e:
             logger.error(e)
             return Response(Result(e).to_dict(), status=500)
+
+    def retrieve_config(self, request, pk=None):
+        """
+        Получение конфигурации по ID проекта.
+        """
+
+        project = get_object_or_404(Project, pk=pk)
+
+        configs = Configuration.objects.filter(project=project)
+        data = {
+            "configs": [],
+        }
+
+        for conf in configs:
+            data["configs"].append({
+                "id": conf.id,
+                "key": conf.key,
+                "value": conf.value,
+                "vulnerable": conf.vulnerable,
+                "message": conf.message,
+            })
+
+        return Response(data, status=status.HTTP_200_OK)
+
+    def retrieve_libs(self, request, pk=None):
+        """
+        Получение зависимостей по ID проекта.
+        """
+
+        project = get_object_or_404(Project, pk=pk)
+
+        libs = Library.objects.filter(project=project)
+        data = {
+            "libs": [],
+        }
+
+        for lib in libs:
+            vulns = DependencyVulnerability.objects.filter(dependency=lib)
+            data["libs"].append({
+                "id": lib.id,
+                "key": lib.key,
+                "value": lib.value,
+                "vulnerable": lib.vulnerable,
+                "vulnerabilities": [
+                    {
+                        "id": v.id,
+                        "label": v.label,
+                        "recommended_version": v.recommended_version
+                    }
+                    for v in vulns
+                ],
+            })
+
+        return Response(data, status=status.HTTP_200_OK)

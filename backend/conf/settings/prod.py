@@ -25,6 +25,22 @@ ALLOWED_HOSTS = [
     HOST,
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DATETIME_FORMAT": "%d.%m.%Y %H:%M",
+    "DATE_FORMAT": "%d.%m.%Y",
+    "TIME_FORMAT": "%H:%M",
+}
+
+DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+
+DATE_FORMAT = "%d.%m.%Y"
+
+TIME_FORMAT = "%H:%M"
+
 CSRF_TRUSTED_ORIGINS = [
     f"http://{HOST}:{PORT}",
 ]

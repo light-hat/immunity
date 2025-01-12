@@ -1,14 +1,21 @@
 <script>
 import UIkit from 'uikit';
 import axios from 'axios';
+import { h, ref } from 'vue'
 
 export default {
   name: 'ApplicationDetailView',
+  //components: {
+  //  VueFlow,
+  //  Background,
+  //},
   data() {
     return {
       item: null,
       context_list: null,
       vuln_list: null,
+      lib_list: null,
+      config_list: null,
       project: null,
       label: '',
       file: '',
@@ -32,6 +39,10 @@ export default {
         const response = await axios.get(`/api/users/project/${this.$route.params.id}/`);
         const context_list_response = await axios.get(`/api/users/context/?project=${this.$route.params.id}`);
         const vuln_list_response = await axios.get(`/api/users/vulnerability/?project=${this.$route.params.id}`);
+        const config_data = await axios.get(`/api/users/project/${this.$route.params.id}/config/`);
+        const libs_data = await axios.get(`/api/users/project/${this.$route.params.id}/libs/`);
+        this.config_list = {...config_data.data.configs}
+        this.lib_list = {...libs_data.data.libs}
         this.item = {...response.data.data};
         this.context_list = {...context_list_response.data.data.contexts};
         this.vuln_list = {...vuln_list_response.data.data};
@@ -71,17 +82,22 @@ export default {
         }
     },
     async openModal(itemId) {
-      this.isLoading = true;
-      this.selectedContext = null;
-      try {
-        const context_request_data = await axios.get(`/api/users/context/${itemId}/`);
-        this.selectedContext = response.data;
-      } catch (error) {
-        console.error("Ошибка при загрузке данных элемента:", error);
-      } finally {
-        this.isLoading = false;
-        UIkit.modal("#context-modal").show();
-      }
+        if (this.isLoading) {
+          return;
+        }
+
+        this.isLoading = true;
+        UIkit.modal('#context-modal').show();
+        try {
+          const context_request_data = await axios.get(`/api/users/context/${itemId}/`);
+          this.selectedContext = {...context_request_data.data};
+          this.$forceUpdate();
+        } catch (error) {
+          console.error('Ошибка при загрузке данных элемента:', error)
+          UIkit.notification({ message: 'Не удалось загрузить контекст', status: 'danger' });
+        } finally {
+          this.isLoading = false;
+        }
     },
   },
 };
@@ -141,18 +157,140 @@ export default {
         </div>
     </div>
 
-    <div id="context-modal" uk-modal v-if="selectedContext">
-        <div class="uk-modal-dialog uk-modal-body">
+    <div id="context-modal" class="uk-modal-container" uk-modal>
+        <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body" style="height: 80vh;" uk-overflow-auto>
             <button class="uk-modal-close-default" type="button" uk-close></button>
-            <h2 class="uk-modal-title">Контекст выполнения запроса</h2>
+            <h3>Контекст выполнения запроса</h3>
 
-            <div v-if="isLoading">
-                <p>Загрузка данных...</p>
+            <div v-if="isLoading !== true && selectedContext !== null">
+                <div uk-grid>
+                    <div class="uk-width-auto@m">
+
+                        <ul class="uk-tab-left" uk-tab="connect: #component-nav; animation: uk-animation-fade">
+                            <li><a href="#">HTTP-запрос</a></li>
+                            <li><a href="#">HTTP-ответ</a></li>
+                            <li><a href="#">Вызовы библиотечных функций</a></li>
+                            <li><a href="#">Данные об ошибках</a></li>
+                            <li><a href="#">Граф потока управления</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="uk-width-expand@m">
+
+                        <div id="component-nav" class="uk-switcher">
+                            <div>
+                                <dl class="uk-description-list uk-description-list-divider">
+                                    <dt>Метод</dt>
+                                    <dd v-if="selectedContext.request.method !== null">{{ selectedContext.request.method }}</dd>
+                                    <dd v-else>Информация отсутствует</dd>
+                                    <dt>Адрес</dt>
+                                    <dd v-if="selectedContext.request.path !== null">{{ selectedContext.request.path }}</dd>
+                                    <dd v-else>Информация отсутствует</dd>
+                                    <dt>Заголовки запроса</dt>
+                                    <dd>
+                                        <pre><code><span v-for="(value, key) in selectedContext.request.headers" :key="key">{{ key }}: {{ value }}<br></span></code></pre>
+                                    </dd>
+                                    <dt>Параметры запроса</dt>
+                                    <dd v-if="selectedContext.request.get_params !== null">
+                                        <pre><code>{{ selectedContext.request.get_params }}</code></pre>
+                                    </dd>
+                                    <dd v-else>Отсутствуют</dd>
+                                    <dt>Тело запроса</dt>
+                                    <dd><pre><code>{{ selectedContext.request.body }}</code></pre></dd>
+                                    <dt>Передаваемые файлы</dt>
+                                    <dd v-if="selectedContext.request.files !== null">
+                                        <pre><code>{{ selectedContext.request.files }}</code></pre>
+                                    </dd>
+                                    <dd v-else>Отсутствуют</dd>
+                                    <dt>Пользователь</dt>
+                                    <dd v-if="selectedContext.request.user !== null">{{ selectedContext.request.user }}</dd>
+                                    <dd v-else>Информация отсутствует</dd>
+                                </dl>
+                            </div>
+                            <div>
+                                <dl class="uk-description-list uk-description-list-divider">
+                                    <dt>Код ответа</dt>
+                                    <dd v-if="selectedContext.response.status_code !== null">{{ selectedContext.response.status_code }}</dd>
+                                    <dd v-else>Информация отсутствует</dd>
+                                    <dt>Содержимое ответа</dt>
+                                    <dd>
+                                        <code><pre>{{ selectedContext.response.body }}</pre></code>
+                                    </dd>
+                                    <dt>Заголовки ответа</dt>
+                                    <dd>
+                                        <pre><code><span v-for="(value, key) in selectedContext.response.headers" :key="key">{{ key }}: {{ value }}</span></code></pre>
+                                    </dd>
+                                    <dt>Content-Type</dt>
+                                    <dd v-if="selectedContext.response.content_type !== null">
+                                        <pre><code>{{ selectedContext.response.content_type }}</code></pre>
+                                    </dd>
+                                    <dd v-else>-</dd>
+                                    <dt>Content-Length</dt>
+                                    <dd v-if="selectedContext.response.content_length !== null">
+                                        <pre><code>{{ selectedContext.response.content_length }}</code></pre>
+                                    </dd>
+                                    <dd v-else>-</dd>
+                                    <dt>Кодировка</dt>
+                                    <dd v-if="selectedContext.response.charset !== null">{{ selectedContext.response.charset }}</dd>
+                                    <dd v-else>Информация отсутствует</dd>
+                                </dl>
+                            </div>
+                            <div>
+                                <table class="uk-table uk-table-divider">
+                                    <thead>
+                                        <tr>
+                                            <th>Библиотека</th>
+                                            <th>Функция</th>
+                                            <th>Временная метка</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in selectedContext.events.filter(i => i.external_call === true)" :key="item.id">
+                                            <td>{{item.module}}</td>
+                                            <td>{{item.func_name}}</td>
+                                            <td>{{item.timestamp}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <table class="uk-table uk-table-divider">
+                                    <thead>
+                                        <tr>
+                                            <th>Тип исключения</th>
+                                            <th>Модуль</th>
+                                            <th>Файл</th>
+                                            <th>Имя функции</th>
+                                            <th>Строка</th>
+                                            <th>Сообщение</th>
+                                            <th>Временная метка</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in selectedContext.events.filter(i => i.type === 'error')" :key="item.id">
+                                            <td>{{item.exception_type}}</td>
+                                            <td>{{item.module}}</td>
+                                            <td>{{item.filename}}</td>
+                                            <td>{{item.func_name}}</td>
+                                            <td>{{item.line}}</td>
+                                            <td>{{item.exception_message}}</td>
+                                            <td>{{item.timestamp}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                To be continued...
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-
             <div v-else>
-                <p><strong>ID:</strong> {{ selectedContext.id }}</p>
+                <span class="uk-margin-small-right" uk-spinner="ratio: 3"></span>
             </div>
+
         </div>
     </div>
 
@@ -233,7 +371,7 @@ export default {
                                 </td>
                                 <td>
                                     <ul class="uk-iconnav">
-                                        <li><a @click="openModal(item.id)" uk-icon="icon: link-external"></a></li>
+                                        <li><a @click="openModal(context.context_id)" uk-icon="icon: link-external"></a></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -282,12 +420,87 @@ export default {
                 </div>
                 <div>
 
-                    Зависимости проекта
+                    <table class="uk-table uk-table-middle uk-table-divider">
+                        <thead>
+                            <tr>
+                                <th class="uk-width-small">Библиотека</th>
+                                <th class="uk-width-small">Версия</th>
+                                <th class="uk-width-small">Безопасность</th>
+                                <th class="uk-width-small">Уязвимости</th>
+                                <th class="uk-width-small">Рекомендуемые версии</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr v-for="vul_lib in lib_list" :key="vul_lib.id">
+                                <td>
+                                    {{ vul_lib.key }}
+                                </td>
+                                <td>
+                                    {{ vul_lib.value }}
+                                </td>
+                                <td>
+                                    <span v-if="vul_lib.vulnerable" class="uk-label uk-label-danger">Уязвима</span>
+                                    <span v-else class="uk-label uk-label-success">Безопасна</span>
+                                </td>
+                                <td>
+                                    <span v-if="vul_lib.vulnerable">
+                                    <ul>
+                                        <li v-for="lib_vuln in vul_lib.vulnerabilities" :key="lib_vuln.id"><span class="uk-label uk-label-danger">{{lib_vuln.label}}</span></li>
+                                    </ul>
+                                    </span>
+                                    <span v-else>-</span>
+                                </td>
+                                <td>
+                                    <span v-if="vul_lib.vulnerable">
+                                    <ul>
+                                        <li v-for="lib_vuln in vul_lib.vulnerabilities" :key="lib_vuln.id"><span class="uk-label">{{lib_vuln.recommended_version}}</span></li>
+                                    </ul>
+                                    </span>
+                                    <span v-else>-</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
 
                 </div>
                 <div>
 
-                    Данные о конфигурации
+                    <table class="uk-table uk-table-middle uk-table-divider" v-if="config_list !== null">
+                        <thead>
+                            <tr>
+                                <th class="uk-width-small">Параметр</th>
+                                <th class="uk-width-small">Значение</th>
+                                <th class="uk-width-small">Безопасность</th>
+                                <th class="uk-width-small">Метка уязвимости</th>
+                                <th class="uk-width-small">Сообщение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr v-for="vul_conf in config_list" :key="vul_conf.id">
+                                <td>
+                                    {{ vul_conf.key }}
+                                </td>
+                                <td>
+                                    {{ vul_conf.value }}
+                                </td>
+                                <td>
+                                    <span class="uk-label uk-label-danger" v-if="vul_conf.vulnerable">Уязвим</span>
+                                    <span class="uk-label uk-label-success" v-else>Безопасен</span>
+                                </td>
+                                <td>
+                                    <span class="uk-label uk-label-danger" v-if="vul_conf.vulnerable">CWE-16</span>
+                                    <span v-else>-</span>
+                                </td>
+                                <td>
+                                    {{ vul_conf.message }}
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
@@ -299,3 +512,14 @@ export default {
         <span uk-icon="icon: warning; ratio: 1"></span> Такого проекта не существует.
     </div>
 </template>
+
+<style>
+@import "@vue-flow/core/dist/style.css";
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+</style>
