@@ -99,7 +99,13 @@ class MLPlugin(BasePlugin):
             context_processed = self.preprocess_context(data)
 
             logger.info("Запуск ML-модели для анализа контекста %s", str(context_id))
-            logger.warning(context_processed["control_flow_attention_mask"].unsqueeze(0).shape)
+
+            logger.warning("request_input shape:", context_processed["request_input_ids"].unsqueeze(0).shape)
+            logger.warning("request_mask shape:", context_processed["request_attention_mask"].unsqueeze(0).shape)
+            logger.warning("control_flow_input shape:", context_processed["control_flow_input_ids"].unsqueeze(0).shape)
+            logger.warning("control_flow_mask shape:", context_processed["control_flow_attention_mask"].unsqueeze(0).shape)
+            logger.warning("response_input shape:", context_processed["response_input_ids"].unsqueeze(0).shape)
+            logger.warning("response_mask shape:", context_processed["response_attention_mask"].unsqueeze(0).shape)
 
             logits = model(
                 request_input=context_processed["request_input_ids"].unsqueeze(0).to(device),
