@@ -78,6 +78,8 @@ class MLPlugin(BasePlugin):
         response_tokens = tokenizer(response_text, truncation=True, padding="max_length", max_length=512,
                                     return_tensors="pt")
 
+        logging.warning(str(request_tokens))
+
         return {
             "request_input_ids": request_tokens["input_ids"].squeeze(0).to(device),
             "request_attention_mask": request_tokens["attention_mask"].squeeze(0).to(device),
