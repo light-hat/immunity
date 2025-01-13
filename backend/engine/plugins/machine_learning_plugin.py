@@ -79,6 +79,16 @@ class MLPlugin(BasePlugin):
                                     return_tensors="pt")
 
         logging.warning(str(request_tokens))
+        logging.warning(str(control_flow_tokens))
+        logging.warning(str(response_tokens))
+        logging.warning(str({
+            "request_input_ids": request_tokens["input_ids"].squeeze(0).to(device),
+            "request_attention_mask": request_tokens["attention_mask"].squeeze(0).to(device),
+            "control_flow_input_ids": control_flow_tokens["input_ids"].squeeze(0).to(device),
+            "control_flow_attention_mask": control_flow_tokens["attention_mask"].squeeze(0).to(device),
+            "response_input_ids": response_tokens["input_ids"].squeeze(0).to(device),
+            "response_attention_mask": response_tokens["attention_mask"].squeeze(0).to(device),
+        }))
 
         return {
             "request_input_ids": request_tokens["input_ids"].squeeze(0).to(device),
