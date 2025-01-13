@@ -100,6 +100,22 @@ class MLPlugin(BasePlugin):
 
             logger.info("Запуск ML-модели для анализа контекста %s", str(context_id))
 
+            # Загрузка конфигурации
+            config_path = f"https://huggingface.co/{repo_id}/resolve/main/config.json"
+            config = json.loads(requests.get(config_path).text)
+
+            # Инициализация модели
+            model = IAST_BERT(
+                bert_model_name=config["bert_model_name"],
+                num_classes=11
+            )
+
+            # Загрузка весов
+            state_dict_path = f"https://huggingface.co/{repo_id}/resolve/main/pytorch_model.bin"
+            state_dict = torch.hub.load_state_dict_from_url(state_dict_path, map_location=device)
+            model.load_state_dict(state_dict)
+
+            # Модель готова
             model.eval()
 
             logger.warning(model(
