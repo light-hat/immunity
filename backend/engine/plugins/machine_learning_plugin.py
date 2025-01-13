@@ -100,6 +100,8 @@ class MLPlugin(BasePlugin):
 
             logger.info("Запуск ML-модели для анализа контекста %s", str(context_id))
 
+            model.eval()
+
             logger.warning(model(
                 request_input=context_processed["request_input_ids"].unsqueeze(0).to(device),
                 request_mask=context_processed["request_attention_mask"].unsqueeze(0).to(device),
