@@ -35,6 +35,7 @@ urlpatterns = [
         "vulnerability/", csrf_exempt(VulnerabilityAPIView.as_view({"get": "filter"}))
     ),
     path("dataset/", csrf_exempt(DatasetAPIView.as_view({"get": "filter"}))),
+    path("dataset/counters/", csrf_exempt(DatasetAPIView.as_view({"get": "retrieve_counters"}))),
     path("dataset/markup/", csrf_exempt(DatasetAPIView.as_view({"post": "post"}))),
     path("context/", csrf_exempt(ContextAPIView.as_view({"get": "filter"}))),
     path("context/<int:pk>/", csrf_exempt(ContextDetailAPIView.as_view({"get": "retrieve"}))),

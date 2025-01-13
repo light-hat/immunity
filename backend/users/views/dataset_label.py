@@ -138,3 +138,23 @@ class DatasetAPIView(viewsets.ViewSet):
         except Exception as e:
             logger.error(e)
             return Response(Result(e).to_dict(), status=500)
+
+    def retrieve_counters(self, request):
+        """
+        Расчет балансировки датасета.
+        """
+
+        counters = {
+            "Clean": DatasetLabel.objects.filter(label="Clean").count(),
+            "CWE352": DatasetLabel.objects.filter(label="CWE-352").count(),
+            "CWE639": DatasetLabel.objects.filter(label="CWE-639").count(),
+            "CWE77": DatasetLabel.objects.filter(label="CWE-77").count(),
+            "CWE79": DatasetLabel.objects.filter(label="CWE-79").count(),
+            "CWE89": DatasetLabel.objects.filter(label="CWE-89").count(),
+            "CWE16": DatasetLabel.objects.filter(label="CWE-16").count(),
+            "CWE502": DatasetLabel.objects.filter(label="CWE-502").count(),
+            "CWE400": DatasetLabel.objects.filter(label="CWE-400").count(),
+            "CWE918": DatasetLabel.objects.filter(label="CWE-918").count(),
+        }
+
+        return Response(counters, status=200)

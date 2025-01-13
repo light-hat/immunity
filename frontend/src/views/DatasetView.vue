@@ -5,6 +5,7 @@ import axios from '@/axios';
 export default {
     setup() {
         const datasets = ref([]);
+        const counters = ref({});
 
         const name = ref('');
         const description = ref('');
@@ -29,12 +30,15 @@ export default {
             try {
                 const response = await axios.get(`/api/users/dataset/`);
                 datasets.value = response.data.data;
+                const response_counters = await axios.get(`/api/users/dataset/counters/`);
+                counters.value = response_counters.data;
             } catch (error) {
                 console.error('Error fetching datasets', error)
             }
         });
         return {
             datasets,
+            counters,
             name,
             description,
             language,
@@ -52,13 +56,36 @@ export default {
                     <span class="uk-icon uk-margin-small-right"
                         uk-icon="icon: database; ratio: 2">
                     </span>
-                    Датасет (0)
+                    Датасет
                 </h2>
             </div>
             <div class="uk-navbar-right">
 
             </div>
         </div>
+
+        <dl class="uk-description-list">
+            <dt>Без уязвимостей</dt>
+            <dd>{{ counters.Clean }} шт.</dd>
+            <dt>CWE-352</dt>
+            <dd>{{ counters.CWE352 }} шт.</dd>
+            <dt>CWE-639</dt>
+            <dd>{{ counters.CWE639 }} шт.</dd>
+            <dt>CWE-77</dt>
+            <dd>{{ counters.CWE77 }} шт.</dd>
+            <dt>CWE-79</dt>
+            <dd>{{ counters.CWE79 }} шт.</dd>
+            <dt>CWE-89</dt>
+            <dd>{{ counters.CWE89 }} шт.</dd>
+            <dt>CWE-16</dt>
+            <dd>{{ counters.CWE16 }} шт.</dd>
+            <dt>CWE-502</dt>
+            <dd>{{ counters.CWE502 }} шт.</dd>
+            <dt>CWE-400</dt>
+            <dd>{{ counters.CWE400 }} шт.</dd>
+            <dt>CWE-918</dt>
+            <dd>{{ counters.CWE918 }} шт.</dd>
+        </dl>
 
         <table class="uk-table uk-table-middle uk-table-divider">
             <thead>
