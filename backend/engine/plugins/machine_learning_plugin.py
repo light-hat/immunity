@@ -99,7 +99,6 @@ class MLPlugin(BasePlugin):
             context_processed = self.preprocess_context(data)
 
             logger.info("Запуск ML-модели для анализа контекста %s", str(context_id))
-            logger.warning(str(context_processed))
 
             logits = model(
                 request_input=context_processed["request_input_ids"].unsqueeze(0).to(device),
@@ -109,7 +108,9 @@ class MLPlugin(BasePlugin):
                 response_input=context_processed["response_input_ids"].unsqueeze(0).to(device),
                 response_mask=context_processed["response_attention_mask"].unsqueeze(0).to(device)
             )
-            logger.info(logits)
+            logger.warning(logits)
+            logger.warning(context_processed["request_input_ids"].unsqueeze(0).to(device))
+            logger.warning(response_mask=context_processed["response_attention_mask"].unsqueeze(0).to(device))
             predicted_class = torch.argmax(logits, dim=1).item()
             logger.info("Завершена ML-обработка для анализа контекста %s", str(context_id))
             logger.warning(id2label[predicted_class])
