@@ -78,18 +78,6 @@ class MLPlugin(BasePlugin):
         response_tokens = tokenizer(response_text, truncation=True, padding="max_length", max_length=512,
                                     return_tensors="pt")
 
-        logging.warning(str(request_tokens))
-        logging.warning(str(control_flow_tokens))
-        logging.warning(str(response_tokens))
-        logging.warning(str({
-            "request_input_ids": request_tokens["input_ids"].squeeze(0).to(device),
-            "request_attention_mask": request_tokens["attention_mask"].squeeze(0).to(device),
-            "control_flow_input_ids": control_flow_tokens["input_ids"].squeeze(0).to(device),
-            "control_flow_attention_mask": control_flow_tokens["attention_mask"].squeeze(0).to(device),
-            "response_input_ids": response_tokens["input_ids"].squeeze(0).to(device),
-            "response_attention_mask": response_tokens["attention_mask"].squeeze(0).to(device),
-        }))
-
         return {
             "request_input_ids": request_tokens["input_ids"].squeeze(0).to(device),
             "request_attention_mask": request_tokens["attention_mask"].squeeze(0).to(device),
@@ -111,6 +99,7 @@ class MLPlugin(BasePlugin):
             context_processed = self.preprocess_context(data)
 
             logger.info("Запуск ML-модели для анализа контекста %s", str(context_id))
+            logger.warning(str(context_processed))
 
             logits = model(
                 request_input=context_processed["request_input_ids"].unsqueeze(0).to(device),
