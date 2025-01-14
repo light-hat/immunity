@@ -15,3 +15,4 @@ src/app/media/employees_photos/*
 .env.s3
 app/db.sqlite3
 .vagrant
+dataset.csv

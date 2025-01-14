@@ -16,6 +16,7 @@ from celery import shared_task
 from core.models import Context, Project, Vulnerability
 from engine.plugins.base import BasePlugin
 
+#logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 class IASTEngine:
@@ -54,12 +55,11 @@ class IASTEngine:
         """
         try:
             vulnerabilities = []
-            logger.warning(self.plugins)
             for plugin in self.plugins:
                 vulnerabilities.extend(plugin.run(context, data))
 
             # Помечаем контекст как уязвимый
-            if len(vulnerabilities) > 0:
+            if vulnerabilities:
                 # Сохраняем уязвимости в БД
                 for vuln in vulnerabilities:
                     Vulnerability.objects.create(
