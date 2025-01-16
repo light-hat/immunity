@@ -85,12 +85,13 @@ class ContextDetailAPIView(viewsets.ViewSet):
 
         request = Request.objects.get(context=context)
         response = Response.objects.get(context=context)
-        events = Event.objects.filter(context=context)
+        events = Event.objects.filter(context=context).order_by('created_at')
         vulns = Vulnerability.objects.filter(context=context)
         data = {
             "context": {
                 "id": context.id,
                 "vulnerable": context.vulnerable,
+                "processing": context.processing,
                 "created_at": context.created_at
             },
             "request": {
@@ -126,7 +127,7 @@ class ContextDetailAPIView(viewsets.ViewSet):
                 "code_execution": "Выполнение кода",
                 "return_function": "Возврат из функции",
                 "error": "Исключение",
-            }
+            },
         }
 
         for event in events:

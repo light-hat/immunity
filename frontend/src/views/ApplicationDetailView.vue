@@ -54,7 +54,7 @@ export default {
     startPolling() {
       this.intervalId = setInterval(() => {
         this.fetchItem();
-      }, 3000);
+      }, 1000);
     },
     async handleMarkup() {
         try {
@@ -177,9 +177,9 @@ export default {
                         <ul class="uk-tab-left" uk-tab="connect: #component-nav; animation: uk-animation-fade">
                             <li><a href="#">HTTP-запрос</a></li>
                             <li><a href="#">HTTP-ответ</a></li>
+                            <li><a href="#">Выполнение кода</a></li>
                             <li><a href="#">Вызовы библиотечных функций</a></li>
                             <li><a href="#">Данные об ошибках</a></li>
-                            <li><a href="#">Граф потока управления</a></li>
                         </ul>
 
                     </div>
@@ -247,6 +247,36 @@ export default {
                                 <table class="uk-table uk-table-divider">
                                     <thead>
                                         <tr>
+                                            <th>Событие</th>
+                                            <th>Модуль</th>
+                                            <th>Файл</th>
+                                            <th>Имя функции</th>
+                                            <th>Строка</th>
+                                            <th>Исполняемый код</th>
+                                            <th>Временная метка</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in selectedContext.events.filter(i => i.type !== 'error' && i.external_call === false)" :key="item.id">
+                                            <td>
+                                                <span v-if="item.type === 'function_call'"><span uk-icon="sign-in"></span></span>
+                                                <span v-else-if="item.type === 'code_execution'"><span uk-icon="code"></span></span>
+                                                <span v-else-if="item.type === 'return_function'"><span uk-icon="sign-out"></span></span>
+                                            </td>
+                                            <td>{{item.module}}</td>
+                                            <td>{{item.filename}}</td>
+                                            <td>{{item.func_name}}</td>
+                                            <td>{{item.line}}</td>
+                                            <td>{{item.code}}</td>
+                                            <td>{{item.timestamp}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <table class="uk-table uk-table-divider">
+                                    <thead>
+                                        <tr>
                                             <th>Библиотека</th>
                                             <th>Функция</th>
                                             <th>Временная метка</th>
@@ -286,9 +316,6 @@ export default {
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div>
-                                To be continued...
                             </div>
                         </div>
 
@@ -359,9 +386,12 @@ export default {
                                 <td>
                                     <span class="uk-label">{{ context.request.method }}</span>
                                 </td>
-                                <td>
+                                <td v-if="context.processing !== true">
                                     <span v-if="context.vulnerable" class="uk-label uk-label-danger">Уязвим</span>
                                     <span v-else class="uk-label uk-label-success">Безопасен</span>
+                                </td>
+                                <td v-else>
+                                    <span class="uk-label uk-label-warning">В обработке</span>
                                 </td>
                                 <td>
                                     <span v-if="context.response.status_code[0] == '2'" class="uk-label uk-label-success">
@@ -396,6 +426,7 @@ export default {
                                 <th class="uk-table-shrink">ID</th>
                                 <th class="uk-width-small">Тип уязвимости</th>
                                 <th class="uk-width-small">CWE</th>
+                                <th>Описание</th>
                                 <th class="uk-width-small">Дата и время обнаружения</th>
                                 <th class="uk-width-small"></th>
                             </tr>
@@ -411,6 +442,9 @@ export default {
                                 </td>
                                 <td>
                                     <span class="uk-label">{{ vuln.cwe }}</span>
+                                </td>
+                                <td>
+                                    {{ vuln.description }}
                                 </td>
                                 <td>
                                     {{ vuln.detected_at }}
