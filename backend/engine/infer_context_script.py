@@ -58,7 +58,7 @@ def main(base64_encoded_data):
     config_path = f"https://huggingface.co/{repo_id}/resolve/main/config.json"
     config = json.loads(requests.get(config_path).text)
 
-    label2id = {'CWE-352': 0, 'CWE-502': 1, 'CWE-77': 2, 'CWE-79': 3, 'CWE-89': 4}
+    label2id = {'CWE-352': 0, 'CWE-77': 1, 'CWE-79': 2, 'Clean': 3}
     id2label = {idx: label for label, idx in label2id.items()}
 
     # Инициализация модели

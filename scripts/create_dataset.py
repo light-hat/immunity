@@ -10,7 +10,7 @@ from faker import Faker
 fake = Faker()
 
 # Настройки
-API_ENDPOINT = "http://127.0.0.1:85/api/users/dataset/?page_size=100000"
+API_ENDPOINT = "http://127.0.0.1:81/api/users/dataset/?page_size=100000"
 HF_DATASET_REPO = "l1ghth4t/iast-python3-django-flask"
 LOCAL_TRAIN_PATH = "./train_set.csv"
 LOCAL_VALIDATION_PATH = "./validation_set.csv"
