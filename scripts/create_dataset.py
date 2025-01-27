@@ -10,7 +10,7 @@ from faker import Faker
 fake = Faker()
 
 # Настройки
-API_ENDPOINT = "http://127.0.0.1:81/api/users/dataset/?page_size=100000"
+API_ENDPOINT = "http://81.177.220.198:7850/api/users/dataset/?page_size=100000"
 HF_DATASET_REPO = "l1ghth4t/iast-python3-django-flask"
 LOCAL_TRAIN_PATH = "./train_set.csv"
 LOCAL_VALIDATION_PATH = "./validation_set.csv"
@@ -23,7 +23,7 @@ def mutate_url(url):
 
 def mutate_method(method):
     # Список допустимых методов
-    methods = ['GET', 'POST', 'PUT', 'DELETE']
+    methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
     # Случайным образом выбираем другой метод
     while True:
         new_method = random.choice(methods)
@@ -52,7 +52,7 @@ def mutate_body(body):
 
 def mutate_status_code(status_code):
     # Возможные коды состояния
-    status_codes = [200, 201, 400, 401, 403, 404, 500]
+    status_codes = [200, 201, 204, 301, 302, 400, 401, 403, 404, 500, 502]
     # Выбираем случайно
     new_status_code = random.choice(status_codes)
     return str(new_status_code)
@@ -64,7 +64,7 @@ def mutate_response_headers(headers):
     return headers
 
 
-def augment_record(record, n_augmentations=100):
+def augment_record(record, n_augmentations=640):
     augmented_records = []
     for _ in range(n_augmentations):
         mutated_record = record.copy()
@@ -74,7 +74,7 @@ def augment_record(record, n_augmentations=100):
         mutated_record['request']['method'] = mutate_method(mutated_record['request']['method'])
         mutated_record['request']['headers'] = mutate_headers(mutated_record['request']['headers'].copy())
         mutated_record['request']['body'] = mutate_body(mutated_record['request']['body'])
-        #mutated_record['response']['status_code'] = mutate_status_code(mutated_record['response']['status_code'])
+        mutated_record['response']['status_code'] = mutate_status_code(mutated_record['response']['status_code'])
         mutated_record['response']['headers'] = mutate_response_headers(mutated_record['response']['headers'].copy())
 
         augmented_records.append(mutated_record)
@@ -115,10 +115,14 @@ def clean_data(df):
     # Применяем аугментацию к каждому экземпляру данных
     augmented_data = []
     for _, row in df.iterrows():
-        original_json = eval(row['text'])  # Предполагаем, что text содержит строку JSON
-        augmented_records = augment_record(original_json)
-        for record in augmented_records:
-            augmented_data.append({'text': str(record), 'label': row['label']})
+        try:
+            original_json = eval(row['text'].replace("false", "False").replace("true", "True"))  # Предполагаем, что text содержит строку JSON
+            augmented_records = augment_record(original_json)
+            for record in augmented_records:
+                augmented_data.append({'text': str(record), 'label': row['label']})
+        except Exception as e:
+            print("Invalid row " + str(e))
+            pass
 
     # Создаем новый DataFrame из аугментированных данных
     augmented_df = pd.DataFrame(augmented_data)
