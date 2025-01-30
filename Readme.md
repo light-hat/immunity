@@ -3,7 +3,7 @@
 </p>
 <hr/>
 <p align="center">
-Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках дипломной работы.
+Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках моего дипломного проекта.
 </p>
 
 <p align="center">
