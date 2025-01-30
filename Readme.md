@@ -1,6 +1,8 @@
 <p align="center">
 <img src="assets/head.png">
+</p>
 <hr/>
+<p align="center">
 Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках дипломной работы.
 </p>
 
