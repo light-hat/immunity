@@ -1,7 +1,9 @@
-all: up
-
 vm:
 	vagrant up --provision
+
+config:
+	chmod +x docker-compose/configure.sh
+	./docker-compose/configure.sh
 
 logs:
 	sudo docker compose -f docker-compose/docker-compose.yml logs -f
@@ -16,15 +18,10 @@ rebuild:
 down:
 	sudo docker compose -f docker-compose/docker-compose.yml down
 
-shell:
+bash_shell:
 	sudo docker compose -f docker-compose/docker-compose.yml exec immunity bash
 
 django_shell:
 	sudo docker compose -f docker-compose/docker-compose.yml exec immunity python3 manage.py shell
 
-format:
-	isort --apply ./backend/
-	black ./backend/
-	cd frontend/ && npm run format
-
-.PHONY: vm logs up rebuild down shell django_shell format
+.PHONY: vm logs up rebuild down bash_shell django_shell
