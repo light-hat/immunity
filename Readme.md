@@ -1,5 +1,5 @@
 <p align="center">
-<img height="500px" src="assets/head.png">
+<img height="400px" src="assets/head.png">
 <hr/>
 Система интерактивного анализа веб-приложений, разработанная в рамках дипломной работы.
 </p>
