@@ -63,16 +63,17 @@ class MLPlugin(BasePlugin):
             result = subprocess.run(['python3', 'engine/infer_context_script.py', base64_data], capture_output=True, text=True)
             output = result.stdout.strip()
             if output:
-                logger.info("Контекст %s содержит уязвимость %s", str(context_id), output)
-                vulnerabilities.append(
-                    {
-                        # "context_id": context_id,
-                        "type": vuln_types[output],
-                        "cwe": output,
-                        "description": vuln_descriptions[output],
-                        "evidence": "",
-                    }
-                )
+                if output != "Clean":
+                    logger.info("Контекст %s содержит уязвимость %s", str(context_id), output)
+                    vulnerabilities.append(
+                        {
+                            # "context_id": context_id,
+                            "type": vuln_types[output],
+                            "cwe": output,
+                            "description": vuln_descriptions[output],
+                            "evidence": "",
+                        }
+                    )
             else:
                 logger.error(result.stderr.strip())
 

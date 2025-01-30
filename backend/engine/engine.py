@@ -73,6 +73,13 @@ class IASTEngine:
 
                 context = Context.objects.get(id=context)
                 context.vulnerable = True
+                context.processing = False
+                context.save()
+
+            else:
+                context = Context.objects.get(id=context)
+                context.vulnerable = False
+                context.processing = False
                 context.save()
 
             return vulnerabilities

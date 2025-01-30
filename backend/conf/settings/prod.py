@@ -11,7 +11,7 @@ from conf.settings.base import *  # pylint: disable=unused-wildcard-import
 
 SECRET_KEY = get_random_secret_key()
 
-DEBUG = True
+DEBUG = False
 
 HOST = environ.get("API_HOST")
 

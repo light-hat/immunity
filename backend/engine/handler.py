@@ -36,6 +36,7 @@ class ContextHandler:
         return {
             "context_id": context_object.id,
             "vulnerable": context_object.vulnerable,
+            "processing": context_object.processing,
             "request": {
                 "url": request_object.path,
                 "method": request_object.method,

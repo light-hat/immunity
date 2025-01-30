@@ -14,6 +14,7 @@ class Context(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     vulnerable = models.BooleanField(default=False)
+    processing = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
