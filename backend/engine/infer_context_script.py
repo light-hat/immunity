@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class IAST_BERT(nn.Module):
-    def __init__(self, bert_model_name="bert-base-uncased", num_classes=5): # 11
+    def __init__(self, bert_model_name="bert-base-uncased", num_classes=10):
         super(IAST_BERT, self).__init__()
         self.bert = BertModel.from_pretrained(bert_model_name)
         self.fc_request = nn.Linear(768, 256)
@@ -58,7 +58,17 @@ def main(base64_encoded_data):
     config_path = f"https://huggingface.co/{repo_id}/resolve/main/config.json"
     config = json.loads(requests.get(config_path).text)
 
-    label2id = {'CWE-352': 0, 'CWE-77': 1, 'CWE-79': 2, 'Clean': 3}
+    label2id = {'CWE-16': 0,
+        'CWE-352': 1,
+        'CWE-400': 2,
+        'CWE-502': 3,
+        'CWE-639': 4,
+        'CWE-77': 5,
+        'CWE-79': 6,
+        'CWE-89': 7,
+        'CWE-918': 8,
+        'Clean': 9
+    }
     id2label = {idx: label for label, idx in label2id.items()}
 
     # Инициализация модели
