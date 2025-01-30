@@ -74,9 +74,11 @@
 
 ### Подготовка сервера
 
+(todo: гифка)
+
 Установите `Docker` и `Docker Compose` на сервер, используя данную [инструкцию](https://docs.docker.com/engine/install/ubuntu/) с официального сайта Docker.
 
-Когда установлен Docker, проверьте драйвера видеокарты:
+Когда установлен Docker, проверьте `драйвера видеокарты`:
 
 ```shell
 nvidia-smi
@@ -179,6 +181,8 @@ ii  nvidia-container-toolkit-base     1.17.3-1          amd64     NVIDIA Contain
 > Если в этом ответе пусто, вот [мануал](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) c официального сайта как установить NVIDIA Container Toolkit.
 
 ### Запуск системы
+
+(todo: гифка)
 
 1. Клонируйте репозиторий:
 
