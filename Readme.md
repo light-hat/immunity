@@ -65,18 +65,17 @@
 > [!NOTE]
 > Сервер с указанными характеристиками использовался для разработки и тестирования системы.
 
-| Параметр             | Значение                 |
-|----------------------|--------------------------|
-| Операционная система | Ubuntu 22.04 LTS 64-bit  |
-| CPU                  | 4 ядра                   |
-| RAM                  | 32 ГБ                    |
-| GPU                  | 1 × Tesla T4  16 ГБ      |
+| Параметр | Значение                 |
+|----------|--------------------------|
+| OS       | Ubuntu 22.04 LTS 64-bit  |
+| CPU      | 4 ядра                   |
+| RAM      | 32 ГБ                    |
+| GPU      | 1 × Tesla T4  16 ГБ      |
 
 ### Подготовка сервера
 
-(todo: гифка)
-
-Установите `Docker` и `Docker Compose` на сервер, используя данную [инструкцию](https://docs.docker.com/engine/install/ubuntu/) с официального сайта Docker.
+> [!IMPORTANT]
+> Установите `Docker` и `Docker Compose` на сервер, используя данную [инструкцию](https://docs.docker.com/engine/install/ubuntu/) с официального сайта Docker.
 
 Когда установлен Docker, проверьте `драйвера видеокарты`:
 
@@ -181,8 +180,6 @@ ii  nvidia-container-toolkit-base     1.17.3-1          amd64     NVIDIA Contain
 > Если в этом ответе пусто, вот [мануал](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) c официального сайта как установить NVIDIA Container Toolkit.
 
 ### Запуск системы
-
-(todo: гифка)
 
 1. Клонируйте репозиторий:
 
