@@ -4,6 +4,7 @@ vm:
 config:
 	chmod +x docker-compose/configure.sh
 	./docker-compose/configure.sh
+	sudo docker network create iast_global || true
 
 logs:
 	sudo docker compose -f docker-compose/docker-compose.yml logs -f
