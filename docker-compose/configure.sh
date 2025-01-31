@@ -5,7 +5,7 @@ read_value() {
   echo $value
 }
 
-api_url=$(read_value "API URL")
+api_url=$(read_value "API HOST")
 api_port=$(read_value "API PORT")
 postgres_host=$(read_value "POSTGRES HOST")
 postgres_port=$(read_value "POSTGRES PORT")
@@ -13,7 +13,7 @@ postgres_user=$(read_value "POSTGRES USER")
 postgres_password=$(read_value "POSTGRES PASSWORD")
 postgres_db=$(read_value "POSTGRES DB")
 
-content="API_URL=${api_url}
+content="API_HOST=${api_url}
 API_PORT=${api_port}
 POSTGRES_HOST=${postgres_host}
 POSTGRES_PORT=${postgres_port}
