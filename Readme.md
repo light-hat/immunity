@@ -231,12 +231,7 @@ make config
 make up
 ```
 
-4. Проверьте логи:
-
-```shell
-make logs | grep immunity
-make logs | grep worker
-```
+4. Проверьте логи
 
 <details>
   <summary>👀 Как выглядит здоровый лог при запуске</summary>
