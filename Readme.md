@@ -243,24 +243,90 @@ make logs | grep worker
 
 <hr />
 
-Лог основного приложения (immunity):
+Лог основного приложения:
 
 ```shell
-sudo docker compose logs api
+make logs | grep immunity
 ```
 
 ```text
-...
+immunity-1    | DB not yet run...
+immunity-1    | DB did run.
+immunity-1    | Migrations for 'core':
+immunity-1    |   core/migrations/0001_initial.py
+immunity-1    |     + Create model Context
+immunity-1    |     + Create model DatasetLabel
+immunity-1    |     + Create model Library
+immunity-1    |     + Create model Project
+immunity-1    |     + Create model User
+immunity-1    |     + Create model DependencyVulnerability
+immunity-1    |     + Add field project to library
+immunity-1    |     + Create model Event
+immunity-1    |     + Add field project to context
+immunity-1    |     + Create model Configuration
+immunity-1    |     + Create model Request
+immunity-1    |     + Create model Response
+immunity-1    |     + Create model Vulnerability
+immunity-1    | Operations to perform:
+immunity-1    |   Apply all migrations: admin, auth, contenttypes, core, sessions
+immunity-1    | Running migrations:
+immunity-1    |   No migrations to apply.
+immunity-1    | 2025-01-31 03:28:00,341 - [INFO] - [MainThread] - core.management.commands.init_users - (init_users.py).handle(21) - Администратор уже создан.
+immunity-1    | [2025-01-31 00:28:00 +0000] [12] [INFO] Starting gunicorn 23.0.0
+immunity-1    | [2025-01-31 00:28:00 +0000] [12] [INFO] Listening at: http://0.0.0.0:8000 (12)
+immunity-1    | [2025-01-31 00:28:00 +0000] [12] [INFO] Using worker: sync
+immunity-1    | [2025-01-31 00:28:00 +0000] [13] [INFO] Booting worker with pid: 13
 ```
 
-Лог асинхронного воркера (worker):
+Лог асинхронного воркера:
 
 ```shell
-sudo docker compose logs worker
+make logs | grep worker
 ```
 
 ```text
-...
+worker-1      |  
+worker-1      |  -------------- celery@10488abd3a8b v5.4.0 (opalescent)
+worker-1      | --- ***** ----- 
+worker-1      | -- ******* ---- Linux-5.15.0-131-generic-x86_64-with-glibc2.36 2025-01-31 03:27:58
+worker-1      | - *** --- * --- 
+worker-1      | - ** ---------- [config]
+worker-1      | - ** ---------- .> app:         conf:0x7f1d7d8c48f0
+worker-1      | - ** ---------- .> transport:   redis://redis:6379//
+worker-1      | - ** ---------- .> results:     redis://redis:6379/
+worker-1      | - *** --- * --- .> concurrency: 4 (prefork)
+worker-1      | -- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+worker-1      | --- ***** ----- 
+worker-1      |  -------------- [queues]
+worker-1      |                 .> celery           exchange=celery(direct) key=celery
+worker-1      |                 
+worker-1      | 
+worker-1      | [tasks]
+worker-1      |   . engine.context.handle_config
+worker-1      |   . engine.context.handle_context
+worker-1      |   . engine.context.handle_dependencies
+worker-1      |   . engine.engine.run_analysis_task
+worker-1      | 
+worker-1      | [2025-01-31 03:27:59,044: WARNING/MainProcess] /usr/local/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+worker-1      | whether broker connection retries are made during startup in Celery 6.0 and above.
+worker-1      | If you wish to retain the existing behavior for retrying connections on startup,
+worker-1      | you should set broker_connection_retry_on_startup to True.
+worker-1      |   warnings.warn(
+worker-1      | 
+worker-1      | [2025-01-31 03:27:59,054: WARNING/MainProcess] /usr/local/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+worker-1      | whether broker connection retries are made during startup in Celery 6.0 and above.
+worker-1      | If you wish to retain the existing behavior for retrying connections on startup,
+worker-1      | you should set broker_connection_retry_on_startup to True.
+nginx         | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+worker-1      |   warnings.warn(
+worker-1      | 
+immunity-1    | [2025-01-31 00:28:00 +0000] [12] [INFO] Using worker: sync
+immunity-1    | [2025-01-31 00:28:00 +0000] [13] [INFO] Booting worker with pid: 13
+nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker processes
+nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker process 19
+nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker process 20
+nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker process 21
+nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker process 22
 ```
 
 <hr />
@@ -269,9 +335,7 @@ sudo docker compose logs worker
 
 ## Концепция
 
-`IAST (Interactive Application Security Testing)` – это метод тестирования безопасности приложений, который сочетает в себе статический анализ кода (`SAST`) и динамический анализ (`DAST`). Основная концепция заключается в том, чтобы объединить эти два подхода для получения более точных результатов и повышения эффективности процесса тестирования.
-
-В контексте интерактивного анализа (`IAST`), классификация может включать две категории: активный и пассивный анализ.
+...
 
 ## Агент интерактивного анализа
 
