@@ -2,7 +2,7 @@
 <img src="assets/head.png">
 </p>
 
-<h1 align="center">Immunity IAST</h1>
+<hr/>
 <p align="center">Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках моего дипломного проекта.</p>
 
 > [!TIP]
