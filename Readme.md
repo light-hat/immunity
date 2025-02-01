@@ -5,6 +5,9 @@
 <h1 align="center">Immunity IAST</h1>
 <p align="center">Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках моего дипломного проекта.</p>
 
+> [!TIP]
+> Репозиторий перенёс <a href="https://github.com/Immunity-IAST/">отсюда</a>, чтобы улучшал мне статистику на профиле, так что актульная версия содержится в данном репозитории.
+
 <p align="center">
 <img src="https://img.shields.io/badge/nVIDIA-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white">
 <img src="https://img.shields.io/badge/cuda-000000.svg?style=for-the-badge&logo=nVIDIA&logoColor=green">
@@ -24,9 +27,6 @@
 <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white">
 </p>
-
-> [!TIP]
-> Репозиторий перенёс <a href="https://github.com/Immunity-IAST/">отсюда</a>, чтобы улучшал мне статистику на профиле, так что актульная версия содержится в данном репозитории.
 
 ## Результаты работы
 
