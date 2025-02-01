@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/logo.png" height="250px">
+<img src="assets/logo.png" height="100px">
 </p>
 
 <h1 align="center">Immunity IAST</h1>
