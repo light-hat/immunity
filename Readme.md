@@ -345,11 +345,11 @@ nginx         | 2025/01/31 00:27:57 [notice] 1#1: start worker process 22
 
 ### Что такое IAST?
 
+**Интерактивный анализ** (Interactive Application Security Testing, IAST) — это гибрид статического и динамического анализа, который позволяет исследовать приложение изнутри во время его работы.
+
 <div align="center">
 <img src="assets/iast_img.png" width="400px"/>
 </div>
-
-**Интерактивный анализ** (Interactive Application Security Testing, IAST) — это гибрид статического и динамического анализа, который позволяет исследовать приложение изнутри во время его работы.
 
 Другими словами:
 
