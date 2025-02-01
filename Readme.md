@@ -87,7 +87,7 @@
 
 ### Подготовка сервера
 
-![TEst](https://github.com/light-hat/animated_demos/blob/d8267db708f98ed8d3330622d960579f47baa55d/immunity_prepare.mp4)
+![Prepare example](https://github.com/light-hat/animated_demos/blob/master/immunity_prepare.gif?raw=true)
 
 > [!IMPORTANT]
 > Установите `Docker` и `Docker Compose` на сервер, используя данную [инструкцию](https://docs.docker.com/engine/install/ubuntu/) с официального сайта Docker.
