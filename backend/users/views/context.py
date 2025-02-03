@@ -109,7 +109,7 @@ class ContextDetailAPIView(viewsets.ViewSet):
             },
             "response": {
                 "id": response.id,
-                "status_code": response.status_code,
+                "status_code": response.status_code if response.status_code != None else "",
                 "headers": ast.literal_eval(response.headers),
                 "body": response.body,
                 "content_type": response.content_type,

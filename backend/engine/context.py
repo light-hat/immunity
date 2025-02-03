@@ -127,9 +127,9 @@ def _handle_response(project, context, json_response):
         Response.objects.create(
             project=project,
             context=context,
-            status_code=json_response["status"],
-            headers=json_response["headers"],
-            body=json_response["body"],
+            status_code=json_response["status"] if "status" in json_response else "",
+            headers=json_response["headers"] if "headers" in json_response else "",
+            body=json_response["body"] if "body" in json_response else "",
             content_type=(
                 json_response["content_type"] if "content_type" in json_response else ""
             ),
