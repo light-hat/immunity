@@ -36,6 +36,10 @@
 - выполнено [трансферное обучение модели BERT](https://huggingface.co/l1ghth4t/immunity) для задачи выявления уязвимостей;
 - разработан [тестовый стенд](https://github.com/light-hat/devsecops-stand), описывающий внедрение системы в процессы DevSecOps.
 
+## Демо
+
+![demo](assets/demo.gif)
+
 ## Концепция
 
 Что такое IAST и как он работает описано [отдельно](Theory.md).
