@@ -5,6 +5,11 @@
 <hr/>
 <p align="center">Interactive Application Security Testing (IAST) system for analyzing web applications developed as part of my thesis project.</p>
 
+<div align="center">
+English | 
+<a href="Readme.ru.md">Русский</a>
+</div>
+
 > [!TIP]
 > The repository moved <a href="https://github.com/Immunity-IAST/">from here</a> to improve my stats on my profile, so the up-to-date version is contained in this repository.
 
@@ -27,11 +32,6 @@
 <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white">
 </p>
-
-<div align="center">
-<a href="Readme.md">English</a> | 
-<a href="Readme.ru.md">Русский</a>
-</div>
 
 ## Results
 

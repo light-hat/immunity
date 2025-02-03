@@ -5,6 +5,11 @@
 <hr/>
 <p align="center">Система интерактивного анализа веб-приложений на Python (Interactive Application Security Testing, IAST), разработанная в рамках моего дипломного проекта.</p>
 
+<div align="center">
+<a href="Readme.md">English</a> | 
+Русский
+</div>
+
 > [!TIP]
 > Репозиторий перенёс <a href="https://github.com/Immunity-IAST/">отсюда</a>, чтобы улучшал мне статистику на профиле, так что актульная версия содержится в данном репозитории.
 
@@ -27,11 +32,6 @@
 <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white">
 </p>
-
-<div align="center">
-<a href="Readme.md">English</a> | 
-<a href="Readme.ru.md">Русский</a>
-</div>
 
 ## Результаты работы
 
