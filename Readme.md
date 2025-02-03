@@ -28,6 +28,11 @@
 <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white">
 </p>
 
+<div align="center">
+<a href="Readme.md">English</a> | 
+<a href="Readme.ru.md">Русский</a>
+</div>
+
 ## Results
 
 - created [IAST agent](https://github.com/light-hat/immunity-python-agent);
