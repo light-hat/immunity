@@ -207,27 +207,43 @@ ERD-диаграммы базы данных проекта:
 
 - `/`: страница списка проектов;
 
-...
+<div align="center">
+<img src="assets/page_proj_list2.png"/>
+</div>
 
-Модальное окно для создания проекта:
++ модальное окно для создания проекта:
 
-...
+<div align="center">
+<img src="assets/add_proj_modal.png"/>
+</div>
 
-- `/`: детальная страница проекта;
+- `/project/{id}`: детальная страница проекта;
 
-...
+<div align="center">
+<img src="assets/"/>
+</div>
 
-Модальное окно для контекста:
++ модальное окно для контекста:
 
-...
+<div align="center">
+<img src="assets/"/>
+</div>
 
-Модальное окно для разметки датасета:
++ модальное окно для разметки датасета:
 
-...
+<div align="center">
+<img src="assets/add_label_modal.png"/>
+</div>
 
-- `/`: страница датасета.
+<div align="center">
+<img src="assets/add_label_modal1.png"/>
+</div>
 
-...
+- `/dataset`: страница датасета.
+
+<div align="center">
+<img src="assets/ds_pg.png"/>
+</div>
 
 ## Модель машинного обучения
 
