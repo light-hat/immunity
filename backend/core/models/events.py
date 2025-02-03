@@ -30,7 +30,7 @@ class Event(models.Model):
     module = models.CharField(max_length=255, blank=True, null=True)
     filename = models.CharField(max_length=255, blank=True, null=True)
     line = models.IntegerField(blank=True, null=True)
-    #args = models.JSONField(blank=True, null=True)
+    args = models.JSONField(blank=True, null=True)
     code = models.TextField(blank=True, null=True)
     exception_type = models.CharField(max_length=255, blank=True, null=True)
     exception_message = models.TextField(blank=True, null=True)
