@@ -218,3 +218,5 @@ ERD-диаграммы базы данных проекта:
 Модель опубликована на [Hugging Face](https://huggingface.co/l1ghth4t/immunity).
 
 Обучение модели задокументировано [здесь](https://github.com/light-hat/immunity-iast/blob/master/notebooks/training.ipynb).
+
+Пример инференса [здесь](https://github.com/light-hat/immunity-iast/blob/master/notebooks/inference.ipynb).
