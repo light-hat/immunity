@@ -3,47 +3,47 @@ import {ref, onMounted} from 'vue';
 import axios from '@/axios';
 
 export default {
-    setup() {
-        const projects = ref([]);
+  setup() {
+    const projects = ref([]);
 
-        const name = ref('');
-        const description = ref('');
-        const language = ref('');
+    const name = ref('');
+    const description = ref('');
+    const language = ref('');
 
-        const handleCreateProject = async () => {
-            try {
-                response = await axios.post(
-                    `/api/users/project/`,
-                    {
-                        name: name.value,
-                        description: description.value,
-                        language: language.value,
-                    },
-                );
-            } catch (error) {
-                console.error('Error creating project', error);
-            }
+    const handleCreateProject = async () => {
+      try {
+        response = await axios.post(
+            `/api/users/project/`,
+            {
+              name: name.value,
+              description: description.value,
+              language: language.value,
+            },
+        );
+      } catch (error) {
+        console.error('Error creating project', error);
+      }
 
-            window.location.reload();
-        };
+      window.location.reload();
+    };
 
-        onMounted(async () => {
-            try {
-                const response = await axios.get(`/api/users/project/`);
-                projects.value = response.data.data;
-            } catch (error) {
-                console.error('Error fetching projects', error)
-            }
-        });
-        return {
-            projects,
-            name,
-            description,
-            language,
-            handleCreateProject
-        }
-    }
-}
+    onMounted(async () => {
+      try {
+        const response = await axios.get(`/api/users/project/`);
+        projects.value = response.data.data;
+      } catch (error) {
+        console.error('Error fetching projects', error);
+      }
+    });
+    return {
+      projects,
+      name,
+      description,
+      language,
+      handleCreateProject,
+    };
+  },
+};
 
 </script>
 

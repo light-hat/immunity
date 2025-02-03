@@ -1,14 +1,14 @@
 <script>
 import UIkit from 'uikit';
 import axios from 'axios';
-import { h, ref } from 'vue'
+import {h, ref} from 'vue';
 
 export default {
   name: 'ApplicationDetailView',
-  //components: {
+  // components: {
   //  VueFlow,
   //  Background,
-  //},
+  // },
   data() {
     return {
       item: null,
@@ -41,8 +41,8 @@ export default {
         const vuln_list_response = await axios.get(`/api/users/vulnerability/?project=${this.$route.params.id}`);
         const config_data = await axios.get(`/api/users/project/${this.$route.params.id}/config/`);
         const libs_data = await axios.get(`/api/users/project/${this.$route.params.id}/libs/`);
-        this.config_list = {...config_data.data.configs}
-        this.lib_list = {...libs_data.data.libs}
+        this.config_list = {...config_data.data.configs};
+        this.lib_list = {...libs_data.data.libs};
         this.item = {...response.data.data};
         this.context_list = {...context_list_response.data.data.contexts};
         this.vuln_list = {...vuln_list_response.data.data};
@@ -57,47 +57,47 @@ export default {
       }, 1000);
     },
     async handleMarkup() {
-        try {
-            const datasetLabel = {
-              ...this.item,
-              project: this.item.id,
-              label: this.label,
-              file: this.file,
-              line: this.line
-            };
+      try {
+        const datasetLabel = {
+          ...this.item,
+          project: this.item.id,
+          label: this.label,
+          file: this.file,
+          line: this.line,
+        };
 
-            const response = await axios.post(
-              `/api/users/dataset/markup/`,
-              datasetLabel
-            );
+        const response = await axios.post(
+            `/api/users/dataset/markup/`,
+            datasetLabel,
+        );
 
-            if (response.status === 200) {
-              UIkit.notification({message: 'Данные размечены', status: 'success'});
-            } else {
-              UIkit.notification({message: 'Произошла ошибка', status: 'danger'});
-            }
-        } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
-            UIkit.notification({message: 'Ошибка', status: 'danger'})
+        if (response.status === 200) {
+          UIkit.notification({message: 'Данные размечены', status: 'success'});
+        } else {
+          UIkit.notification({message: 'Произошла ошибка', status: 'danger'});
         }
+      } catch (error) {
+        console.error('Ошибка при отправке данных:', error);
+        UIkit.notification({message: 'Ошибка', status: 'danger'});
+      }
     },
     async openModal(itemId) {
-        if (this.isLoading) {
-          return;
-        }
+      if (this.isLoading) {
+        return;
+      }
 
-        this.isLoading = true;
-        UIkit.modal('#context-modal').show();
-        try {
-          const context_request_data = await axios.get(`/api/users/context/${itemId}/`);
-          this.selectedContext = {...context_request_data.data};
-          this.$forceUpdate();
-        } catch (error) {
-          console.error('Ошибка при загрузке данных элемента:', error)
-          UIkit.notification({ message: 'Не удалось загрузить контекст', status: 'danger' });
-        } finally {
-          this.isLoading = false;
-        }
+      this.isLoading = true;
+      UIkit.modal('#context-modal').show();
+      try {
+        const context_request_data = await axios.get(`/api/users/context/${itemId}/`);
+        this.selectedContext = {...context_request_data.data};
+        this.$forceUpdate();
+      } catch (error) {
+        console.error('Ошибка при загрузке данных элемента:', error);
+        UIkit.notification({message: 'Не удалось загрузить контекст', status: 'danger'});
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };

@@ -1,8 +1,8 @@
 <script setup>
-import { Handle, Position } from '@vue-flow/core'
-import { ref } from 'vue'
+import {Handle, Position} from '@vue-flow/core';
+import {ref} from 'vue';
 
-const counter = ref(0)
+const counter = ref(0);
 </script>
 
 <template>

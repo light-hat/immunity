@@ -3,49 +3,49 @@ import {ref, onMounted} from 'vue';
 import axios from '@/axios';
 
 export default {
-    setup() {
-        const datasets = ref([]);
-        const counters = ref({});
+  setup() {
+    const datasets = ref([]);
+    const counters = ref({});
 
-        const name = ref('');
-        const description = ref('');
-        const language = ref('');
+    const name = ref('');
+    const description = ref('');
+    const language = ref('');
 
-        const handleMarkup = async () => {
-            try {
-                response = await axios.post(
-                    `/api/users/dataset/markup/`,
-                    {
-                        name: name.value,
-                        description: description.value,
-                        language: language.value,
-                    },
-                );
-            } catch (error) {
-                console.error('Error adding labels', error);
-            }
-        };
+    const handleMarkup = async () => {
+      try {
+        response = await axios.post(
+            `/api/users/dataset/markup/`,
+            {
+              name: name.value,
+              description: description.value,
+              language: language.value,
+            },
+        );
+      } catch (error) {
+        console.error('Error adding labels', error);
+      }
+    };
 
-        onMounted(async () => {
-            try {
-                const response = await axios.get(`/api/users/dataset/`);
-                datasets.value = response.data.data;
-                const response_counters = await axios.get(`/api/users/dataset/counters/`);
-                counters.value = response_counters.data;
-            } catch (error) {
-                console.error('Error fetching datasets', error)
-            }
-        });
-        return {
-            datasets,
-            counters,
-            name,
-            description,
-            language,
-            handleMarkup
-        }
-    }
-}
+    onMounted(async () => {
+      try {
+        const response = await axios.get(`/api/users/dataset/`);
+        datasets.value = response.data.data;
+        const response_counters = await axios.get(`/api/users/dataset/counters/`);
+        counters.value = response_counters.data;
+      } catch (error) {
+        console.error('Error fetching datasets', error);
+      }
+    });
+    return {
+      datasets,
+      counters,
+      name,
+      description,
+      language,
+      handleMarkup,
+    };
+  },
+};
 </script>
 
 <template>
