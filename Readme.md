@@ -5,10 +5,10 @@
 <hr/>
 <p align="center">Interactive Application Security Testing (IAST) system for analyzing web applications developed as part of my thesis project.</p>
 
-![Alt](https://repobeats.axiom.co/api/embed/10d02370c829c6bce09e71bee20ebc1cba320892.svg "Repobeats analytics image")
-
 > [!TIP]
 > The repository moved <a href="https://github.com/Immunity-IAST/">from here</a> to improve my stats on my profile, so the up-to-date version is contained in this repository.
+
+![Alt](https://repobeats.axiom.co/api/embed/10d02370c829c6bce09e71bee20ebc1cba320892.svg "Repobeats analytics image")
 
 <p align="center">
 <img src="https://img.shields.io/badge/nVIDIA-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white">
