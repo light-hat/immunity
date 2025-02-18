@@ -33,6 +33,8 @@ English |
 <a href="Readme.ru.md">Русский</a>
 </div>
 
+![Alt](https://repobeats.axiom.co/api/embed/10d02370c829c6bce09e71bee20ebc1cba320892.svg "Repobeats analytics image")
+
 ## Results
 
 - created [IAST agent](https://github.com/light-hat/immunity-python-agent);
