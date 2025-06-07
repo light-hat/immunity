@@ -1,4 +1,0 @@
-[MASTER]
-ignore=manage.py,venv,0001_initial.py,test_result.py
-disable=
-    C0115,W0611,E0401,R0903,E1101,C0411,W0718,W0401,E5110

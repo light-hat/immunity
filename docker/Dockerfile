@@ -1,5 +1,5 @@
 # Сборка фронтэнда
-FROM node:18-alpine AS frontend
+FROM node:20-alpine AS frontend
 
 # Устанавливаем рабочую директорию
 WORKDIR /app/frontend
