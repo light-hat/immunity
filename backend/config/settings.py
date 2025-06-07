@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "djoser",
     "rest_framework_simplejwt.token_blacklist",
-    'drf_spectacular',
-    'drf_spectacular_sidecar',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
+    "api",
 ]
 
 

@@ -25,8 +25,8 @@ RUN npm run build
 
 FROM buildpack-deps:bullseye
 
-# Выставляем версии Nginx
-ENV NGINX_VERSION nginx-1.23.2
+# Выставляем версию Nginx
+ENV NGINX_VERSION nginx-1.26.3
 
 # Установка зависимостей
 RUN apt-get update && \
@@ -80,7 +80,7 @@ RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN mkdir -p /var/www/hls && chmod -R 755 /var/www/hls
 RUN chown nginx:nginx /var/www/hls
 
-EXPOSE 80 1935
+EXPOSE 80 443
 
 # Запуск NGINX от пользователя nginx
 USER nginx
