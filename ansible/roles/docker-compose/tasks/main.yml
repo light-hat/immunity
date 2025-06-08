@@ -1,0 +1,7 @@
+---
+- name: Install Docker Compose (plugin)
+  community.docker.docker_compose:
+    project_src: "{{ app_dir }}"
+    state: present
+    install_compose: true
+    compose_version: v2

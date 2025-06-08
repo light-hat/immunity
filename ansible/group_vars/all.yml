@@ -1,0 +1,11 @@
+# Настройки приложения
+app_user: "deploy"
+app_dir: "/opt/myapp"
+app_port: 8000
+
+# Настройки PostgreSQL
+postgres_version: 14
+postgres_db: "immunity_db"
+
+# Настройки Redis
+redis_bind: "0.0.0.0"
