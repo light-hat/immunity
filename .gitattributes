@@ -8,5 +8,6 @@
 *.cjs eol=lf
 *.js eol=lf linguist-vendored
 *.mjs eol=lf linguist-vendored
+*.j2 eol=lf linguist-vendored
 Makefile linguist-vendored
 Dockerfile linguist-vendored
