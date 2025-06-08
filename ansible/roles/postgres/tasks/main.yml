@@ -1,0 +1,35 @@
+---
+- name: Install PostgreSQL
+  apt:
+    name: "postgresql-{{ postgres_version }}"
+    state: present
+    update_cache: yes
+
+- name: Ensure PostgreSQL is running
+  service:
+    name: "postgresql@{{ postgres_version }}-main"
+    state: started
+    enabled: yes
+
+- name: Configure authentication
+  template:
+    src: "pg_hba.conf.j2"
+    dest: "/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf"
+    owner: postgres
+    group: postgres
+    mode: "0640"
+  notify: Restart PostgreSQL
+
+- name: Create application database
+  postgresql_db:
+    name: "{{ postgres_db }}"
+    encoding: "UTF-8"
+    state: present
+
+- name: Create application user
+  postgresql_user:
+    name: "{{ postgres_user }}"
+    password: "{{ postgres_password }}"
+    db: "{{ postgres_db }}"
+    priv: "ALL"
+    state: present
