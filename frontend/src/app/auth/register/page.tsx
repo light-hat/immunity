@@ -1,11 +1,11 @@
 "use client";
 
-import Login from "@/app/components/Login";
+import Register from "@/app/components/Register";
 
 export default function Home() {
   return (
     <main>
-      <Login />
+      <Register />
     </main>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import Login from "@/app/components/Login";
+import ResetPassword from "@/app/components/ResetPassword";
 
 export default function Home() {
   return (
     <main>
-      <Login />
+      <ResetPassword />
     </main>
   );
 }
