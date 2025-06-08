@@ -9,7 +9,7 @@ jobs:
   read_version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.set_version.outputs.VERSION }}
+      version: ${{ steps.set_version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - name: Read version
@@ -38,7 +38,7 @@ jobs:
           file: ./Dockerfile
           stage: server
           tags: |
-            l1ghth4t/immunity:${{ needs.read_version.outputs.app_version }}
+            l1ghth4t/immunity:${{ needs.read_version.outputs.version }}
             l1ghth4t/immunity:latest
           push: true
 
@@ -64,6 +64,6 @@ jobs:
           file: ./Dockerfile
           stage: worker
           tags: |
-            l1ghth4t/immunity-worker:${{ needs.read_version.outputs.app_version }}
+            l1ghth4t/immunity-worker:${{ needs.read_version.outputs.version }}
             l1ghth4t/immunity-worker:latest
           push: true
