@@ -17,5 +17,5 @@
     state: present
     pull: always
     restart: yes
-    recreate: smart
+    recreate: always
     stopped: no
