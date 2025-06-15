@@ -15,9 +15,16 @@ jobs:
       - name: Check changed files
         id: check
         run: |
-          BUILD_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
-          DEPLOY_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
-          
+          # Для первого коммита в репозитории или ветке используем git show --name-only
+          if git rev-parse HEAD^ > /dev/null 2>&1; then
+            BUILD_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
+            DEPLOY_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
+          else
+            # Если это первый коммит, проверяем все файлы в рабочей директории
+            BUILD_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
+            DEPLOY_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
+          fi
+
           if [ -n "$BUILD_FILES_CHANGED" ]; then
             echo "should_build=true" >> $GITHUB_OUTPUT
           else
