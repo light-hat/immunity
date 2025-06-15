@@ -6,43 +6,35 @@
       - curl
     state: present
     update_cache: yes
-  tags: docker
 
-- name: Create directory for Docker GPG key
+- name: Create keyrings directory
   file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
-  tags: docker
 
-- name: Add Docker's official GPG key (only if changed)
+- name: Add Docker's official GPG key
   get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
-    force: no
-  register: docker_key
-  tags: docker
 
-- name: Add Docker repository (only if key changed or first run)
+- name: Add Docker repository
   apt_repository:
-    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    filename: docker
+    repo: >-
+      deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc]
+      https://download.docker.com/linux/ubuntu
+      {{ (ansible_distribution_release | default(ansible_lsb.codename | default(ansible_distribution_version))) }} stable
+    filename: docker.list
     update_cache: yes
-    update_cache: "{{ docker_key.changed }}"
-    state: present
-  tags: docker
 
 - name: Install Docker packages
   apt:
     name:
-      #- docker-ce
-      #- docker-ce-cli
-      - docker
-      - docker.io
-      #- containerd.io
-      #- docker-buildx-plugin
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
       - docker-compose-plugin
     state: present
     update_cache: yes
-  tags: docker
