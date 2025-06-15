@@ -90,8 +90,17 @@ jobs:
         run: |
           cat > inventory.ini <<EOF
           [web]
-          ${{ secrets.SERVER_IP }} app_user={{ secrets.SSH_USER }} postgres_user={{ secrets.DB_USER }} postgres_password={{ secrets.DB_PASSWORD }}
+          ${{ secrets.SERVER_IP }}
+
+          [web:vars]
+          app_user=${{ secrets.SSH_USER }}
+          postgres_user=${{ secrets.DB_USER }}
+          postgres_password=${{ secrets.DB_PASSWORD }}
           EOF
+
+      - name: Test inventory
+        run: |
+          ansible-inventory -i inventory.ini --list
 
       - name: Run playbook
         run: |
