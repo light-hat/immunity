@@ -15,13 +15,9 @@ jobs:
       - name: Check changed files
         id: check
         run: |
-          if git rev-parse HEAD^ > /dev/null 2>&1; then
-            BUILD_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
-            DEPLOY_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
-          else
-            BUILD_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
-            DEPLOY_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
-          fi
+          # Сравниваем с состоянием до пуша (а не просто HEAD^)
+          BUILD_FILES_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
+          DEPLOY_FILES_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
 
           if [ -n "$BUILD_FILES_CHANGED" ]; then
             echo "should_build=true" >> $GITHUB_OUTPUT
