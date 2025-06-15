@@ -16,7 +16,7 @@
     mode: "0644"
 
 - name: Ensure Docker Compose stack is up
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ app_dir }}"
     state: present
     pull: yes
