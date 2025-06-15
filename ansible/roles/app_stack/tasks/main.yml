@@ -17,4 +17,4 @@
     state: present
     pull: always
     recreate: always
-    wait: yes
+    wait: no
