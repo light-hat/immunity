@@ -8,8 +8,6 @@
   roles:
     - role: docker
       tags: docker
-    - role: docker_compose
-      tags: docker_compose
     - role: nginx
       tags: nginx
     - role: postgres
