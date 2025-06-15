@@ -1,64 +1,45 @@
 ---
 - name: Install prerequisites
-  ansible.builtin.apt:
+  apt:
     name:
-      - apt-transport-https
       - ca-certificates
-      - lsb-release
-      - gnupg
-    state: latest
-    update_cache: true
+      - curl
+    state: present
+    update_cache: yes
+  tags: docker
 
-- name: Create directory for Docker key
-  ansible.builtin.file:
+- name: Create directory for Docker GPG key
+  file:
     path: /etc/apt/keyrings
     state: directory
-    mode: 0755
+    mode: '0755'
+  tags: docker
 
-- name: Download Docker GPG key
-  ansible.builtin.get_url:
-    url: "https://download.docker.com/linux/{{ ansible_os_family | lower }}/gpg"
+- name: Add Docker's official GPG key (only if changed)
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
-    mode: 0644
+    mode: '0644'
+    force: no
+  register: docker_key
+  tags: docker
 
-- name: Get DEB architecture
-  ansible.builtin.command: dpkg --print-architecture
-  register: deb_architecture
-
-- name: Set Docker repository variables
-  set_fact:
-    docker_distribution: "{{ 'debian' if ansible_distribution == 'Kali' else ansible_distribution | lower }}"
-    docker_release: "{{ 'bullseye' if ansible_distribution == 'Kali' else ansible_distribution_release }}"
-
-- name: Add Docker repository
-  ansible.builtin.apt_repository:
-    repo: "deb [arch={{ deb_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ docker_distribution }} {{ docker_release }} stable"
-    state: present
+- name: Add Docker repository (only if key changed or first run)
+  apt_repository:
+    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     filename: docker
+    update_cache: "{{ docker_key.changed }}"
+    state: present
+  tags: docker
 
 - name: Install Docker packages
-  ansible.builtin.apt:
+  apt:
     name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
+      - docker-buildx-plugin
       - docker-compose-plugin
-    state: latest
-    update_cache: true
-
-- name: Start and enable Docker service
-  ansible.builtin.service:
-    name: docker
-    enabled: yes
-    state: started
-
-- name: Create docker group
-  ansible.builtin.group:
-    name: docker
     state: present
-
-- name: Add user to docker group
-  ansible.builtin.user:
-    name: "{{ ansible_user }}"
-    groups: docker
-    append: yes
+    update_cache: no
+  tags: docker
