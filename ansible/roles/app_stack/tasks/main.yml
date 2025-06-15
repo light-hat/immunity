@@ -16,5 +16,5 @@
     project_src: "{{ app_dir }}"
     state: present
     pull: always
-    restart: yes
     recreate: always
+    wait: yes
