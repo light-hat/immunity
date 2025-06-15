@@ -6,8 +6,8 @@
     - group_vars/all.yml
 
   roles:
-    - role: docker
-      tags: docker
+    # Докер ставьте заранее сами
+    # https://docs.docker.com/engine/install/ubuntu/
     - role: nginx
       tags: nginx
     - role: postgres
