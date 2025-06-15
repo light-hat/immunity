@@ -18,4 +18,3 @@
     pull: always
     restart: yes
     recreate: always
-    stopped: no
