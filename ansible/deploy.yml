@@ -10,10 +10,6 @@
     # https://docs.docker.com/engine/install/ubuntu/
     - role: nginx
       tags: nginx
-    - role: postgres
-      tags: postgres
-    - role: redis
-      tags: redis
     - role: app_stack
       tags: app_stack
 
