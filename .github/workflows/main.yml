@@ -5,51 +5,24 @@ on:
     branches: [ master ]
 
 jobs:
-  check_changes:
-    runs-on: ubuntu-latest
-    outputs:
-      should_build: ${{ steps.check.outputs.should_build }}
-      should_deploy: ${{ steps.check.outputs.should_deploy }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check changed files
-        id: check
-        run: |
-          if git rev-parse HEAD^ > /dev/null 2>&1; then
-            BUILD_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
-            DEPLOY_FILES_CHANGED=$(git diff --name-only HEAD^ HEAD | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
-          else
-            BUILD_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(frontend/|backend/|Dockerfile|VERSION)')
-            DEPLOY_FILES_CHANGED=$(git show --name-only --pretty=format: | grep -E '^(ansible/|frontend/|backend/|Dockerfile|VERSION)')
-          fi
-
-          if [ -n "$BUILD_FILES_CHANGED" ]; then
-            echo "should_build=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_build=false" >> $GITHUB_OUTPUT
-          fi
-
-          if [ -n "$DEPLOY_FILES_CHANGED" ]; then
-            echo "should_deploy=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_deploy=false" >> $GITHUB_OUTPUT
-          fi
-
   read_version:
-    needs: check_changes
-    if: needs.check_changes.outputs.should_build == 'true' || needs.check_changes.outputs.should_deploy == 'true'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.set_version.outputs.version }}
     steps:
+      - name: Cancel previous runs
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_after_successful_duplicate: 'false'
       - uses: actions/checkout@v4
       - name: Read version
         id: set_version
         run: echo "VERSION=$(cat VERSION)" >> $GITHUB_OUTPUT
 
   build_and_push:
-    needs: [check_changes, read_version]
-    if: needs.check_changes.outputs.should_build == 'true'
+    needs: [read_version]
     runs-on: ubuntu-latest
     steps:
 
@@ -67,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
+          file: ./docker/Dockerfile
           stage: server
           tags: |
             l1ghth4t/immunity:${{ needs.read_version.outputs.version }}
@@ -75,8 +48,7 @@ jobs:
           push: true
 
   build_and_push_worker:
-    needs: [check_changes, read_version]
-    if: needs.check_changes.outputs.should_build == 'true'
+    needs: [read_version]
     runs-on: ubuntu-latest
     steps:
 
@@ -94,7 +66,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
+          file: ./docker/Dockerfile
           stage: worker
           tags: |
             l1ghth4t/immunity-worker:${{ needs.read_version.outputs.version }}
@@ -102,8 +74,7 @@ jobs:
           push: true
 
   deploy_staging:
-    needs: [check_changes, build_and_push, build_and_push_worker]
-    if: needs.check_changes.outputs.should_deploy == 'true'
+    needs: [build_and_push, build_and_push_worker]
     runs-on: ubuntu-latest
     environment: staging
     steps:
