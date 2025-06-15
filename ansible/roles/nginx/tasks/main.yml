@@ -19,12 +19,3 @@
     name: nginx
     state: started
     enabled: yes
-
-- name: Open firewall for HTTP/HTTPS
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  loop:
-    - "80"
-    - "443"
