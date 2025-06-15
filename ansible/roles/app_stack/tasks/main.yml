@@ -3,16 +3,12 @@
   file:
     path: "{{ app_dir }}"
     state: directory
-    owner: "{{ app_user }}"
-    group: "{{ app_user }}"
     mode: "0755"
 
 - name: Deploy docker-compose.yml
   template:
     src: "docker-compose.yml.j2"
     dest: "{{ app_dir }}/docker-compose.yml"
-    owner: "{{ app_user }}"
-    group: "{{ app_user }}"
     mode: "0644"
 
 - name: Ensure Docker Compose stack is up
