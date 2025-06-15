@@ -5,4 +5,5 @@ app_port: 8000
 
 # Настройки PostgreSQL
 postgres_version: 16
+redis_version: 7.0.15
 postgres_db: "immunity_db"
