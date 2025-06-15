@@ -10,27 +10,27 @@
       tags: docker
     - role: docker_compose
       tags: docker_compose
-    # - role: nginx
-    #   tags: nginx
-    # - role: postgres
-    #   tags: postgres
-    # - role: redis
-    #   tags: redis
-    # - role: app_stack
-    #   tags: app_stack
+    - role: nginx
+      tags: nginx
+    - role: postgres
+      tags: postgres
+    - role: redis
+      tags: redis
+    - role: app_stack
+      tags: app_stack
 
-  # handlers:
-  #   - name: Restart Nginx
-  #     service:
-  #       name: nginx
-  #       state: restarted
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
         
-  #   - name: Restart PostgreSQL
-  #     service:
-  #       name: "postgresql@{{ postgres_version }}-main"
-  #       state: restarted
+    - name: Restart PostgreSQL
+      service:
+        name: "postgresql@{{ postgres_version }}-main"
+        state: restarted
         
-  #   - name: Restart Redis
-  #     service:
-  #       name: redis-server
-  #       state: restarted
+    - name: Restart Redis
+      service:
+        name: redis-server
+        state: restarted

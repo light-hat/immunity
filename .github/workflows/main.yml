@@ -84,7 +84,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_STAGING }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Create dynamic inventory
         run: |
@@ -93,6 +93,7 @@ jobs:
           ${{ secrets.SERVER_IP }}
 
           [web:vars]
+          ansible_user=${{ secrets.SSH_USER }}
           ansible_ssh_private_key_file=~/.ssh/id_rsa
           app_user=${{ secrets.SSH_USER }}
           postgres_user=${{ secrets.DB_USER }}
