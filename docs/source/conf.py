@@ -16,7 +16,7 @@ release = '2.0.0'
 
 extensions = []
 
-templates_path = ['templates']
+templates_path = ['_templates']
 exclude_patterns = []
 
 language = 'en'
@@ -25,4 +25,4 @@ language = 'en'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_static_path = ['static']
+html_static_path = ['_static']

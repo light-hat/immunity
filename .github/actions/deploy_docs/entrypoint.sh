@@ -42,6 +42,7 @@ git clone "$REPO_URL" --branch "$TARGET_BRANCH" --single-branch "$TEMP_DIR" || \
 cd "$TEMP_DIR"
 git rm -r * || true
 cp -r "$GITHUB_WORKSPACE/$BUILD_DIR/." .
+touch .nojekyll
 
 git add .
 git commit -m "$COMMIT_MESSAGE"
