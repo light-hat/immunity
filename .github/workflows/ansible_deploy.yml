@@ -1,0 +1,53 @@
+name: Deploy latest version of Immunity
+
+# Required secrets
+#
+# SERVER_IP:      Server IP
+# SSH_USER:       SSH username
+# SSH_STAGING:    Private SSH key
+# DB_USER:        Database username
+# DB_PASSWORD:    Database password
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ansible_deploy:
+    needs: [build_and_push, build_and_push_worker]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_STAGING }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Create dynamic inventory
+        run: |
+          cat > inventory.ini <<EOF
+          [web]
+          ${{ secrets.SERVER_IP }}
+
+          [web:vars]
+          ansible_user=${{ secrets.SSH_USER }}
+          ansible_ssh_private_key_file=~/.ssh/id_rsa
+          app_user=${{ secrets.SSH_USER }}
+          postgres_user=${{ secrets.DB_USER }}
+          postgres_password=${{ secrets.DB_PASSWORD }}
+          EOF
+
+      - name: Test inventory
+        run: |
+          ansible-inventory -i inventory.ini --list
+
+      - name: Run playbook
+        run: |
+          ansible-playbook -i inventory.ini ansible/deploy.yml
