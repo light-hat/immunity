@@ -1,4 +1,4 @@
-name: Build and Deploy Documentation
+name: Build & Deploy Documentation
 
 on:
   workflow_call:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  build-deploy:
+  build_docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
