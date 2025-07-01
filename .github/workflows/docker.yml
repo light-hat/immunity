@@ -1,7 +1,8 @@
-name: Master's Continious Integration Pipeline
+name: Build & Push Docker Image
 
 on:
-  push:
+  workflow_dispatch:
+#  push:
 #    branches: [ master ]
 
 jobs:

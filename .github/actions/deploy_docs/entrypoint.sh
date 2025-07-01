@@ -3,7 +3,7 @@
 DOCS_DIR="$1"
 BUILD_DIR="$2"
 REQUIREMENTS="$3"
-TARGET_BRANCH="$4"
+TARGET_BRANCH="gh-pages" # на случай, если кому-то в голову придёт поставить основную ветку.
 BUILD_COMMAND="$5"
 EXTRA_EXTENSIONS="$6"
 COMMIT_MESSAGE="$7"
@@ -45,7 +45,7 @@ cp -r "$GITHUB_WORKSPACE/$BUILD_DIR/." .
 
 git add .
 git commit -m "$COMMIT_MESSAGE"
-git push origin "$TARGET_BRANCH"
+git push -u -f origin "$TARGET_BRANCH"
 
 rm -rf "$TEMP_DIR"
 
