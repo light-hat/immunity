@@ -1,4 +1,4 @@
-name: Deploy latest version of Immunity
+name: Deploy Immunity with Ansible
 
 # Required secrets
 #
