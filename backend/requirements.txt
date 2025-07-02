@@ -37,7 +37,7 @@ redis==6.2.0
 referencing==0.36.2
 requests==2.32.3
 requests-oauthlib==2.0.0
-rpds-py==0.25.1
+rpds-py==0.26.0
 six==1.17.0
 social-auth-app-django==5.4.3
 social-auth-core==4.7.0
