@@ -13,7 +13,7 @@
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.57.0",
+    "react-hook-form": "^7.59.0",
     "swr": "^2.3.3",
     "wretch": "^2.11.0"
   },
