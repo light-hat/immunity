@@ -4,7 +4,7 @@ updates:
     directory: "frontend"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 300
     labels:
       - "dependencies"
       - "security"
@@ -14,7 +14,7 @@ updates:
     directory: "backend"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 300
     labels:
       - "dependencies"
       - "security"
@@ -24,4 +24,4 @@ updates:
     directory: "docker"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 300
