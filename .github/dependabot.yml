@@ -4,8 +4,6 @@ updates:
     directory: "frontend"
     schedule:
       interval: "daily"
-    vulnerability-alerts:
-      enabled: true
     open-pull-requests-limit: 3
     labels:
       - "dependencies"
@@ -16,8 +14,6 @@ updates:
     directory: "backend"
     schedule:
       interval: "daily"
-    vulnerability-alerts:
-      enabled: true
     open-pull-requests-limit: 3
     labels:
       - "dependencies"
@@ -28,6 +24,4 @@ updates:
     directory: "docker"
     schedule:
       interval: "daily"
-    vulnerability-alerts:
-      enabled: true
     open-pull-requests-limit: 3

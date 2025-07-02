@@ -3,8 +3,8 @@ name: Build & Deploy Documentation
 on:
   workflow_call:
   workflow_dispatch:
-  push:
-    branches: [ master ]
+  # push:
+  #   branches: [ master ]
 
 permissions:
   contents: write
