@@ -3,12 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Immunity
-===========================
-
 .. image:: static/favicon.png
    :alt: Immunity IAST logo
    :align: center
+
+Immunity
+===========================
 
 Immunity — система интерактивного анализа веб-приложений (Interactive Application Security Testing, IAST).
 
