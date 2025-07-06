@@ -22,7 +22,7 @@ cd "$GITHUB_WORKSPACE"
 
 echo "Building documentation in $DOCS_DIR"
 cd "$DOCS_DIR" || exit
-sphinx-apidoc -f -o ./development/ ../../backend/api
+sphinx-apidoc -f -o ./development/ ../../backend/api/models
 echo CHECK THIS OUT
 ls -la ./development/
 eval "$BUILD_COMMAND"
