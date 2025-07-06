@@ -6,8 +6,8 @@
 Immunity
 ===========================
 
-.. image:: _static/favicon.png
-   :alt: Логотип VulnScan IAST
+.. image:: static/favicon.png
+   :alt: Immunity IAST logo
    :align: center
 
 Immunity — система интерактивного анализа веб-приложений (Interactive Application Security Testing, IAST).
