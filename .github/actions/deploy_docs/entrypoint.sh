@@ -22,8 +22,9 @@ cd "$GITHUB_WORKSPACE"
 
 echo "Building documentation in $DOCS_DIR"
 cd "$DOCS_DIR" || exit
-sphinx-apidoc -f -o $DOCS_DIR/source/development/ ../backend/api
-ls -la
+sphinx-apidoc -f -o ./development/ ../../backend/api
+echo CHECK THIS OUT
+ls -la ./development/
 eval "$BUILD_COMMAND"
 
 git config --global user.name "GitHub Actions"
