@@ -3,15 +3,32 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Immunity documentation
+.. image:: static/favicon.png
+   :alt: Immunity IAST logo
+   :align: center
+
+Immunity
 ===========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+Immunity — система интерактивного анализа безопасности веб-приложений (Interactive Application Security Testing, IAST).
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Начало работы:
+   
+   quickstart
+   installation
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Основная документация:
+   
+   user_guide
+   admin_guide
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Дополнительно:
+   
+   development/index
+   backend/index
