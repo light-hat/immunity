@@ -27,7 +27,7 @@ Immunity — система интерактивного анализа безо
    admin_guide
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Дополнительно:
    
    development/index
