@@ -7,7 +7,6 @@
 
 .. toctree::
    :maxdepth: 1
-   :glob:
-   :hidden:
+   :caption: Документация бэкэнда:
    
-   *
+   backend/index
