@@ -1,4 +1,7 @@
 import sys
+import os
+
+sys.path.insert(0,  os.path.abspath('../'))
 
 project = 'Immunity docs'
 copyright = '2025, light-hat'
@@ -30,5 +33,3 @@ language = 'en'
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
-
-sys.path.insert(0,  os.path.abspath('..'))
