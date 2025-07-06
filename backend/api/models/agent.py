@@ -76,6 +76,7 @@ class IastAgentEvent(models.Model):
     """
     Events that occur during agent operation.
     """
+
     agent = models.ForeignKey(
         IastAgent, on_delete=models.CASCADE, related_name="new_events"
     )
