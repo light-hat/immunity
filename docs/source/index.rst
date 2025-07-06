@@ -30,4 +30,4 @@ Immunity — система интерактивного анализа безо
    :maxdepth: 1
    :caption: Дополнительно:
    
-   development/*.rst
+   development/index
