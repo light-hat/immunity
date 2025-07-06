@@ -9,6 +9,7 @@
   <title>Immunity documentation &mdash; Immunity docs 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,9 +17,12 @@
       <script src="_static/documentation_options.js?v=51b770b3"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Установка" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,11 +44,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Immunity documentation</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Начало работы:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Быстрый старт</a></li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Основная документация:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">Руководство пользователя</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide.html">Руководство администратора</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -74,7 +84,7 @@
 <p>Тест диаграммы</p>
 <p>Тест ссылок</p>
 <p>См. раздел <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Установка</span></a>
-или <span class="xref std std-doc">user_guide</span></p>
+или <a class="reference internal" href="user_guide.html"><span class="doc">Руководство пользователя</span></a></p>
 <p>Тест директив</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -92,6 +102,44 @@
 <p>Критическое предупреждение
 123</p>
 </div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">release</span> <span class="o">=</span> <span class="s2">&quot;0.8.2&quot;</span>
+<span class="linenos"> 2</span><span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;0.8&quot;</span>
+<span class="hll"><span class="linenos"> 3</span>
+</span><span class="linenos"> 4</span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+<span class="hll"><span class="linenos"> 5</span>   <span class="s2">&quot;sphinx.ext.autodoc&quot;</span><span class="p">,</span>
+</span><span class="linenos"> 6</span>   <span class="s2">&quot;sphinx.ext.napoleon&quot;</span><span class="p">,</span>
+<span class="linenos"> 7</span>   <span class="s2">&quot;sphinx.ext.viewcode&quot;</span><span class="p">,</span>
+<span class="linenos"> 8</span>   <span class="s2">&quot;sphinx.ext.intersphinx&quot;</span><span class="p">,</span>
+<span class="linenos"> 9</span>   <span class="s2">&quot;sphinx.ext.todo&quot;</span><span class="p">,</span>
+<span class="linenos">10</span>   <span class="s2">&quot;sphinxcontrib.httpdomain&quot;</span><span class="p">,</span>
+<span class="linenos">11</span>   <span class="s2">&quot;sphinx_rtd_theme&quot;</span><span class="p">,</span>
+<span class="linenos">12</span>   <span class="s2">&quot;myst_parser&quot;</span><span class="p">,</span>
+<span class="linenos">13</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Начало работы:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Установка</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#id2">Системные требования</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">Docker-установка</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Быстрый старт</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Основная документация:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">Руководство пользователя</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide.html">Руководство администратора</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin_guide.html#id2">Конфигурация сервера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin_guide.html#id3">Мониторинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin_guide.html#id4">Резервное копирование</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -99,7 +147,9 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Установка" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -9,7 +9,6 @@ Immunity documentation
 Тест диаграммы
 
 .. mermaid::
-
    sequenceDiagram
      participant User
      participant Agent
@@ -38,22 +37,40 @@ Immunity documentation
 .. code-block:: python
    :linenos:
    :emphasize-lines: 3,5
-      release = "0.8.2"
-      version = "0.8"
+   
+   release = "0.8.2"
+   version = "0.8"
 
-      extensions = [
-         "sphinx.ext.autodoc",
-         "sphinx.ext.napoleon",
-         "sphinx.ext.viewcode",
-         "sphinx.ext.intersphinx",
-         "sphinx.ext.todo",
-         "sphinxcontrib.httpdomain",
-         "sphinx_rtd_theme",
-         "myst_parser",
-      ]
+   extensions = [
+      "sphinx.ext.autodoc",
+      "sphinx.ext.napoleon",
+      "sphinx.ext.viewcode",
+      "sphinx.ext.intersphinx",
+      "sphinx.ext.todo",
+      "sphinxcontrib.httpdomain",
+      "sphinx_rtd_theme",
+      "myst_parser",
+   ]
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Начало работы:
+   
+   installation
+   quickstart
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Основная документация:
+   
+   user_guide
+   admin_guide
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Дополнительно:
+   
+   development
+   examples
+   faq
