@@ -22,7 +22,10 @@ extensions = [
     "sphinx.ext.todo",
     "sphinxcontrib.httpdomain",
     "sphinx_rtd_theme",
-    
+    'sphinx_copybutton',
+    'sphinxcontrib.mermaid',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.imgconverter',
 ]
 
 templates_path = ['_templates']

@@ -11,6 +11,7 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir \
     sphinx \
     sphinx-rtd-theme \
+    sphinx-copybutton \
     sphinxcontrib-mermaid \
     sphinxcontrib-plantuml \
     sphinxcontrib-httpdomain \
