@@ -17,7 +17,8 @@ RUN pip install --no-cache-dir \
     sphinxcontrib-httpdomain \
     sphinxcontrib-openapi \
     sphinx-autobuild \
-    myst-parser
+    myst-parser \
+    autodocsumm
 
 COPY entrypoint.sh /entrypoint.sh
 

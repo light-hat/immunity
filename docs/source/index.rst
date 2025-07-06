@@ -10,14 +10,14 @@
 Immunity
 ===========================
 
-Immunity — система интерактивного анализа веб-приложений (Interactive Application Security Testing, IAST).
+Immunity — система интерактивного анализа безопасности веб-приложений (Interactive Application Security Testing, IAST).
 
 .. toctree::
    :maxdepth: 2
    :caption: Начало работы:
    
-   installation
    quickstart
+   installation
 
 .. toctree::
    :maxdepth: 2
@@ -30,4 +30,4 @@ Immunity — система интерактивного анализа веб-�
    :maxdepth: 1
    :caption: Дополнительно:
    
-   development/index
+   development/*.rst

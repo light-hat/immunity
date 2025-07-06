@@ -18,6 +18,9 @@ if [ -n "$REQUIREMENTS" ] && [ -f "$REQUIREMENTS" ]; then
     pip install -r "$REQUIREMENTS"
 fi
 
+# AUTODOC DJANGO BACKEND
+sphinx-apidoc -f -o docs/source/development/ backend/api
+
 cd "$GITHUB_WORKSPACE"
 
 echo "Building documentation in $DOCS_DIR"
