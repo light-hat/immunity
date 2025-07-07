@@ -1,6 +1,6 @@
 name: 'Sphinx Documentation Builder and Deployer'
 description: 'Build Sphinx documentation and deploy to GitHub Pages'
-author: 'Alexey Pirogov'
+author: 'light-hat'
 
 inputs:
   docs-dir:
