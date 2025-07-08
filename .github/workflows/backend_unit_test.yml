@@ -1,0 +1,32 @@
+name: Run tests and upload coverage
+
+on:
+  push:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run tests and collect coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+
+      - name: Install dependencies
+        run: cd backend && ./setup_requirements.sh --qa
+
+      - name: Run tests
+        run: |
+          cd backend
+          pytest --cov --cov-branch --cov-report=xml
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

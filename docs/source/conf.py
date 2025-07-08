@@ -24,7 +24,7 @@ extensions = [
     'sphinx.ext.coverage',
 ]
 
-auto_doc_default_options = {'autosummary': True}
+#auto_doc_default_options = {'autosummary': True}
 
 templates_path = ['_templates']
 exclude_patterns = []

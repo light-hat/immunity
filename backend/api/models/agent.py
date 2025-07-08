@@ -1,7 +1,12 @@
+import time
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from .server import IastServer
+#from .project import IastProject
 
+def get_events():
+    return ["Registration successful"]
 
 class IastAgent(models.Model):
     """
@@ -11,7 +16,7 @@ class IastAgent(models.Model):
     token = models.CharField(max_length=255, blank=True)
     version = models.CharField(max_length=255, blank=True)
     latest_time = models.IntegerField()
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    #user = models.ForeignKey(User, models.DO_NOTHING)
     server = models.ForeignKey(
         to=IastServer,
         on_delete=models.DO_NOTHING,
@@ -24,10 +29,10 @@ class IastAgent(models.Model):
     is_core_running = models.IntegerField()
     control = models.IntegerField()
     is_control = models.IntegerField()
-    bind_project = models.ForeignKey(IastProject, on_delete=models.CASCADE, default=-1)
-    project_version = models.ForeignKey(
-        IastProjectVersion, on_delete=models.CASCADE, default=-1
-    )
+    #bind_project = models.ForeignKey(IastProject, on_delete=models.CASCADE, default=-1)
+    #project_version = models.ForeignKey(
+    #    IastProjectVersion, on_delete=models.CASCADE, default=-1
+    #)
     project_name = models.CharField(max_length=255, blank=True)
     online = models.PositiveSmallIntegerField(default=0)
     language = models.CharField(max_length=10, blank=True)
@@ -40,7 +45,7 @@ class IastAgent(models.Model):
     except_running_status = models.IntegerField(default=1)
     state_status = models.IntegerField(default=1)
     events = models.JSONField(default=get_events)
-    department = models.ForeignKey(Department, models.DO_NOTHING)
+    #department = models.ForeignKey(Department, models.DO_NOTHING)
     allow_report = models.IntegerField(default=1)
 
     class Meta:
@@ -81,7 +86,7 @@ class IastAgentEvent(models.Model):
         IastAgent, on_delete=models.CASCADE, related_name="new_events"
     )
     name = models.CharField(max_length=255, blank=True)
-    time = models.IntegerField(default=get_timestamp, blank=True, null=True)
+    time = models.IntegerField(default=int(time.time()), blank=True, null=True)
 
     class Meta:
         db_table = "iast_agent_event"
