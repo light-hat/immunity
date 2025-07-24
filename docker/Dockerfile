@@ -91,7 +91,7 @@ COPY backend/setup_requirements.sh .
 RUN chmod +x setup_requirements.sh
 
 RUN if [ "$ENV" = "dev" ]; then \
-        ./setup_requirements.sh --local; \
+        ./setup_requirements.sh --dev; \
     elif [ "$ENV" = "staging" ]; then \
         ./setup_requirements.sh --stage; \
     elif [ "$ENV" = "prod" ]; then \
