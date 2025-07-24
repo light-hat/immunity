@@ -25,7 +25,7 @@ COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2
 install_dev() {
   python3 -m venv venv
   source venv/bin/activate
-  pip install $COMMON uvicorn django-debug-toolbar ipdb 
+  pip install django-debug-toolbar ipdb $COMMON uvicorn 
 }
 
 install_qa() {
