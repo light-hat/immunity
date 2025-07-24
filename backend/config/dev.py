@@ -5,6 +5,7 @@ This mode is specifically for development and debugging. Don't even think about 
 """
 
 from os import environ
+
 from config.settings import *
 
 DEBUG = True

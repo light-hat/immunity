@@ -3,15 +3,17 @@ URL configuration for config project.
 """
 
 from os import environ
+
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 ENV = environ.get("POSTGRES_DB")
 
@@ -23,6 +25,7 @@ class HealthCheckView(APIView):
 
     authentication_classes = []
     permission_classes = []
+    renderer_classes = [JSONRenderer]
 
     def get(self, request):
         return Response({"status": "healthy"})
