@@ -6,6 +6,9 @@ name: Deploy DEV environment
 # SSH_USER:       SSH username
 # SSH_KEY:        Private SSH key
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
