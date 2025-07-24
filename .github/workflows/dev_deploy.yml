@@ -42,14 +42,18 @@ jobs:
             make docker
             make dev
 
+            echo
             echo DOCKER CONTAINERS
-            cd $WORK_DIR && docker compose ps
+            echo ---------------------------------------------
+            echo 
+            docker compose -f docker-compose/dev/docker-compose.yml ps
 
             echo
+            echo LOGS
             echo ---------------------------------------------
             echo 
 
-            cd cd $WORK_DIR && docker compose logs
+            docker compose -f docker-compose/dev/docker-compose.yml logs
 
             echo "Deployed to dev environment"
         id: deploy
