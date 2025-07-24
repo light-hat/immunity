@@ -17,27 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - uses: actions/checkout@v4
-
-      # - name: Setup SSH
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      # - name: Create dynamic inventory
-      #   run: |
-      #     cat > inventory.ini <<EOF
-      #     [web]
-      #     ${{ secrets.SERVER_IP }}
-
-      #     [web:vars]
-      #     ansible_user=${{ secrets.SSH_USER }}
-      #     ansible_ssh_private_key_file=~/.ssh/id_rsa
-      #     app_user=${{ secrets.SSH_USER }}
-      #     EOF
-
       - name: Start DEV version
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -50,9 +29,17 @@ jobs:
 
             WORK_DIR="/home/dev/"
             
-            git clone https://github.com/light-hat/immunity -b ${{ github.ref_name }} $WORK_DIR/
+            if [ ! -d "/путь/к/папке" ]; then
+              git clone https://github.com/light-hat/immunity -b ${{ github.ref_name }} $WORK_DIR/
+              cd $WORK_DIR
+            else
+              cd $WORK_DIR
+              git fetch ${{ github.ref_name }}
+              git checkout ${{ github.ref_name }}
+              git pull origin ${{ github.ref_name }}
+            fi
 
-            cd $WORK_DIR
+            
             make docker
             make dev
             
