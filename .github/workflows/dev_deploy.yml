@@ -42,10 +42,8 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
-            export DEV_HOSTNAME=${{ secrets.SERVER_IP }}
-
             make docker
-            make dev
+            make dev DEV_HOSTNAME=${{ secrets.SERVER_IP }}
 
             echo ---------------------------------------------
             echo DOCKER CONTAINERS
