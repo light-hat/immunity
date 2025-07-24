@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DJANGO_SETTINGS_MODULE="config.${DJANGO_ENV:-prod}"
+export DJANGO_SETTINGS_MODULE="config.$DJANGO_ENV"
 
 if [ "$DJANGO_ENV" = "dev" ]; then
   export RELOAD="true"
