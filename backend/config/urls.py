@@ -17,6 +17,7 @@ from drf_spectacular.views import (
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 ENV = environ.get("DJANGO_ENV")
 
@@ -52,9 +53,7 @@ if ENV == "dev":
     ]
     urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
     urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ]
+    urlpatterns += debug_toolbar_urls()
 
 if ENV != "prod":
     urlpatterns += [
