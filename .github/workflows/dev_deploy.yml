@@ -50,11 +50,7 @@ jobs:
 
             WORK_DIR="/home/dev/"
             
-            rsync -avz --delete \
-              --exclude='.git/' \
-              --exclude='.github/' \
-              --exclude='.ansible/' \
-              $GITHUB_WORKSPACE/ $WORK_DIR/
+            git clone https://github.com/light-hat/immunity -b ${{ github.ref }} $WORK_DIR/
 
             cd $WORK_DIR
             make docker
