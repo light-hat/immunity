@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             apt update
-            apt -y git make
+            apt -y install git make
 
             WORK_DIR="/home/dev/"
             
