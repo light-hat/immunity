@@ -20,20 +20,20 @@ Options:
 EOF
 }
 
-COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary redis"
+COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]"
 
 install_dev() {
   python3 -m venv venv
   source venv/bin/activate
-  pip install drf-spectacular drf-spectacular[sidecar] $COMMON uvicorn django-debug-toolbar ipdb 
+  pip install $COMMON uvicorn django-debug-toolbar ipdb 
 }
 
 install_qa() {
-  pip install drf-spectacular drf-spectacular[sidecar] $COMMON pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install $COMMON pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
 install_stage() {
-  pip install drf-spectacular drf-spectacular[sidecar] $COMMON uvicorn 
+  pip install $COMMON uvicorn 
 }
 
 install_prod() {
