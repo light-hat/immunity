@@ -1,4 +1,4 @@
-name: Deploy Immunity with Ansible
+name: Deploy DEV environment
 
 # Required secrets
 #

@@ -53,17 +53,15 @@ CMD ["nginx", "-g", "daemon off;"]
 
 # Stage: Frontend
 
-FROM node:24-alpine AS frontend
+# OLD BUILD: NOT WORK
+# FROM node:24-alpine AS frontend
+# WORKDIR /app/frontend
+# COPY frontend/package*.json ./
+# RUN npm install
+# COPY frontend/ .
+# RUN npm run build
 
-WORKDIR /app/frontend
-
-COPY frontend/package*.json ./
-
-RUN npm install
-
-COPY frontend/ .
-
-RUN npm run build
+# TODO NEW FRONTEND BUILD
 
 # Stage: Backend requirements
 
@@ -119,8 +117,6 @@ LABEL org.label-schema.name="Immunity" \
       com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
 
 RUN mkdir -p /home/app/web/frontend_dist
-
-COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
 
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 
