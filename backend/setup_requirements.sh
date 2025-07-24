@@ -20,28 +20,23 @@ Options:
 EOF
 }
 
-COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]"
-
 install_dev() {
-  pip install $COMMON
-  pip install django-debug-toolbar 
-  pip install ipdb uvicorn 
+  pip install django-debug-toolbar  ipdb uvicorn 
 }
 
 install_qa() {
-  pip install $COMMON
   pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
-install_stage() {
-  pip install $COMMON 
+install_stage() { 
   pip install uvicorn 
 }
 
 install_prod() {
-  pip install $COMMON
   pip install uvicorn django-cors-headers 
 }
+
+pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]
 
 if [[ $# -eq 0 ]]; then
   print_usage
