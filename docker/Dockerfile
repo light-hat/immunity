@@ -88,7 +88,8 @@ WORKDIR /home/app/web
 
 COPY backend/setup_requirements.sh .
 
-RUN chmod +x setup_requirements.sh
+RUN chmod +x setup_requirements.sh && \
+    chmod +x 
 
 RUN if [ "$ENV" = "dev" ]; then \
         ./setup_requirements.sh --local; \
@@ -116,13 +117,13 @@ LABEL org.label-schema.name="Immunity" \
       com.example.license="Apache-2.0" \
       com.example.author="Alexey Pirogov <l1ghth4t@gmail.com>"
 
-RUN mkdir -p /home/app/web/frontend_dist
-
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 
 RUN chown -R immunity:immunity /home/app/web
 
 USER immunity
+
+COPY scripts/entrypoint.sh .
 
 RUN chmod +x entrypoint.sh
 
