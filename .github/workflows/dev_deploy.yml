@@ -45,12 +45,10 @@ jobs:
             echo ---------------------------------------------
             echo DOCKER CONTAINERS
             echo ---------------------------------------------
-            echo ---------------------------------------------
             docker compose -f docker-compose/dev/docker-compose.yml ps
 
             echo ---------------------------------------------
             echo LOGS
-            echo ---------------------------------------------
             echo ---------------------------------------------
 
             docker compose -f docker-compose/dev/docker-compose.yml logs

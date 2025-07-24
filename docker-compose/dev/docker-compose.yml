@@ -59,6 +59,11 @@ services:
     restart: always
     networks:
       - immunity_dev_net
+    healthcheck:
+      test: curl --fail http://localhost:8000 || exit 1
+      interval: 20s
+      timeout: 5s
+      retries: 3
     depends_on:
       db:
         condition: service_healthy
@@ -90,6 +95,8 @@ services:
       db:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      api:
         condition: service_healthy
 
 volumes:
