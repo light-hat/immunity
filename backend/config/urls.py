@@ -2,10 +2,11 @@
 URL configuration for config project.
 """
 
-import debug_toolbar
 from os import environ
 
+import debug_toolbar
 from config import dev
+from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
@@ -17,7 +18,6 @@ from drf_spectacular.views import (
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from debug_toolbar.toolbar import debug_toolbar_urls
 
 ENV = environ.get("DJANGO_ENV")
 
@@ -53,7 +53,9 @@ if ENV == "dev":
     ]
     urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
     urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
-    urlpatterns += debug_toolbar_urls()
+    urlpatterns = [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ] + urlpatterns
 
 if ENV != "prod":
     urlpatterns += [
