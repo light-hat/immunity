@@ -20,22 +20,24 @@ Options:
 EOF
 }
 
+COMMON="Django djangorestframework djangorestframework-simplejwt psycopg2-binary redis"
+
 install_local() {
   python3 -m venv venv
   source venv/bin/activate
-  pip install uvicorn Django djangorestframework drf-spectacular django-debug-toolbar ipdb 
+  pip install $COMMON uvicorn drf-spectacular django-debug-toolbar ipdb 
 }
 
 install_qa() {
-  pip install Django djangorestframework drf-spectacular pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install $COMMON drf-spectacular pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
 install_stage() {
-  pip install uvicorn Django djangorestframework psycopg2-binary drf-spectacular
+  pip install $COMMON uvicorn drf-spectacular
 }
 
 install_prod() {
-  pip install uvicorn Django djangorestframework psycopg2-binary redis django-cors-headers 
+  pip install $COMMON uvicorn django-cors-headers 
 }
 
 if [[ $# -eq 0 ]]; then
