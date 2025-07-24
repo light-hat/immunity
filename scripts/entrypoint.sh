@@ -6,9 +6,9 @@ if [ "$DJANGO_ENV" = "dev" ]; then
   export RELOAD="true"
 fi
 
-python manage.py makemigrations --no-input
-python manage.py migrate --no-input
-python manage.py collectstatic --no-input
+python manage.py makemigrations --no-input --settings=config.$DJANGO_ENV
+python manage.py migrate --no-input --settings=config.$DJANGO_ENV
+python manage.py collectstatic --no-input --settings=config.$DJANGO_ENV
 
 if [ "$DJANGO_ENV" = "staging" ]; then
   python manage.py ...

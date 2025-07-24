@@ -7,6 +7,7 @@ from os import environ
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import dev
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -41,8 +42,8 @@ if ENV == "dev":
     urlpatterns += [
         path("admin/", admin.site.urls, name="admin"),
     ]
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
+    urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
 
 if ENV != "prod":
     urlpatterns += [
