@@ -50,7 +50,7 @@ jobs:
 
             WORK_DIR="/home/dev/"
             
-            git clone https://github.com/light-hat/immunity -b ${{ github.ref }} $WORK_DIR/
+            git clone https://github.com/light-hat/immunity -b ${{ github.ref_name }} $WORK_DIR/
 
             cd $WORK_DIR
             make docker
