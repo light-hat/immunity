@@ -86,7 +86,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /home/app/web
 
-COPY backend/setup_requirements.sh .
+COPY backend/setup_requirements.sh setup_requirements.sh
 
 RUN chmod +x setup_requirements.sh
 
