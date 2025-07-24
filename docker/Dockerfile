@@ -100,6 +100,10 @@ RUN if [ "$ENV" = "dev" ]; then \
         echo "Unknown environment: $ENV"; exit 1; \
     fi
 
+COPY scripts/entrypoint.sh .
+
+RUN chmod +x entrypoint.sh
+
 COPY backend/ .
 
 # Stage: API (Backend)
@@ -121,10 +125,6 @@ RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 RUN chown -R immunity:immunity /home/app/web
 
 USER immunity
-
-COPY scripts/entrypoint.sh .
-
-RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["sh", "./entrypoint.sh"]
 
