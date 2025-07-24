@@ -43,8 +43,13 @@ jobs:
             make dev
 
             echo DOCKER CONTAINERS
-            docker compose ps
-            docker compose logs
+            cd $WORK_DIR && docker compose ps
+
+            echo
+            echo ---------------------------------------------
+            echo 
+
+            cd cd $WORK_DIR && docker compose logs
 
             echo "Deployed to dev environment"
         id: deploy
