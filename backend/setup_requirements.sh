@@ -25,15 +25,15 @@ COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2
 install_dev() {
   python3 -m venv venv
   source venv/bin/activate
-  pip install $COMMON uvicorn drf-spectacular django-debug-toolbar ipdb 
+  pip install $COMMON uvicorn drf-spectacular drf-spectacular[sidecar] django-debug-toolbar ipdb 
 }
 
 install_qa() {
-  pip install $COMMON drf-spectacular pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install $COMMON drf-spectacular drf-spectacular[sidecar] pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
 install_stage() {
-  pip install $COMMON uvicorn drf-spectacular
+  pip install $COMMON uvicorn drf-spectacular drf-spectacular[sidecar]
 }
 
 install_prod() {
