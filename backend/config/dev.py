@@ -4,6 +4,7 @@ Django settings for DEV environment.
 This mode is specifically for development and debugging. Don't even think about using it in production.
 """
 
+from os import environ
 from config.settings import *
 
 DEBUG = True
