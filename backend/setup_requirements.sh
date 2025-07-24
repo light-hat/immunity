@@ -22,7 +22,7 @@ EOF
 
 COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary redis"
 
-install_local() {
+install_dev() {
   python3 -m venv venv
   source venv/bin/activate
   pip install $COMMON uvicorn drf-spectacular django-debug-toolbar ipdb 
@@ -47,8 +47,8 @@ fi
 
 for arg in "$@"; do
   case "$arg" in
-    --local)
-      install_local
+    --dev)
+      install_dev
       ;;
     --qa)
       install_qa
