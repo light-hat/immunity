@@ -20,11 +20,20 @@ CORS_ALLOWED_ORIGINS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS += [
+    'debug_toolbar',
     "rest_framework",
     "rest_framework_simplejwt",
     "djoser",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+]
+
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 DATABASES = {

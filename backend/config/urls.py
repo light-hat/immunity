@@ -4,10 +4,10 @@ URL configuration for config project.
 
 from os import environ
 
+from config import dev
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from config import dev
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -30,7 +30,14 @@ class HealthCheckView(APIView):
     renderer_classes = [JSONRenderer]
 
     def get(self, request):
-        return Response({"status": "healthy"})
+        return Response(
+            {"status": "healthy"},
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0",
+            },
+        )
 
 
 urlpatterns = [
@@ -44,6 +51,10 @@ if ENV == "dev":
     ]
     urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
     urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
 
 if ENV != "prod":
     urlpatterns += [
