@@ -3,7 +3,7 @@ docker:
 
 dev:
 	sudo docker compose -f ./docker-compose/dev/docker-compose.yml build --no-cache
-	sudo docker compose -f ./docker-compose/dev/docker-compose.yml up -d -e DEV_HOSTNAME=$DEV_HOSTNAME
+	sudo docker compose -f ./docker-compose/dev/docker-compose.yml up -d -e DEV_HOSTNAME=${DEV_HOSTNAME}
 
 unit_test:
 	sudo docker compose -f ./docker-compose/qa/docker-compose.yml up -d --build unit_test
