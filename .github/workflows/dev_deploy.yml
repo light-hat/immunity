@@ -41,7 +41,10 @@ jobs:
 
             make docker
             make dev
-            
-            docker ps
+
+            echo DOCKER CONTAINERS
+            docker compose ps
+            docker compose logs
+
             echo "Deployed to dev environment"
         id: deploy
