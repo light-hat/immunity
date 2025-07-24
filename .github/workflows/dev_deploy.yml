@@ -29,7 +29,7 @@ jobs:
 
             WORK_DIR="/home/dev/"
             
-            if [ ! -d "/путь/к/папке" ]; then
+            if [ ! -d "$WORK_DIR" ]; then
               git clone https://github.com/light-hat/immunity -b ${{ github.ref_name }} $WORK_DIR/
               cd $WORK_DIR
             else
@@ -39,7 +39,6 @@ jobs:
               git pull origin ${{ github.ref_name }}
             fi
 
-            
             make docker
             make dev
             
