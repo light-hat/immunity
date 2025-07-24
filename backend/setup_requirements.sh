@@ -20,7 +20,7 @@ Options:
 EOF
 }
 
-COMMON="Django djangorestframework djangorestframework-simplejwt psycopg2-binary redis"
+COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary redis"
 
 install_local() {
   python3 -m venv venv
