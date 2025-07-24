@@ -21,7 +21,7 @@ EOF
 }
 
 install_dev() {
-  pip install django-debug-toolbar  ipdb uvicorn 
+  pip install django-debug-toolbar ipdb uvicorn 
 }
 
 install_qa() {
