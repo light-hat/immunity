@@ -1,0 +1,65 @@
+name: Deploy Immunity with Ansible
+
+# Required secrets
+#
+# SERVER_IP:      Server IP
+# SSH_USER:       SSH username
+# SSH_KEY:        Private SSH key
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  dev_deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+
+      # - name: Setup SSH
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      # - name: Create dynamic inventory
+      #   run: |
+      #     cat > inventory.ini <<EOF
+      #     [web]
+      #     ${{ secrets.SERVER_IP }}
+
+      #     [web:vars]
+      #     ansible_user=${{ secrets.SSH_USER }}
+      #     ansible_ssh_private_key_file=~/.ssh/id_rsa
+      #     app_user=${{ secrets.SSH_USER }}
+      #     EOF
+
+      - name: Start DEV version
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            apt update
+            apt -y git make
+
+            WORK_DIR="/home/dev/"
+            
+            rsync -avz --delete \
+              --exclude='.git/' \
+              --exclude='.github/' \
+              --exclude='.ansible/' \
+              $GITHUB_WORKSPACE/ $WORK_DIR/
+
+            cd $WORK_DIR
+            make docker
+            make dev
+            
+            docker ps
+            echo "Deployed to dev environment"
+        id: deploy

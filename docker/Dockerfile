@@ -69,6 +69,14 @@ RUN npm run build
 
 FROM python:3.13-slim AS base
 
+ARG ENV=prod
+
+ENV PYTHONUNBUFFERED 1
+
+ENV PYTHONDONTWRITEBYTECODE 1
+
+ENV DJANGO_SETTINGS_MODULE=config.${ENV}
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -80,13 +88,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /home/app/web
 
-COPY backend/requirements.txt .
+COPY backend/setup_requirements.sh .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN chmod +x setup_requirements.sh
+
+RUN if [ "$ENV" = "dev" ]; then \
+        ./setup_requirements.sh --local; \
+    elif [ "$ENV" = "staging" ]; then \
+        ./setup_requirements.sh --stage; \
+    elif [ "$ENV" = "prod" ]; then \
+        ./setup_requirements.sh --prod; \
+    else \
+        echo "Unknown environment: $ENV"; exit 1; \
+    fi
 
 COPY backend/ .
-
-ENV DJANGO_SETTINGS_MODULE=conf.settings.prod
 
 # Stage: API (Backend)
 
@@ -105,8 +121,6 @@ LABEL org.label-schema.name="Immunity" \
 RUN mkdir -p /home/app/web/frontend_dist
 
 COPY --from=frontend /app/frontend/dist /home/app/web/frontend_dist
-
-RUN python3 manage.py collectstatic --noinput --settings=conf.settings.prod
 
 RUN groupadd -g 1000 immunity && useradd -u 1000 -g immunity -m immunity
 

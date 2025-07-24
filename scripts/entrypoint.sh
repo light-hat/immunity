@@ -1,7 +1,9 @@
 #!/bin/sh
 
+export DJANGO_SETTINGS_MODULE="config.${DJANGO_ENV:-prod}"
+
 if [ "$DJANGO_ENV" = "dev" ]; then
-  RELOAD="true"
+  export RELOAD="true"
 fi
 
 if [ "$DJANGO_ENV" = "staging" ] || [ "$DJANGO_ENV" = "prod" ]; then
