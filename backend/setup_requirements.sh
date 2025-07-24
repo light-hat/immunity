@@ -23,21 +23,24 @@ EOF
 COMMON="Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]"
 
 install_dev() {
-  python3 -m venv venv
-  source venv/bin/activate
-  pip install django-debug-toolbar ipdb $COMMON uvicorn 
+  pip install $COMMON
+  pip install django-debug-toolbar 
+  pip install ipdb uvicorn 
 }
 
 install_qa() {
-  pip install $COMMON pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install $COMMON
+  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
 install_stage() {
-  pip install $COMMON uvicorn 
+  pip install $COMMON 
+  pip install uvicorn 
 }
 
 install_prod() {
-  pip install $COMMON uvicorn django-cors-headers 
+  pip install $COMMON
+  pip install uvicorn django-cors-headers 
 }
 
 if [[ $# -eq 0 ]]; then

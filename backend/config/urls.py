@@ -2,6 +2,7 @@
 URL configuration for config project.
 """
 
+import debug_toolbar
 from os import environ
 
 from config import dev
@@ -51,7 +52,6 @@ if ENV == "dev":
     ]
     urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
     urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
-    import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
     ]
