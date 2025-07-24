@@ -41,6 +41,8 @@ services:
       context: ../../
       dockerfile: docker/Dockerfile
       target: server
+      args:
+        - ENV=dev
     image: immunity_dev_api
     container_name: immunity-backend-dev
     ports:
@@ -73,6 +75,8 @@ services:
       context: ../../
       dockerfile: docker/Dockerfile
       target: worker
+      args:
+        - ENV=dev
     image: immunity_dev_worker
     container_name: immunity-worker-dev
     ports:

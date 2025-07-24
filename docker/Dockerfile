@@ -67,6 +67,8 @@ CMD ["nginx", "-g", "daemon off;"]
 
 FROM python:3.13-slim AS base
 
+ARG ENV
+
 ENV PYTHONUNBUFFERED 1
 
 ENV PYTHONDONTWRITEBYTECODE 1
