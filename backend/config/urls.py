@@ -4,15 +4,31 @@ URL configuration for config project.
 
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
 
+
+class HealthCheckView(APIView):
+    """
+    Простая проверка работоспособности сервиса
+    """
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        return Response({"status": "healthy"})
+
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", include("api.urls")),
+    path("", HealthCheckView.as_view(), name="health-check"),
+    path("api/", include("api.urls"), name="api"),
+    path("admin/", admin.site.urls, name="admin"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",
