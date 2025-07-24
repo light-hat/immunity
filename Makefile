@@ -2,7 +2,8 @@ docker:
 	sudo chmod +x ./scripts/install_docker.sh && sudo ./scripts/install_docker.sh
 
 dev:
-	sudo docker compose -f ./docker-compose/dev/docker-compose.yml up -d --build
+	sudo docker compose -f ./docker-compose/dev/docker-compose.yml build --no-cache
+	sudo docker compose -f ./docker-compose/dev/docker-compose.yml up -d
 
 unit_test:
 	sudo docker compose -f ./docker-compose/qa/docker-compose.yml up -d --build unit_test
