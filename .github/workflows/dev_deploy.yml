@@ -42,16 +42,16 @@ jobs:
             make docker
             make dev
 
-            echo
+            echo ---------------------------------------------
             echo DOCKER CONTAINERS
             echo ---------------------------------------------
-            echo 
+            echo ---------------------------------------------
             docker compose -f docker-compose/dev/docker-compose.yml ps
 
-            echo
+            echo ---------------------------------------------
             echo LOGS
             echo ---------------------------------------------
-            echo 
+            echo ---------------------------------------------
 
             docker compose -f docker-compose/dev/docker-compose.yml logs
 
