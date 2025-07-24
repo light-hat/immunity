@@ -88,8 +88,7 @@ WORKDIR /home/app/web
 
 COPY backend/setup_requirements.sh .
 
-RUN chmod +x setup_requirements.sh && \
-    chmod +x 
+RUN chmod +x setup_requirements.sh
 
 RUN if [ "$ENV" = "dev" ]; then \
         ./setup_requirements.sh --local; \
