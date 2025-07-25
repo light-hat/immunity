@@ -65,6 +65,8 @@ ARG ENV
 
 ENV NEXT_PUBLIC_ENV=${ENV}
 
+RUN npm install
+
 RUN if [ "$ENV" = "staging" ] || [ "$ENV" = "prod" ]; then \
       npm run build; \
     fi
