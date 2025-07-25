@@ -117,6 +117,7 @@ services:
       - immunity_dev_net
     depends_on:
       web:
+        condition: service_started
       db:
         condition: service_healthy
       redis:
