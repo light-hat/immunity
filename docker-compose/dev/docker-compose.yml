@@ -4,7 +4,7 @@ services:
     build:
       context: ../../
       dockerfile: docker/Dockerfile
-      target: server
+      target: frontend
       args:
         - ENV=dev
     image: immunity_dev_web
