@@ -78,7 +78,7 @@ WORKDIR /app
 
 COPY --from=frontend_builder /app/package*.json ./
 
-COPY --from=frontend_builder /app/.next ./.next
+#COPY --from=frontend_builder /app/.next ./.next
 COPY --from=frontend_builder /app/public ./public
 COPY --from=frontend_builder /app/next.config.ts ./next.config.ts
 
