@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "uikit": "^3.23.11",
     "vue": "^3.5.17",
     "vuex": "^4.1.0"
   },

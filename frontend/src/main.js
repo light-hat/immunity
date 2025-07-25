@@ -1,6 +1,17 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router';
 
-createApp(App).mount('#app')
+
+const app = createApp(App);
+
+import 'uikit/dist/css/uikit.min.css';
+
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+
+UIkit.use(Icons);
+app.config.globalProperties.$UIkit = UIkit;
+
+app.use(router);
+app.mount('#app')
