@@ -53,7 +53,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 # Stages: Frontend
 
-FROM node:18-alpine AS deps
+FROM node:18-alpine AS frontend
 
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -62,25 +62,10 @@ COPY frontend/ .
 
 RUN npm install
 
-FROM deps AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY frontend/ .
-
-RUN npm install
-
-FROM deps AS frontend
-WORKDIR /app
-
-ENV NODE_ENV=production
+RUN npm run build
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./
-# COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 USER nextjs
 
