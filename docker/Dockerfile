@@ -58,7 +58,6 @@ FROM node:20-alpine AS frontend_builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
 
 COPY frontend/ .
 
@@ -76,7 +75,6 @@ FROM node:20-alpine AS frontend
 WORKDIR /app
 
 COPY --from=frontend_builder /app/package*.json ./
-RUN npm ci --only=production
 
 COPY --from=frontend_builder /app/.next ./.next
 COPY --from=frontend_builder /app/public ./public
