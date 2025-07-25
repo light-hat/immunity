@@ -9,8 +9,8 @@ services:
         - ENV=dev
     image: immunity_dev_web
     container_name: immunity-frontend-dev
-    environment:
-      - ENV=${ENV}
+    # environment:
+    #   - ENV=${ENV}
     ports:
       - "80:3000"
     command: >
