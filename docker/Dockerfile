@@ -58,7 +58,7 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY frontend/package.json frontend/yarn.lock* frontend/package-lock.json* frontend/pnpm-lock.yaml* frontend/.npmrc* frontend/
+COPY frontend/ .
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
