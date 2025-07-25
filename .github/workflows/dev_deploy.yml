@@ -1,0 +1,60 @@
+name: Deploy DEV environment
+
+# Required secrets
+#
+# SERVER_IP:      Server IP
+# SSH_USER:       SSH username
+# SSH_KEY:        Private SSH key
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  dev_deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Start DEV version
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            apt update
+            apt -y install git make
+
+            WORK_DIR="/home/dev/"
+            
+            if [ ! -d "$WORK_DIR" ]; then
+              git clone https://github.com/light-hat/immunity -b ${{ github.ref_name }} $WORK_DIR/
+              cd $WORK_DIR
+            else
+              cd $WORK_DIR
+              git fetch ${{ github.ref_name }}
+              git checkout ${{ github.ref_name }}
+              git pull origin ${{ github.ref_name }}
+            fi
+
+            make docker
+            make dev DEV_HOSTNAME=${{ secrets.SERVER_IP }}
+
+            echo ---------------------------------------------
+            echo DOCKER CONTAINERS
+            echo ---------------------------------------------
+            docker compose -f docker-compose/dev/docker-compose.yml ps
+
+            echo ---------------------------------------------
+            echo LOGS
+            echo ---------------------------------------------
+
+            docker compose -f docker-compose/dev/docker-compose.yml logs
+
+            echo "Deployed to dev environment"
+        id: deploy

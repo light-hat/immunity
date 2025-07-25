@@ -20,23 +20,23 @@ Options:
 EOF
 }
 
-install_local() {
-  python3 -m venv venv
-  source venv/bin/activate
-  pip install uvicorn Django djangorestframework drf-spectacular django-debug-toolbar ipdb 
+install_dev() {
+  pip install django-debug-toolbar ipdb uvicorn 
 }
 
 install_qa() {
-  pip install Django djangorestframework drf-spectacular pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
 }
 
-install_stage() {
-  pip install uvicorn Django djangorestframework psycopg2-binary drf-spectacular
+install_stage() { 
+  pip install uvicorn 
 }
 
 install_prod() {
-  pip install uvicorn Django djangorestframework psycopg2-binary redis django-cors-headers 
+  pip install uvicorn django-cors-headers 
 }
+
+pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]
 
 if [[ $# -eq 0 ]]; then
   print_usage
@@ -45,8 +45,8 @@ fi
 
 for arg in "$@"; do
   case "$arg" in
-    --local)
-      install_local
+    --dev)
+      install_dev
       ;;
     --qa)
       install_qa
