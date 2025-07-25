@@ -51,30 +51,33 @@ USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Stages: Frontend
+# Stage: Frontend DEV
 
-FROM node:18-alpine AS frontend
+FROM node:24-alpine AS frontend_dev
 
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
+WORKDIR /app/frontend
 
-COPY frontend/ .
+COPY frontend/package*.json ./
 
 RUN npm install
 
+COPY frontend/ .
+
+RUN npm run dev
+
+# Stage: Frontend
+
+FROM node:24-alpine AS frontend
+
+WORKDIR /app/frontend
+
+COPY frontend/package*.json ./
+
+RUN npm install
+
+COPY frontend/ .
+
 RUN npm run build
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT=3000
-
-ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
 
 # Stage: Backend requirements
 

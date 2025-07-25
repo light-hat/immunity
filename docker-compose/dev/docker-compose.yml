@@ -4,21 +4,14 @@ services:
     build:
       context: ../../
       dockerfile: docker/Dockerfile
-      target: frontend
-      args:
-        - ENV=dev
+      target: frontend_dev
     image: immunity_dev_web
     container_name: immunity-frontend-dev
-    # environment:
-    #   - ENV=${ENV}
     ports:
-      - "80:3000"
-    command: >
-      sh -c "if [ $$ENV = 'dev' ]; then
-        npm run dev;
-      else
-        npm run start;
-      fi"
+      - "80:5173"
+    restart: always
+    networks:
+      - immunity_dev_net
 
   db:
     image: postgres:15-alpine
