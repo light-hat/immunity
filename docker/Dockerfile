@@ -51,44 +51,54 @@ USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Stage: Frontend builder
+# Stages: Frontend
 
-FROM node:20-alpine AS frontend_builder
+FROM node:18-alpine AS deps
 
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-COPY frontend/ .
+FROM deps AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-ARG ENV
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-ENV NEXT_PUBLIC_ENV=${ENV}
-
-RUN npm install
-
-RUN if [ "$ENV" = "staging" ] || [ "$ENV" = "prod" ]; then \
-      npm run build; \
-    fi
-
-# Stage: Frontend runner
-
-FROM node:20-alpine AS frontend
+FROM deps AS frontend
 WORKDIR /app
 
-COPY --from=frontend_builder /app/package*.json ./
+ENV NODE_ENV=production
 
-#COPY --from=frontend_builder /app/.next ./.next
-COPY --from=frontend_builder /app/public ./public
-COPY --from=frontend_builder /app/next.config.ts ./next.config.ts
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
 
 EXPOSE 3000
 
-CMD if [ "$ENV" = "development" ]; then \
-      npm run dev; \
-    else \
-      npm run start; \
-    fi
+ENV PORT=3000
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
 
 # Stage: Backend requirements
 
