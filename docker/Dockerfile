@@ -63,7 +63,7 @@ RUN npm install
 
 COPY frontend/ .
 
-RUN npm run dev
+CMD ["npm", "run", "dev"]
 
 # Stage: Frontend
 
