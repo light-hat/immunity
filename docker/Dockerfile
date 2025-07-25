@@ -51,17 +51,44 @@ USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Stage: Frontend
+# Stage: Frontend builder
 
-# OLD BUILD: NOT WORK
-# FROM node:24-alpine AS frontend
-# WORKDIR /app/frontend
-# COPY frontend/package*.json ./
-# RUN npm install
-# COPY frontend/ .
-# RUN npm run build
+FROM node:20-alpine AS frontend_builder
 
-# TODO NEW FRONTEND BUILD
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY frontend/ .
+
+ARG ENV
+
+ENV NEXT_PUBLIC_ENV=${ENV}
+
+RUN if [ "$ENV" = "staging" ] || [ "$ENV" = "prod" ]; then \
+      npm run build; \
+    fi
+
+# Stage: Frontend runner
+
+FROM node:20-alpine AS frontend
+WORKDIR /app
+
+COPY --from=frontend_builder /app/package*.json ./
+RUN npm ci --only=production
+
+COPY --from=frontend_builder /app/.next ./.next
+COPY --from=frontend_builder /app/public ./public
+COPY --from=frontend_builder /app/next.config.js ./next.config.js
+
+EXPOSE 3000
+
+CMD if [ "$ENV" = "development" ]; then \
+      npm run dev; \
+    else \
+      npm run start; \
+    fi
 
 # Stage: Backend requirements
 

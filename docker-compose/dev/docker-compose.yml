@@ -1,5 +1,25 @@
 services:
 
+  web:
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile
+      target: server
+      args:
+        - ENV=dev
+    image: immunity_dev_web
+    container_name: immunity-frontend-dev
+    environment:
+      - ENV=${ENV}
+    ports:
+      - "80:3000"
+    command: >
+      sh -c "if [ $$ENV = 'dev' ]; then
+        npm run dev;
+      else
+        npm run start;
+      fi"
+
   db:
     image: postgres:15-alpine
     container_name: immunity-postgres-dev
@@ -96,6 +116,7 @@ services:
     networks:
       - immunity_dev_net
     depends_on:
+      web:
       db:
         condition: service_healthy
       redis:
