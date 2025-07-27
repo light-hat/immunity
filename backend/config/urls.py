@@ -3,7 +3,7 @@ URL configuration for config project.
 """
 
 from os import environ
-
+from django.conf import settings
 import debug_toolbar
 from config import dev
 from debug_toolbar.toolbar import debug_toolbar_urls
@@ -47,16 +47,6 @@ urlpatterns = [
     path("api/", include("api.urls"), name="api"),
 ]
 
-if ENV == "dev":
-    urlpatterns += [
-        path("admin/", admin.site.urls, name="admin"),
-    ]
-    urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
-    urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
-    urlpatterns = [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ] + urlpatterns
-
 if ENV != "prod":
     urlpatterns += [
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -69,3 +59,16 @@ if ENV != "prod":
             "api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
         ),
     ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path("admin/", admin.site.urls, name="admin"),
+    ]
+    urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
+    urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
+
+    import debug_toolbar
+
+    urlpatterns = [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ] + urlpatterns
