@@ -1,23 +1,74 @@
 """
 URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from os import environ
+from django.conf import settings
+import debug_toolbar
+from config import dev
+from debug_toolbar.toolbar import debug_toolbar_urls
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+ENV = environ.get("DJANGO_ENV")
+
+
+class HealthCheckView(APIView):
+    """
+    Простая проверка работоспособности сервиса
+    """
+
+    authentication_classes = []
+    permission_classes = []
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request):
+        return Response(
+            {"status": "healthy"},
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0",
+            },
+        )
+
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("", HealthCheckView.as_view(), name="health-check"),
+    path("api/", include("api.urls"), name="api"),
 ]
+
+if ENV != "prod":
+    urlpatterns += [
+        path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+        path(
+            "api/docs/",
+            SpectacularSwaggerView.as_view(url_name="schema"),
+            name="swagger-ui",
+        ),
+        path(
+            "api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
+        ),
+    ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        path("admin/", admin.site.urls, name="admin"),
+    ]
+    urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
+    urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
+
+    import debug_toolbar
+
+    urlpatterns = [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ] + urlpatterns

@@ -1,0 +1,131 @@
+services:
+
+  web:
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile
+      target: frontend_dev
+    image: immunity_dev_web
+    container_name: immunity-frontend-dev
+    ports:
+      - "80:5173"
+    restart: always
+    networks:
+      - immunity_dev_net
+
+  db:
+    image: postgres:15-alpine
+    container_name: immunity-postgres-dev
+    expose:
+      - 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    restart: always
+    networks:
+      - immunity_dev_net
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:7.0.15
+    container_name: immunity-redis-dev
+    expose:
+      - 6379
+    volumes:
+      - redis_data:/data
+    restart: always
+    networks:
+      - immunity_dev_net
+    healthcheck:
+      test: redis-cli ping
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+  api:
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile
+      target: server
+      args:
+        - ENV=dev
+    image: immunity_dev_api
+    container_name: immunity-backend-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../backend:/app
+    environment:
+      DJANGO_ENV: dev
+      API_HOST: "127.0.0.1"
+      API_PORT: "8000"
+      POSTGRES_PORT: "5432"
+      POSTGRES_HOST: "db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    restart: always
+    networks:
+      - immunity_dev_net
+    healthcheck:
+      test: curl --fail http://localhost:8000 || exit 1
+      interval: 20s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: docker/Dockerfile
+      target: worker
+      args:
+        - ENV=dev
+    image: immunity_dev_worker
+    container_name: immunity-worker-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../backend:/app
+    environment:
+      DJANGO_ENV: dev
+      API_HOST: "127.0.0.1"
+      API_PORT: "8000"
+      POSTGRES_PORT: "5432"
+      POSTGRES_HOST: "db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    restart: always
+    networks:
+      - immunity_dev_net
+    depends_on:
+      web:
+        condition: service_started
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  immunity_dev_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.24.0.0/16"
