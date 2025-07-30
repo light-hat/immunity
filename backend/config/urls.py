@@ -2,11 +2,9 @@
 URL configuration for config project.
 """
 
-from os import environ
-from django.conf import settings
 import debug_toolbar
-from config import dev
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
@@ -19,7 +17,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-ENV = environ.get("DJANGO_ENV")
+from config import dev
 
 
 class HealthCheckView(APIView):
@@ -47,7 +45,7 @@ urlpatterns = [
     path("api/", include("api.urls"), name="api"),
 ]
 
-if ENV != "prod":
+if settings.ENV != "prod":
     urlpatterns += [
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
         path(
