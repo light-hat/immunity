@@ -24,19 +24,6 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 
 ![Alt](https://repobeats.axiom.co/api/embed/60164b1bae35c9b96114fbddcd887eef0515959a.svg "Repobeats analytics image")
 
-## Concept
-
-```mermaid
-sequenceDiagram
-loop Runtime
-User->>Instrumented app: HTTP-request
-Instrumented app->>Management server: Runtime data (context)
-Instrumented app-->>User: HTTP-response
-end
-User->>Management server: Requesting a list of vulnerabilities
-Management server-->>User: List of found vulnerabilities
-```
-
 ## Related projects
 
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
@@ -51,3 +38,16 @@ Management server-->>User: List of found vulnerabilities
 | CPU       | ...                  |         ...           |         ...           |
 | RAM       | ...                     |         ...           |     ...               |
 | GPU       | ...       |        ...            |      ...              |
+
+## Concept
+
+```mermaid
+sequenceDiagram
+loop Runtime
+User->>Instrumented app: HTTP-request
+Instrumented app->>Management server: Runtime data (context)
+Instrumented app-->>User: HTTP-response
+end
+User->>Management server: Requesting a list of vulnerabilities
+Management server-->>User: List of found vulnerabilities
+```
