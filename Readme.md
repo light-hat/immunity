@@ -33,8 +33,6 @@ User->>Instrumented app: HTTP-request
 Instrumented app->>Management server: Runtime data (context)
 Instrumented app-->>User: HTTP-response
 end
-Management server->>ML-model: Tokenized context data
-ML-model-->>Management server: Vulnerability label
 User->>Management server: Requesting a list of vulnerabilities
 Management server-->>User: List of found vulnerabilities
 ```
