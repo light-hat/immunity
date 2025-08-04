@@ -24,6 +24,21 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 
 ![Alt](https://repobeats.axiom.co/api/embed/60164b1bae35c9b96114fbddcd887eef0515959a.svg "Repobeats analytics image")
 
+## Concept
+
+```mermaid
+sequenceDiagram
+loop Runtime
+User->>Instrumented app: HTTP-request
+Instrumented app->>Management server: Runtime data (context)
+Instrumented app-->>User: HTTP-response
+end
+Management server->>ML-model: Tokenized context data
+ML-model-->>Management server: Vulnerability label
+User->>Management server: Requesting a list of vulnerabilities
+Management server-->>User: List of found vulnerabilities
+```
+
 ## Related projects
 
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
@@ -31,7 +46,6 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 | immunity-python-agent | IAST agent | IAST agent for interactive analysis of web applications in Python. | [https://github.com/light-hat/immunity-python-agent](https://github.com/light-hat/immunity-python-agent) |
 
 ## Server requirements
-
 
 | Parameter | Standalone                | Cluster            | ML mode            |
 |-----------|---------------------------|--------------------|--------------------|
