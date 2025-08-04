@@ -33,10 +33,10 @@ install_stage() {
 }
 
 install_prod() {
-  pip install uvicorn django-cors-headers 
+  pip install uvicorn
 }
 
-pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar]
+pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar] django-cors-headers
 
 if [[ $# -eq 0 ]]; then
   print_usage
