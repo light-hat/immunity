@@ -41,8 +41,9 @@ class HealthCheckView(APIView):
 
 
 urlpatterns = [
-    path("", HealthCheckView.as_view(), name="health-check"),
+    path("health/", HealthCheckView.as_view(), name="health-check"),
     path("api/", include("api.urls"), name="api"),
+    path("communication/", include("communication.urls"), name="communication"),
 ]
 
 if settings.ENV != "prod":
