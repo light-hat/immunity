@@ -4,9 +4,7 @@ URL configuration for config project.
 
 from os import environ
 from django.conf import settings
-import debug_toolbar
 from config import dev
-from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
@@ -67,8 +65,11 @@ if settings.DEBUG:
     urlpatterns += static(dev.STATIC_URL, document_root=dev.STATIC_ROOT)
     urlpatterns += static(dev.MEDIA_URL, document_root=dev.MEDIA_ROOT)
 
-    import debug_toolbar
-
-    urlpatterns = [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ] + urlpatterns
+    # Debug toolbar URLs - temporarily disabled
+    # try:
+    #     import debug_toolbar
+    #     urlpatterns = [
+    #         path("__debug__/", include(debug_toolbar.urls)),
+    #     ] + urlpatterns
+    # except ImportError:
+    #     pass

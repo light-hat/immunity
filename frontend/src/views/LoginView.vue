@@ -1,5 +1,42 @@
 <script>
+import { mapActions, mapGetters } from 'vuex';
 
+export default {
+  name: 'LoginView',
+  data() {
+    return {
+      username: '',
+      password: '',
+      error: '',
+    };
+  },
+  computed: {
+    ...mapGetters(['loading']),
+  },
+  methods: {
+    ...mapActions(['login']),
+    async handleLogin() {
+      this.error = '';
+      
+      if (!this.username || !this.password) {
+        this.error = 'Please enter both username and password';
+        return;
+      }
+
+      const result = await this.login({
+        username: this.username,
+        password: this.password,
+      });
+
+      if (result.success) {
+        // Redirect to dashboard on successful login
+        this.$router.push('/');
+      } else {
+        this.error = result.error;
+      }
+    },
+  },
+};
 </script>
 
 <template>
@@ -30,7 +67,7 @@
 
       <button class="uk-button uk-button-default"
             type="submit" :disabled="loading">
-        Войти
+        {{ loading ? 'Signing in...' : 'Sign In' }}
       </button>
 
       <div v-if="error" class="uk-alert-danger" uk-alert>
