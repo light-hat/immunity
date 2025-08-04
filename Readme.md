@@ -28,7 +28,6 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 
 ```mermaid
 sequenceDiagram
-sequenceDiagram
 loop Runtime
 Automated Tests/DAST/Fuzzing->>Your App with Agent: HTTP-request
 Your App with Agent->>Management server: Runtime data
