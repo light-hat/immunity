@@ -24,6 +24,22 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 
 ![Alt](https://repobeats.axiom.co/api/embed/60164b1bae35c9b96114fbddcd887eef0515959a.svg "Repobeats analytics image")
 
+## Concept
+
+```mermaid
+sequenceDiagram
+sequenceDiagram
+loop Runtime
+Automated Tests/DAST/Fuzzing->>Your App with Agent: HTTP-request
+Your App with Agent->>Management server: Runtime data
+Your App with Agent-->>Automated Tests/DAST/Fuzzing: HTTP-response
+end
+DevSecOps/AppSec->>Management server: Requesting a list of vulnerabilities
+Management server-->>DevSecOps/AppSec: List of found vulnerabilities
+
+```
+
+
 ## Related projects
 
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
@@ -38,16 +54,3 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 | CPU       | ...                  |         ...           |         ...           |
 | RAM       | ...                     |         ...           |     ...               |
 | GPU       | ...       |        ...            |      ...              |
-
-## Concept
-
-```mermaid
-sequenceDiagram
-loop Runtime
-User->>Instrumented app: HTTP-request
-Instrumented app->>Management server: Runtime data (context)
-Instrumented app-->>User: HTTP-response
-end
-User->>Management server: Requesting a list of vulnerabilities
-Management server-->>User: List of found vulnerabilities
-```
