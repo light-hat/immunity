@@ -20,7 +20,7 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Deploy%20Documentation/badge.svg"></a>
 </p>
 
-![DEMO](assets/demo.gif)
+<img alt="DEMO" src="assets/demo.gif">
 
 ## Stats
 
