@@ -20,6 +20,8 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Deploy%20Documentation/badge.svg"></a>
 </p>
 
+![DEMO](assets/demo.gif)
+
 ## Stats
 
 ![Alt](https://repobeats.axiom.co/api/embed/60164b1bae35c9b96114fbddcd887eef0515959a.svg "Repobeats analytics image")
@@ -38,7 +40,6 @@ Management server-->>DevSecOps/AppSec: List of found vulnerabilities
 
 ```
 
-
 ## Related projects
 
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
@@ -53,3 +54,7 @@ Management server-->>DevSecOps/AppSec: List of found vulnerabilities
 | CPU       | ...                  |         ...           |         ...           |
 | RAM       | ...                     |         ...           |     ...               |
 | GPU       | ...       |        ...            |      ...              |
+
+## Screenshots
+
+...
