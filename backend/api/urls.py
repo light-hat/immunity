@@ -3,7 +3,12 @@ from . import views
 
 urlpatterns = [
     path("auth/", include("djoser.urls")),
-    path("auth/", include("djoser.urls.jwt")),
+    # path("auth/", include("djoser.urls.jwt")),  # Commented out to use custom JWT endpoints
+    
+    # Custom JWT endpoints with HttpOnly cookies
+    path("auth/jwt/create/", views.jwt_create, name="jwt-create"),
+    path("auth/jwt/refresh/", views.jwt_refresh, name="jwt-refresh"),
+    path("auth/jwt/logout/", views.jwt_logout, name="jwt-logout"),
     
     # User preferences and account management
     path("users/preferences/", views.user_preferences, name="user_preferences"),
@@ -23,8 +28,9 @@ urlpatterns = [
     # path(
     #     "project/<int:pk>/",
     #     csrf_exempt(
-    #         ProjectAPIView.as_view(
-    #             {"get": "retrieve", "put": "put", "delete": "delete"}
+    #             ProjectAPIView.as_view(
+    #                 {"get": "retrieve", "put": "put", "delete": "delete"}
+    #             )
     #         )
     #     ),
     # ),

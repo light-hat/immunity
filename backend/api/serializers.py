@@ -1,7 +1,7 @@
 from djoser.serializers import UserSerializer
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile
+from .models.user_profile import UserProfile
 from django.utils import timezone
 
 class CustomUserSerializer(UserSerializer):

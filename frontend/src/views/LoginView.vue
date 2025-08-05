@@ -40,46 +40,54 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="handleLogin"
-        class="uk-position-center uk-center uk-dark">
-
-      <div class="uk-margin">
-          <div class="uk-inline">
-              <span class="uk-form-icon" uk-icon="icon: user"></span>
-              <input v-model="username"
-                    placeholder="Username"
-                    type="text"
-                    class="uk-input"
-                    required />
+  <div class="uk-container uk-container-small uk-margin-large-top">
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-margin-auto">
+      <h3 class="uk-card-title uk-text-center">Sign In</h3>
+      
+      <form @submit.prevent="handleLogin">
+        <div class="uk-margin">
+          <div class="uk-inline uk-width-1-1">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input 
+              v-model="username"
+              placeholder="Username"
+              type="text"
+              class="uk-input"
+              required 
+            />
           </div>
-      </div>
+        </div>
 
-      <div class="uk-margin">
-          <div class="uk-inline">
-              <span class="uk-form-icon" uk-icon="icon: lock"></span>
-              <input v-model="password"
-                  placeholder="Password"
-                  type="password"
-                  class="uk-input"
-                  required/>
+        <div class="uk-margin">
+          <div class="uk-inline uk-width-1-1">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input 
+              v-model="password"
+              placeholder="Password"
+              type="password"
+              class="uk-input"
+              required
+            />
           </div>
-      </div>
+        </div>
 
-      <button class="uk-button uk-button-default"
-            type="submit" :disabled="loading">
-        {{ loading ? 'Signing in...' : 'Sign In' }}
-      </button>
+        <div class="uk-margin">
+          <button 
+            class="uk-button uk-button-primary uk-width-1-1"
+            type="submit" 
+            :disabled="loading"
+          >
+            <span uk-spinner v-if="loading"></span>
+            <span v-else uk-icon="icon: sign-in"></span>
+            {{ loading ? 'Signing in...' : 'Sign In' }}
+          </button>
+        </div>
 
-      <div v-if="error" class="uk-alert-danger" uk-alert>
-          <a href class="uk-alert-close" uk-close></a>
+        <div v-if="error" class="uk-alert-danger" uk-alert>
+          <a href="#" class="uk-alert-close" uk-close></a>
           <p>{{ error }}</p>
-      </div>
-
-  </form>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
-
-<style scoped>
-.uk-center {
-    text-align: center;
-}
-</style>

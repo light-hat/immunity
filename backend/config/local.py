@@ -85,6 +85,13 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    
+    # Cookie settings for refresh tokens
+    'REFRESH_TOKEN_COOKIE_NAME': 'refresh_token',
+    'REFRESH_TOKEN_COOKIE_HTTPONLY': True,
+    'REFRESH_TOKEN_COOKIE_SECURE': False,  # Set to True in production with HTTPS
+    'REFRESH_TOKEN_COOKIE_SAMESITE': 'Lax',
+    'REFRESH_TOKEN_COOKIE_PATH': '/',
 }
 
 # Djoser Settings
