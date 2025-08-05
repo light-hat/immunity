@@ -3,9 +3,6 @@
 </p>
 
 <h1 align="center">Immunity</h1>
-<p align="center">
-Interactive Analysis Platform for Distributed Debugging and Security Testing (IAST, SCA). 
-</p>
 
 <p align="center">
 <img alt="Codecov" src="https://img.shields.io/codecov/c/github/light-hat/immunity.svg">
@@ -18,6 +15,10 @@ Interactive Analysis Platform for Distributed Debugging and Security Testing (IA
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Push%20Docker%20Image/badge.svg"></a>
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Unit%20Test/badge.svg"></a>
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Deploy%20Documentation/badge.svg"></a>
+</p>
+
+<p align="center">
+Interactive Analysis Platform for Distributed Debugging and Security Testing (IAST, SCA). 
 </p>
 
 <img alt="DEMO" src="assets/demo.gif">
