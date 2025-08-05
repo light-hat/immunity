@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import DashboardView from '../views/DashboardView.vue';
+import AccountView from '../views/AccountView.vue';
 import NotFoundView from "../views/NotFound.vue";
 
 const routes = [
@@ -22,6 +23,14 @@ const routes = [
     path: "/logout",
     name: "Logout",
     component: LogoutView,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: AccountView,
+    meta: {
+      requiresAuth: true,
+    },
   },
   { path: "/:catchAll(.*)", name: "NotFound", component: NotFoundView },
 ];

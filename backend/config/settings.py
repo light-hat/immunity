@@ -57,6 +57,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,  # Changed back to 8 for production
+        }
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -74,6 +77,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Use default Django User model to avoid migration conflicts
+# AUTH_USER_MODEL = 'api.User'
 
 DATETIME_FORMAT = "%d.%m.%Y %H:%M"
 DATE_FORMAT = "%d.%m.%Y"
