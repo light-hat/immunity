@@ -208,8 +208,8 @@ def jwt_create(request):
             refresh_token,
             max_age=settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds(),
             httponly=True,
-            secure=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_SECURE', False),
-            samesite=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_SAMESITE', 'Lax'),
+            secure=True,
+            samesite='Lax',
             path=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_PATH', '/')
         )
         
@@ -266,8 +266,8 @@ def jwt_refresh(request):
                     new_refresh_token,
                     max_age=settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds(),
                     httponly=True,
-                    secure=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_SECURE', False),
-                    samesite=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_SAMESITE', 'Lax'),
+                    secure=True,
+                    samesite='Lax',
                     path=settings.SIMPLE_JWT.get('REFRESH_TOKEN_COOKIE_PATH', '/')
                 )
             except Exception as rotation_error:

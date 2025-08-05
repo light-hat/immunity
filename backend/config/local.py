@@ -89,7 +89,7 @@ SIMPLE_JWT = {
     # Cookie settings for refresh tokens
     'REFRESH_TOKEN_COOKIE_NAME': 'refresh_token',
     'REFRESH_TOKEN_COOKIE_HTTPONLY': True,
-    'REFRESH_TOKEN_COOKIE_SECURE': False,  # Set to True in production with HTTPS
+    'REFRESH_TOKEN_COOKIE_SECURE': True,  # Set to True for security
     'REFRESH_TOKEN_COOKIE_SAMESITE': 'Lax',
     'REFRESH_TOKEN_COOKIE_PATH': '/',
 }
