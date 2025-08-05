@@ -3,8 +3,8 @@ URL configuration for config project.
 """
 
 from os import environ
+
 from django.conf import settings
-from config import dev
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path

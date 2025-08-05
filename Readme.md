@@ -21,8 +21,6 @@
 Interactive Analysis Platform for Distributed Debugging and Security Testing (IAST, SCA). 
 </p>
 
-<img alt="DEMO" src="assets/demo.gif">
-
 ## Stats
 
 ![Alt](https://repobeats.axiom.co/api/embed/60164b1bae35c9b96114fbddcd887eef0515959a.svg "Repobeats analytics image")
@@ -46,16 +44,3 @@ Management server-->>DevSecOps/AppSec: List of found vulnerabilities
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
 | --------------------- | ---------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | immunity-python-agent | IAST agent | IAST agent for interactive analysis of web applications in Python. | [https://github.com/light-hat/immunity-python-agent](https://github.com/light-hat/immunity-python-agent) |
-
-## Server requirements
-
-| Parameter | Standalone                | Cluster            | ML mode            |
-|-----------|---------------------------|--------------------|--------------------|
-| OS        | ...   |      ...              |            ...        |
-| CPU       | ...                  |         ...           |         ...           |
-| RAM       | ...                     |         ...           |     ...               |
-| GPU       | ...       |        ...            |      ...              |
-
-## Screenshots
-
-...
