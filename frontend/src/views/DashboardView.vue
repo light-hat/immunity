@@ -86,7 +86,7 @@ export default {
 <template>
   <div>
     <!-- Dashboard Content -->
-    <div class="uk-container uk-container-expand uk-margin-top">
+    <div class="uk-container uk-container-expand uk-margin-top uk-position-center uk-center">
       <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
 
         <div>
