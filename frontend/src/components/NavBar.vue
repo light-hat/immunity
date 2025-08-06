@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-    <div class="uk-background-secondary"> 
+    <div v-if="user" class="uk-background-primary"> 
         <nav class="uk-navbar-container uk-navbar-transparent uk-light">
             <div style="margin-left: 3em; margin-right: 3em;">
                 <div uk-navbar>
@@ -68,7 +68,7 @@ export default {
                                     <span>{{ user.username.toUpperCase() }}</span>
                                     <span uk-icon="icon: chevron-down"></span>
                                 </a>
-                                <div v-if="showUserDropdown" class="uk-dropdown uk-dropdown-bottom-right">
+                                <div class="uk-dropdown uk-dropdown-bottom-right" uk-dropdown>
                                     <ul class="uk-nav uk-dropdown-nav">
                                         <li>
                                             <router-link to="/account">
