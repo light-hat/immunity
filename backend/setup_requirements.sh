@@ -36,7 +36,7 @@ install_prod() {
   pip install uvicorn
 }
 
-pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar] django-cors-headers
+pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar] django-cors-headers networkx
 
 if [[ $# -eq 0 ]]; then
   print_usage

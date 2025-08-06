@@ -34,6 +34,7 @@ Automated Tests/DAST/Fuzzing->>Your App with Agent: HTTP-request
 Your App with Agent->>Management server: Runtime data
 Your App with Agent-->>Automated Tests/DAST/Fuzzing: HTTP-response
 end
+Your App with Agent->>Management server: Automatically assembled SBOM
 DevSecOps/AppSec->>Management server: Requesting a list of vulnerabilities
 Management server-->>DevSecOps/AppSec: List of found vulnerabilities
 

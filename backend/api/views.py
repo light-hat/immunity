@@ -11,8 +11,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from core.models.user_profile import UserProfile
 from api.serializers import ChangeEmailSerializer, UserPreferencesSerializer
+from core.models.user_profile import UserProfile
 
 # Set up logger
 logger = logging.getLogger(__name__)
