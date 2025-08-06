@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-container uk-container-small uk-margin-large-top">
+  <div class="uk-container uk-container-small uk-margin-large-top uk-animation-toggle">
     <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-margin-auto uk-position-center uk-center">
       <h3 class="uk-card-title uk-text-center" >Sign In</h3>
       
