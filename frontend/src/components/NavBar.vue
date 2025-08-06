@@ -124,7 +124,7 @@ export default {
 
                     <div class="uk-navbar-right">
 
-                        <div class="uk-navbar-item">
+                        <div class="uk-navbar-item" v-if="user">
                             <form class="uk-search uk-search-navbar">
                                 <span uk-search-icon></span>
                                 <input class="uk-search-input" type="search" placeholder="Search...">
