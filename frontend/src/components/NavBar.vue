@@ -48,45 +48,136 @@ export default {
                     <div class="uk-navbar-right">
 
                         <ul class="uk-navbar-nav" v-if="user">
-                            <li>
+
+
+                            <li class="uk-active" v-if="$route.path === '/'">
                                 <router-link to="/" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
                                     <span>Dashboard</span>
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right" uk-icon="icon: home"></span>
+                                    <span>Dashboard</span>
+                                </router-link>
+                            </li>
+                            
+
+                            <li class="uk-active" v-if="$route.path === '/projects'">
                                 <router-link to="/projects" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: album">
                                     </span>
                                     Projects
+                                    <span class="uk-badge">0</span>
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/projects" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: album">
+                                    </span>
+                                    Projects
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            
+
+                            <!--<li class="uk-active" v-if="$route.path === '/agents'">
                                 <router-link to="/agents" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: server">
                                     </span>
                                     Agents
+                                    <span class="uk-badge">0</span>
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/agents" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: server">
+                                    </span>
+                                    Agents
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/tests'">
+                                <router-link to="/tests" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: play-circle">
+                                    </span>
+                                    Test cases
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            <li v-else>
+                                <router-link to="/tests" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: play-circle">
+                                    </span>
+                                    Test cases
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/vulns'">
                                 <router-link to="/vulns" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: warning">
                                     </span>
                                     Vulnerabilities
+                                    <span class="uk-badge">0</span>
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/vulns" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: warning">
+                                    </span>
+                                    Vulnerabilities
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/reports'">
                                 <router-link to="/reports" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: file-pdf">
+                                    </span>
+                                    Reports
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            <li v-else>
+                                <router-link to="/reports" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: file-pdf">
+                                    </span>
+                                    Reports
+                                    <span class="uk-badge">0</span>
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/policy'">
+                                <router-link to="/policy" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: settings">
                                     </span>
                                     Policy
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/policy" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: settings">
+                                    </span>
+                                    Policy
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/sbom'">
                                 <router-link to="/sbom" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: cloud-download">
@@ -94,7 +185,16 @@ export default {
                                     SBOM
                                 </router-link>
                             </li>
-                            <li>
+                            <li v-else>
+                                <router-link to="/sbom" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: cloud-download">
+                                    </span>
+                                    SBOM
+                                </router-link>
+                            </li>
+                            
+                            <li class="uk-active" v-if="$route.path === '/tm'">
                                 <router-link to="/tm" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: bolt">
@@ -102,22 +202,32 @@ export default {
                                     Threat Modeling
                                 </router-link>
                             </li>
-                            <li>
-                                <router-link to="/reports" class="uk-navbar-item">
+                            <li v-else>
+                                <router-link to="/tm" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
-                                        uk-icon="icon: file-pdf">
+                                        uk-icon="icon: bolt">
                                     </span>
-                                    Reports
+                                    Threat Modeling
                                 </router-link>
                             </li>
-                            <li>
-                                <router-link to="/reports" class="uk-navbar-item">
+                            
+                            <li class="uk-active" v-if="$route.path === '/copilot'">
+                                <router-link to="/copilot" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right"
                                         uk-icon="icon: commenting">
                                     </span>
                                     CoPilot
                                 </router-link>
                             </li>
+                            <li v-else>
+                                <router-link to="/copilot" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right"
+                                        uk-icon="icon: commenting">
+                                    </span>
+                                    CoPilot
+                                </router-link>
+                            </li>-->
+
                         </ul>
                         
                     </div>
@@ -132,7 +242,44 @@ export default {
                         </div>
 
                         <ul class="uk-navbar-nav" v-if="user">
-                            <li class="uk-parent">
+
+                            <li class="uk-active uk-parent" v-if="$route.path === '/account'">
+                                <a href="#" class="uk-navbar-item">
+                                    <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                                    <span>{{ user.username.toUpperCase() }}</span>
+                                    <span uk-icon="icon: chevron-down"></span>
+                                </a>
+                                <div class="uk-dropdown uk-dropdown-bottom-right" uk-dropdown>
+                                    <ul class="uk-nav uk-dropdown-nav">
+                                        <li class="uk-active">
+                                            <router-link to="/account">
+                                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: cog"></span>
+                                                <span>Account Settings</span>
+                                            </router-link>
+                                        </li>
+                                        <li>
+                                            <a href="https://light-hat.github.io/immunity/">
+                                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: file-text"></span>
+                                                <span>Docs</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://github.com/light-hat/immunity">
+                                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: github"></span>
+                                                <span>GitHub</span>
+                                            </a>
+                                        </li>
+                                        <li class="uk-nav-divider"></li>
+                                        <li>
+                                            <a href="#" @click.prevent="handleLogout">
+                                                <span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-out"></span>
+                                                <span>Logout</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="uk-parent" v-else>
                                 <a href="#" class="uk-navbar-item">
                                     <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
                                     <span>{{ user.username.toUpperCase() }}</span>
@@ -168,6 +315,7 @@ export default {
                                     </ul>
                                 </div>
                             </li>
+
                         </ul>
                         <ul class="uk-navbar-nav" v-else>
                             <li>
