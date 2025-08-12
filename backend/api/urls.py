@@ -4,7 +4,6 @@ from . import views
 
 urlpatterns = [
     path("auth/", include("djoser.urls")),
-    # path("auth/", include("djoser.urls.jwt")),  # Commented out to use custom JWT endpoints
     # Custom JWT endpoints with HttpOnly cookies
     path("auth/jwt/create/", views.jwt_create, name="jwt-create"),
     path("auth/jwt/refresh/", views.jwt_refresh, name="jwt-refresh"),

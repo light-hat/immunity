@@ -17,3 +17,4 @@ app/db.sqlite3
 .vagrant
 dataset.csv
 .coverage
+.pytest_cache
