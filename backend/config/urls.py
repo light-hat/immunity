@@ -4,7 +4,6 @@ URL configuration for config project.
 
 from os import environ
 
-from config import dev
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -17,6 +16,8 @@ from drf_spectacular.views import (
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from config import dev
 
 
 class HealthCheckView(APIView):

@@ -9,4 +9,7 @@ dev:
 lint:
 	flake8 --exclude venv --ignore E501,F401,F841,F821,F403,F405 --doctests ./backend/
 
-.PHONY: docker dev lint
+clean_pycache:
+	find ./backend/ -name "__pycache__" -type d -exec rm -rf {} +
+
+.PHONY: docker dev lint clean_pycache

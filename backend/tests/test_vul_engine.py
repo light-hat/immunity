@@ -2,6 +2,7 @@ import json
 import os
 
 import pytest
+
 from core.engine.vul_engine import VulEngine
 from tests import MOCKDATA_DIR
 

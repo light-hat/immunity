@@ -1,8 +1,9 @@
+from django.db import models
+
 from core.models.method_pool import MethodPool
 from core.models.project import IastProject
 from core.models.project_version import IastProjectVersion
 from core.models.vulnerablity import IastVulnerabilityModel
-from django.db import models
 
 
 class FromWhereChoices(models.IntegerChoices):

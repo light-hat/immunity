@@ -1,13 +1,13 @@
 import time
 
 from django.db import models
-from dongtai_common.models import User
-from dongtai_common.models.hook_type import HookType
-from dongtai_common.models.vul_level import IastVulLevel
+from core.models.user_profile import UserProfile
+from core.models.hook_type import HookType
+from core.models.vul_level import IastVulLevel
 
 
 class IastStrategyModel(models.Model):
-    user = models.ForeignKey(User, models.DO_NOTHING)
+    user = models.ForeignKey(UserProfile, models.DO_NOTHING)
     vul_type = models.CharField(max_length=255, blank=True)
     level = models.ForeignKey(IastVulLevel, models.DO_NOTHING)
     state = models.CharField(max_length=255, blank=True)

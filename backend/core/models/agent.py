@@ -2,9 +2,9 @@ import time
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from .project import IastProject
-from .server import IastServer
+from core.models.project_version import IastProjectVersion
+from core.models.project import IastProject
+from core.models.server import IastServer
 
 
 def get_events():

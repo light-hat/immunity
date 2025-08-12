@@ -1,6 +1,7 @@
-from core.models.strategy import IastStrategyModel
 from django.db import models
-from dongtai_common.models.program_language import IastProgramLanguage
+from core.models.program_language import IastProgramLanguage
+
+from core.models.strategy import IastStrategyModel
 
 
 class HookType(models.Model):
