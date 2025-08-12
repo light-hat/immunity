@@ -1,9 +1,8 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
 from core.models.hook_type import HookType
 from core.models.program_language import IastProgramLanguage
 from core.strategy import IastStrategyModel
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class HookStrategy(models.Model):

@@ -1,10 +1,10 @@
 import time
 
+from core.models.project import IastProject
+from core.models.project_version import IastProjectVersion
+from core.models.server import IastServer
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from core.models.project_version import IastProjectVersion
-from core.models.project import IastProject
-from core.models.server import IastServer
 
 
 def get_events():

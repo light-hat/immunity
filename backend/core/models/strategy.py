@@ -1,9 +1,9 @@
 import time
 
-from django.db import models
-from core.models.user_profile import UserProfile
 from core.models.hook_type import HookType
+from core.models.user_profile import UserProfile
 from core.models.vul_level import IastVulLevel
+from django.db import models
 
 
 class IastStrategyModel(models.Model):

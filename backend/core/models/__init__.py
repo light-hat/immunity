@@ -2,20 +2,24 @@
 Module for defining Django models.
 """
 
-from core.models.agent_thirdservice import *
 from core.models.agent import *
+from core.models.agent_thirdservice import *
+
 # from core.models.api_route import *
 from core.models.heartbeat import *
+
 # from core.models.hook_strategy import *
 # from core.models.hook_type import *
 # from core.models.method_pool import *
 from core.models.program_language import *
-from core.models.project_version import *
 from core.models.project import *
+from core.models.project_version import *
 from core.models.server import *
+
 # from core.models.strategy import *
 from core.models.user_profile import *
 from core.models.vul_level import *
+
 # from core.models.vulnerability import *
 
 LANGUAGE_DICT = {"JAVA": 1, "PYTHON": 2, "PHP": 3, "GO": 4}

@@ -2,17 +2,16 @@ import json
 import os
 from collections import OrderedDict
 
-from django.core.management.base import BaseCommand
-from django.db.models import Q
-from tqdm import tqdm
-
+from communication.views.hook_profiles import LANGUAGE_DICT
+from config.settings import BASE_DIR
 from core.models.hook_strategy import HookStrategy
 from core.models.hook_type import HookType
 from core.models.sensitive_info import IastSensitiveInfoRule
 from core.models.strategy import IastStrategyModel
 from core.utils.validate import save_hook_stratefile_sha1sum
-from config.settings import BASE_DIR
-from communication.views.hook_profiles import LANGUAGE_DICT
+from django.core.management.base import BaseCommand
+from django.db.models import Q
+from tqdm import tqdm
 
 
 class Command(BaseCommand):
@@ -60,7 +59,9 @@ class Command(BaseCommand):
                     vul_type=strategy["vul_type"],
                     system_type=1,
                 ).values_list("id", flat=True)
-                strategy_obj = IastStrategyModel.objects.filter(pk__in=qs1).order_by("id").first()
+                strategy_obj = (
+                    IastStrategyModel.objects.filter(pk__in=qs1).order_by("id").first()
+                )
                 strategy_dict[strategy["vul_type"]] = strategy_obj
                 continue
             if (
@@ -100,7 +101,9 @@ class Command(BaseCommand):
                         type=hook_type["type"],
                         system_type=1,
                     ).first()
-                    hooktype_dict[f"{hook_type['value']}-{hook_type['type']}"] = hooktype_obj
+                    hooktype_dict[f"{hook_type['value']}-{hook_type['type']}"] = (
+                        hooktype_obj
+                    )
                     continue
                 if HookType.objects.filter(
                     value=hook_type["value"],
@@ -114,10 +117,16 @@ class Command(BaseCommand):
                 hook_type["language_id"] = v
                 hooktype_obj = HookType(**hook_type)
                 hooktype_obj.save()
-                hooktype_dict[f"{hook_type['value']}-{hook_type['type']}"] = hooktype_obj
+                hooktype_dict[f"{hook_type['value']}-{hook_type['type']}"] = (
+                    hooktype_obj
+                )
 
-            HookStrategy.objects.filter(language_id=v, system_type=1, modified=False).delete()
-            HookStrategy.objects.filter(language_id=v, system_type=1).update(system_type=0)
+            HookStrategy.objects.filter(
+                language_id=v, system_type=1, modified=False
+            ).delete()
+            HookStrategy.objects.filter(language_id=v, system_type=1).update(
+                system_type=0
+            )
             with open(os.path.join(POLICY_DIR, f"{k.lower()}_full_policy.json")) as fp:
                 full_policy = json.load(fp, object_pairs_hook=OrderedDict)
             for policy in tqdm(full_policy, desc="policy"):
@@ -127,7 +136,9 @@ class Command(BaseCommand):
                     policy_strategy = strategy_dict[policy["value"]]
                     for hook_strategy in policy["details"]:
                         if HookStrategy.objects.filter(
-                            value=hook_strategy["value"], type=hook_strategy["type"], language_id=v
+                            value=hook_strategy["value"],
+                            type=hook_strategy["type"],
+                            language_id=v,
                         ):
                             # If a rule already exists, set it as a system rule and skip creating it.
                             hook_strategy_obj = HookStrategy.objects.filter(
@@ -141,11 +152,15 @@ class Command(BaseCommand):
                             continue
                         del hook_strategy["language"]
                         hook_strategy["language_id"] = v
-                        HookStrategy.objects.create(strategy=policy_strategy, **hook_strategy)
+                        HookStrategy.objects.create(
+                            strategy=policy_strategy, **hook_strategy
+                        )
                 else:
                     if f"{policy['value']}-{policy['type']}" not in hooktype_dict:
                         continue
-                    policy_hook_type = hooktype_dict[f"{policy['value']}-{policy['type']}"]
+                    policy_hook_type = hooktype_dict[
+                        f"{policy['value']}-{policy['type']}"
+                    ]
                     for hook_strategy in policy["details"]:
                         if HookStrategy.objects.filter(
                             value=hook_strategy["value"],
@@ -165,7 +180,9 @@ class Command(BaseCommand):
                             continue
                         del hook_strategy["language"]
                         hook_strategy["language_id"] = v
-                        HookStrategy.objects.create(hooktype=policy_hook_type, **hook_strategy)
+                        HookStrategy.objects.create(
+                            hooktype=policy_hook_type, **hook_strategy
+                        )
         save_hook_stratefile_sha1sum()
 
         sensitive_info_rule = []
@@ -178,7 +195,10 @@ class Command(BaseCommand):
                 continue
             strategy = strategy_dict[rule["strategy"]]
             exist_rule = IastSensitiveInfoRule.objects.filter(
-                strategy=strategy, pattern_type_id=rule["pattern_type"], pattern=rule["pattern"], system_type=1
+                strategy=strategy,
+                pattern_type_id=rule["pattern_type"],
+                pattern=rule["pattern"],
+                system_type=1,
             ).first()
             if exist_rule:
                 sensitive_info_rule_ids.append(exist_rule.pk)
@@ -192,7 +212,9 @@ class Command(BaseCommand):
                     system_type=1,
                 )
                 sensitive_info_rule_ids.append(obj.pk)
-        IastSensitiveInfoRule.objects.filter(~Q(id__in=sensitive_info_rule_ids), system_type=1).delete()
+        IastSensitiveInfoRule.objects.filter(
+            ~Q(id__in=sensitive_info_rule_ids), system_type=1
+        ).delete()
         update_fix_vul_dict = {}
         if os.path.exists(os.path.join(POLICY_DIR, "vul_fix_extend.json")):
             with open(os.path.join(POLICY_DIR, "vul_fix_extend.json")) as fp:

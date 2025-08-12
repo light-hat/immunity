@@ -5,13 +5,12 @@ from itertools import product
 from urllib.parse import urlparse
 
 import networkx as nk
-from django.utils.functional import cached_property
-
 from core.engine.compatibility import (
     method_pool_3_to_2,
     method_pool_is_3,
     parse_target_value,
 )
+from django.utils.functional import cached_property
 
 logger = logging.getLogger("engine")
 

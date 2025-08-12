@@ -1,6 +1,5 @@
-from django.db import models
-
 from core.models.hook_strategy import HookStrategy
+from django.db import models
 
 
 class MethodPool(models.Model):

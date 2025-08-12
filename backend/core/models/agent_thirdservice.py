@@ -1,7 +1,6 @@
-from django.db import models
-
 from core.models.agent import IastAgent
 from core.models.project import IastProject
+from django.db import models
 
 
 class IastThirdPartyService(models.Model):

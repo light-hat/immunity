@@ -1,8 +1,10 @@
+import time
+
+from core.models.project import IastProject
+from core.models.user_profile import UserProfile
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import time 
-from core.models.user_profile import UserProfile
-from core.models.project import IastProject
+
 
 class IastProjectVersion(models.Model):
     version_name = models.CharField(max_length=255, blank=True)

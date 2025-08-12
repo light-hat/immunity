@@ -1,7 +1,6 @@
+from core.models.agent import IastAgent
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from core.models.agent import IastAgent
 
 
 class IastHeartbeat(models.Model):

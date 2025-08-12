@@ -1,13 +1,12 @@
 import json
 import os
 
-from django.core.management.base import BaseCommand
-from django.forms.models import model_to_dict
-
 from api.views.hook_profiles import LANGUAGE_DICT, HookProfilesEndPoint
 from core.models.hook_type import HookType
 from core.models.strategy import IastStrategyModel
 from core.settings import BASE_DIR
+from django.core.management.base import BaseCommand
+from django.forms.models import model_to_dict
 
 
 def transform_hooktype(hook_type: HookType) -> HookType:

@@ -2,10 +2,12 @@ import os.path
 import string
 import time
 
-from django.db import models
-#from shortuuid.django_fields import ShortUUIDField
-
 from core.models.user_profile import UserProfile
+from django.db import models
+
+# from shortuuid.django_fields import ShortUUIDField
+
+
 # from core.models.strategy_user import IastStrategyUser
 # from config.settings import DOMAIN_VUL
 
@@ -73,9 +75,9 @@ class IastProject(models.Model):
     log_level = models.CharField(max_length=511, null=True, blank=True)
     last_has_online_agent_time = models.IntegerField(default=int(time.time()))
     status = models.IntegerField(default=0, choices=ProjectStatus.choices)
-    #projectgroups = models.ManyToManyField("IastProjectGroup", through="IastProjectGroupProject")
-    #users = models.ManyToManyField("User", through="IastProjectUser", related_name="auth_projects")
-    #token = ShortUUIDField(max_length=22, alphabet=string.ascii_letters + string.digits)
+    # projectgroups = models.ManyToManyField("IastProjectGroup", through="IastProjectGroupProject")
+    # users = models.ManyToManyField("User", through="IastProjectUser", related_name="auth_projects")
+    # token = ShortUUIDField(max_length=22, alphabet=string.ascii_letters + string.digits)
 
     class Meta:
         db_table = "iast_project"
