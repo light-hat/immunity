@@ -36,6 +36,14 @@ models.server module
    :undoc-members:
    :show-inheritance:
 
+models.user\_profile module
+---------------------------
+
+.. automodule:: models.user_profile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
