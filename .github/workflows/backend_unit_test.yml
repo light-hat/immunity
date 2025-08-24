@@ -56,5 +56,4 @@ jobs:
           #python3 manage.py migrate --settings=config.local
           #python3 manage.py muttest api communication core --settings=config.local
           #mutatest -s ./core -t "pytest"
-          mutatest -s ./api -t "pytest --nomigrations" --nocov
-          mutatest -s ./communication -t "pytest --nomigrations" --nocov
+          mutatest -t "pytest --nomigrations" --nocov --exception 1
