@@ -1,5 +1,3 @@
-permissions:
-  contents: read
 name: Deploy DEV environment
 
 # Required secrets
