@@ -1,6 +1,6 @@
 permissions:
   contents: read
-name: Unit Test
+name: Tests
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   unit_test:
-    name: Run tests and collect coverage
+    name: Unit Tests vs Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,8 +32,9 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
   mutation_test:
-    name: Mutation tests
+    name: Mutation Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,4 +54,5 @@ jobs:
           #pytest --cov --cov-branch --cov-report=xml
           python3 manage.py makemigrations --settings=config.local
           python3 manage.py migrate --settings=config.local
-          python3 manage.py muttest api communication core --settings=config.local
+          #python3 manage.py muttest api communication core --settings=config.local
+          mutatest -s ./core -t "pytest"

@@ -25,7 +25,7 @@ install_dev() {
 }
 
 install_qa() {
-  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries django-mutpy
+  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries mutatest
 }
 
 install_stage() { 
