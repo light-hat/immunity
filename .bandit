@@ -1,2 +1,2 @@
 [bandit]
-exclude = backend/core/management/commands/initdb.py,backend/tests
+exclude = backend/core/management/commands/initdb.py,backend/tests/test_vul_engine.py
