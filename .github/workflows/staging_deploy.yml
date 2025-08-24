@@ -1,5 +1,3 @@
-permissions:
-  contents: read
 name: Deploy Immunity with Ansible
 
 # Required secrets
@@ -13,9 +11,12 @@ name: Deploy Immunity with Ansible
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   ansible_deploy:
-    needs: [build_and_push, build_and_push_worker]
+    #needs: [build_and_push, build_and_push_worker]
     runs-on: ubuntu-latest
     environment: staging
     steps:

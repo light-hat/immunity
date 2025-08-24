@@ -1,5 +1,3 @@
-permissions:
-  contents: read
 name: Build & Deploy Documentation
 
 on:
