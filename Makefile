@@ -6,19 +6,10 @@ dev:
 	# --no-cache
 	sudo DEV_HOSTNAME=$(DEV_HOSTNAME) docker compose -f ./docker-compose/dev/docker-compose.yml up -d
 
-unit_test:
-	sudo docker compose -f ./docker-compose/qa/docker-compose.yml up -d --build unit_test
+lint:
+	pylint --load-plugins pylint_django .
 
-integration_test:
-	sudo docker compose -f ./docker-compose/qa/docker-compose.yml up -d --build integration_test
+clean_pycache:
+	find ./backend/ -name "__pycache__" -type d -exec rm -rf {} +
 
-e2e_test:
-	sudo docker compose -f ./docker-compose/qa/docker-compose.yml up -d --build e2e_test
-
-stage:
-	sudo docker compose -f ./docker-compose/staging/docker-compose.yml up -d --build
-
-prod:
-	sudo docker compose -f ./docker-compose/prod/docker-compose.yml up -d --build
-
-.PHONY: docker dev unit_test integration_test e2e_test stage prod
+.PHONY: docker dev lint clean_pycache

@@ -3,8 +3,9 @@ URL configuration for config project.
 """
 
 from os import environ
-from django.conf import settings
+
 from config import dev
+from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
@@ -16,8 +17,6 @@ from drf_spectacular.views import (
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-ENV = environ.get("DJANGO_ENV")
 
 
 class HealthCheckView(APIView):
@@ -41,11 +40,12 @@ class HealthCheckView(APIView):
 
 
 urlpatterns = [
-    path("", HealthCheckView.as_view(), name="health-check"),
+    path("health/", HealthCheckView.as_view(), name="health-check"),
     path("api/", include("api.urls"), name="api"),
+    path("communication/", include("communication.urls"), name="communication"),
 ]
 
-if ENV != "prod":
+if settings.ENV != "prod":
     urlpatterns += [
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
         path(

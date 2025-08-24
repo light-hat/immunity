@@ -25,7 +25,7 @@ install_dev() {
 }
 
 install_qa() {
-  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries
+  pip install pytest pytest-django pytest-cov pytest-mock requests-mock django-mock-queries mutatest
 }
 
 install_stage() { 
@@ -36,7 +36,7 @@ install_prod() {
   pip install uvicorn
 }
 
-pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar] django-cors-headers
+pip install Django djangorestframework djangorestframework-simplejwt djoser psycopg2-binary Celery redis drf-spectacular drf-spectacular[sidecar] django-cors-headers networkx
 
 if [[ $# -eq 0 ]]; then
   print_usage

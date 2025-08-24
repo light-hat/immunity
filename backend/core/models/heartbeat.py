@@ -1,0 +1,25 @@
+from core.models.agent import IastAgent
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+
+class IastHeartbeat(models.Model):
+    memory = models.CharField(max_length=1000, blank=True, null=True)
+    cpu = models.CharField(max_length=1000, blank=True, null=True)
+    disk = models.CharField(max_length=1000, blank=True, null=True)
+    req_count = models.IntegerField(default=0, blank=True, null=True)
+    dt = models.IntegerField()
+    report_queue = models.PositiveIntegerField(default=0)
+    method_queue = models.PositiveIntegerField(default=0)
+    replay_queue = models.PositiveIntegerField(default=0)
+
+    agent = models.ForeignKey(
+        to=IastAgent,
+        on_delete=models.DO_NOTHING,
+        related_name="heartbeats",
+        related_query_name="heartbeat",
+        verbose_name=_("agent"),
+    )
+
+    class Meta:
+        db_table = "iast_heartbeat"

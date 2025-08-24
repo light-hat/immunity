@@ -712,57 +712,6 @@ export default {
 
 <template>
   <div class="account-settings">
-    <!-- Enhanced Navigation Header (Same as Dashboard) -->
-    <nav class="uk-navbar-container" uk-navbar>
-      <div class="uk-navbar-left">
-        <div class="uk-navbar-item">
-          <span uk-icon="icon: shield; ratio: 1.5"></span>
-        </div>
-        <ul class="uk-navbar-nav">
-          <li>
-            <router-link to="/" class="uk-navbar-item">
-              <span uk-icon="icon: home; ratio: 1.2"></span>
-              <span>DASHBOARD</span>
-            </router-link>
-          </li>
-          <li class="uk-active">
-            <a href="#" class="uk-navbar-item">
-              <span uk-icon="icon: user; ratio: 1.2"></span>
-              <span>ACCOUNT SETTINGS</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="uk-navbar-right">
-        <ul class="uk-navbar-nav">
-          <li v-if="user" class="uk-parent">
-            <a href="#" class="uk-navbar-item" @click="toggleDropdown">
-              <span uk-icon="icon: user"></span>
-              <span>{{ user.username.toUpperCase() }}</span>
-              <span uk-icon="icon: chevron-down"></span>
-            </a>
-            <div v-if="showUserDropdown" class="uk-dropdown uk-dropdown-bottom-right">
-              <ul class="uk-nav uk-dropdown-nav">
-                <li>
-                  <router-link to="/account">
-                    <span uk-icon="icon: cog"></span>
-                    <span>Account Settings</span>
-                  </router-link>
-                </li>
-                <li class="uk-nav-divider"></li>
-                <li>
-                  <a href="#" @click.prevent="handleLogout">
-                    <span uk-icon="icon: sign-out"></span>
-                    <span>Logout</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
     <!-- Account Settings Content -->
     <div class="uk-container uk-margin-large-top">
