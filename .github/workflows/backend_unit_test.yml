@@ -52,8 +52,8 @@ jobs:
         run: |
           cd backend
           #pytest --cov --cov-branch --cov-report=xml
-          python3 manage.py makemigrations --settings=config.local
-          python3 manage.py migrate --settings=config.local
+          #python3 manage.py makemigrations --settings=config.local
+          #python3 manage.py migrate --settings=config.local
           #python3 manage.py muttest api communication core --settings=config.local
           #mutatest -s ./core -t "pytest"
           mutatest -s ./core -t "pytest --nomigrations" --nocov
