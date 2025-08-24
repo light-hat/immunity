@@ -38,6 +38,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS += [
+    "django_mutpy",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
