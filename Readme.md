@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="Logo" src="frontend/public/favicon_gray.png" height="150px">
+<img alt="Logo" src="frontend/public/favicon_gray.png" height="100px">
 </p>
 
 <h1 align="center">Immunity</h1>
