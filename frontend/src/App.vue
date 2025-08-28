@@ -1,11 +1,14 @@
 <script>
 import {RouterView} from 'vue-router';
+import NavBar from './components/NavBar.vue';
 import { ref } from "vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
-
+  components: {
+    NavBar,
+  },
   setup() {
     const theme = ref("light");
     return {
@@ -39,7 +42,8 @@ export default {
 </script>
 
 <template>
-    <RouterView />
+  <NavBar />
+  <RouterView />
 </template>
 
 <style scoped>
