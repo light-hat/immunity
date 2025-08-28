@@ -15,6 +15,7 @@
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Push%20Docker%20Image/badge.svg"></a>
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Unit%20Test/badge.svg"></a>
 <a href="https://github.com/light-hat/smart_ids/actions"><img alt="Pipeline status" src="https://github.com/light-hat/immunity/workflows/Build%20&%20Deploy%20Documentation/badge.svg"></a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Flight-hat%2Fimmunity?ref=badge_shield"><img alt="Fossa" src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Flight-hat%2Fimmunity.svg?type=shield"></a>
 </p>
 
 <p align="center">
@@ -45,3 +46,8 @@ Management server-->>DevSecOps/AppSec: List of found vulnerabilities
 | Name                  | Type       | Description                                                        | URL                                                                                                      |
 | --------------------- | ---------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | immunity-python-agent | IAST agent | IAST agent for interactive analysis of web applications in Python. | [https://github.com/light-hat/immunity-python-agent](https://github.com/light-hat/immunity-python-agent) |
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flight-hat%2Fimmunity.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flight-hat%2Fimmunity?ref=badge_large)
+
