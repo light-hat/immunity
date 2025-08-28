@@ -5,6 +5,7 @@
 <h1 align="center">Immunity</h1>
 
 <p align="center">
+<a href="https://www.gnu.org/licenses/gpl-3.0"><img alt="License" src="https://img.shields.io/badge/License-GPLv3-blue.svg"></a>
 <img alt="Codecov" src="https://img.shields.io/codecov/c/github/light-hat/immunity.svg">
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <img alt="Python version" src="https://img.shields.io/badge/Python-3.12-3776AB.svg?style=flat&logo=python&logoColor=white">
