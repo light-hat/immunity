@@ -4,6 +4,8 @@ import LogoutView from '../views/LogoutView.vue';
 import DashboardView from '../views/DashboardView.vue';
 import AccountView from '../views/AccountView.vue';
 import NotFoundView from "../views/NotFound.vue";
+import ProjectsView from "../views/ProjectsView.vue";
+import ProjectsDetailView from "../views/ProjectsDetailView.vue";
 
 const routes = [
   {
@@ -28,6 +30,22 @@ const routes = [
     path: "/account",
     name: "Account",
     component: AccountView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/projects",
+    name: "Projects",
+    component: ProjectsView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/projects/:id",
+    name: "ProjectsDetail",
+    component: ProjectsDetailView,
     meta: {
       requiresAuth: true,
     },

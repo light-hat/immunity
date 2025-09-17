@@ -16,3 +16,5 @@ src/app/media/employees_photos/*
 app/db.sqlite3
 .vagrant
 dataset.csv
+.coverage
+.pytest_cache
