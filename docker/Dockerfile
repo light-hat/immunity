@@ -81,7 +81,7 @@ RUN npm run build
 
 # Stage: Backend requirements
 
-FROM python:3.13-slim AS base
+FROM python:3.13.7-slim AS base
 
 ARG ENV
 
