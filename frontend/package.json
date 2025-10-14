@@ -13,7 +13,7 @@
     "axios": "^1.12.2",
     "uikit": "^3.24.2",
     "vue": "^3.5.22",
-    "vue-router": "^4.5.1",
+    "vue-router": "^4.6.0",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
