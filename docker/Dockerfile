@@ -53,7 +53,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 # Stage: Frontend DEV
 
-FROM node:24-alpine AS frontend_dev
+FROM node:25-alpine AS frontend_dev
 
 WORKDIR /app/frontend
 
@@ -67,7 +67,7 @@ CMD ["npm", "run", "dev"]
 
 # Stage: Frontend
 
-FROM node:24-alpine AS frontend
+FROM node:25-alpine AS frontend
 
 WORKDIR /app/frontend
 
